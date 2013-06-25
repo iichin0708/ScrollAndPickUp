@@ -148,7 +148,7 @@ HelloWorld::HelloWorld()
     
     isObjectTouched = false;
     
-    isShowedNextPointer = false;
+    isShowedNextPlayer = false;
     
     shootRadian = 0;
     
@@ -200,6 +200,10 @@ void HelloWorld::draw()
     world->getWorld()->DrawDebugData();
     
     kmGLPopMatrix();
+}
+
+void HelloWorld::addDelay() {
+    
 }
 
 //idを持つ剛体を終点から始点のベクトルにボディを飛ばす
@@ -314,36 +318,8 @@ void HelloWorld::update(float dt)
     
     //動いている物体と同時にマップを動かす
     if (isMoving) {
-        b2Vec2 moveObjectVec = touchObjectBody->GetLinearVelocity();
-        if( (-1.0f < moveObjectVec.x && moveObjectVec.x < 1.0f) && (-1.0f < moveObjectVec.y && moveObjectVec.y < 1.0f)) {
-            isMoving = false;
-        }
-        
-        CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
-        CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
-        
-        movedPosition = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
-        
-        float delta = ccpDistance(dispCenter, movedPosition);
-        
-        //CCLog("delta = %f", delta);
-        
-        if(100 < delta) {
-            isTrace = true;
-        }
-        
-        
-        if(isTrace) {
-            CCPoint gap = CCPointMake(dispCenter.x - movedPosition.x, dispCenter.y - movedPosition.y);
-            speedVec = CCPointMake(gap.x / 10, gap.y / 10);
-            if (delta < 10) {
-                isTrace = false;
-                isShowedNextPointer = false;
-            } else {
-                moveMap(speedVec);
-            }
-        }
-         
+//         moveMapWithObject(touchObjectBody->GetLinearVelocity());
+            moveMapWithObject(touchObjectBody);
     }
     
     
@@ -388,41 +364,17 @@ void HelloWorld::update(float dt)
         monkeys[i]->getBody()->SetTransform(b2Vec2(monkeys[i]->getBody()->GetPosition().x,
                                                    monkeys[i]->getBody()->GetPosition().y), 0);
         
-        //プレイヤーの存在するマップまでの移動
-        CCPoint playerPosition = monkeys[i]->getPlayerPosition(i);
-        
-        CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
-        CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
-        float delta = ccpDistance(dispCenter, playerPosition);
-        
         //そのターンのプレイヤーにポインタの表示.
         if(i == Player::getPlayerTurnId()){
-            //カーソルのひょうじ
+            //カーソルの表示
             cursor->setPosition(monkeys[i]->getBody()->GetPosition().x * PTM_RATIO,
                                 monkeys[i]->getBody()->GetPosition().y * PTM_RATIO);
             cursor->setVisible(true);
-            //cursor->getSprite()->runAction(cocos2d::CCBlink::create(0.7f, 5));
         }
-        
-        if(100 < delta) {
-            isTrace = true;
-        }
-        
-        /*
-        if(Player::nextTurn) {
-            CCPoint gap = CCPointMake(dispCenter.x - playerPosition.x, dispCenter.y - playerPosition.y);
-            speedVec = CCPointMake(gap.x / 10, gap.y / 10);
-            if (delta < 20) {
-                Player::nextTurn = false;
-            } else {
-                moveMap(speedVec);
-            }
-        }
-         */
     }
     
-    //次のプレイヤーのポインタを表示する
-    if(!isShowedNextPointer) {
+    //次のプレイヤーにマップを一度だけ移動しポインタをあわせる
+    if(!isShowedNextPlayer) {
         CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
         CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
         CCPoint playerPosition = monkeys[Player::getPlayerTurnId()]->getPlayerPosition(Player::getPlayerTurnId());
@@ -430,7 +382,7 @@ void HelloWorld::update(float dt)
         CCPoint gap = CCPointMake(dispCenter.x - playerPosition.x, dispCenter.y - playerPosition.y);
         speedVec = CCPointMake(gap.x / 10, gap.y / 10);
         if (delta < 20) {
-            isShowedNextPointer = true;
+            isShowedNextPlayer = true;
         } else {
             moveMap(speedVec);
         }
@@ -448,6 +400,30 @@ void HelloWorld::update(float dt)
                                              enemys[i]->getBody()->GetPosition().y * PTM_RATIO - enemys[i]->height / 2));
     }
     
+}
+
+void HelloWorld::playerChange() {
+    isMoving = false;
+    isShowedNextPlayer = false;
+}
+
+void HelloWorld::moveMapWithObject(b2Body *moveObjectBody) {
+    b2Vec2 moveObjectVec = moveObjectBody->GetLinearVelocity();
+    moveObjectVec = touchObjectBody->GetLinearVelocity();
+    if( (-1.0f < moveObjectVec.x && moveObjectVec.x < 1.0f) && (-1.0f < moveObjectVec.y && moveObjectVec.y < 1.0f)) {
+        
+        this->scheduleOnce(schedule_selector(HelloWorld::playerChange), 0.5f);
+
+    }
+    
+    CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
+    CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
+    
+    movedPosition = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
+    
+    CCPoint gap = CCPointMake(dispCenter.x - movedPosition.x, dispCenter.y - movedPosition.y);
+    speedVec = CCPointMake(gap.x / 10, gap.y / 10);
+    moveMap(speedVec);
 }
 
 void HelloWorld::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent) {
@@ -683,11 +659,11 @@ void HelloWorld::moveMap(CCPoint touchGap) {
         }
     //}
     
-        
+    /*
     // y方向にフィールドが動かせるかどうか
     if(field->getPosition().y + touchGap.y <= field->height / 2 &&
        field->getPosition().y + field->height / 2 + touchGap.y >= s.height) {
-        
+      */  
         // フィールドスライド
         field->setPosition(field->getPosition().x,
                            field->getPosition().y + touchGap.y);
@@ -720,7 +696,7 @@ void HelloWorld::moveMap(CCPoint touchGap) {
             ghosts[i]->setPosition(ghosts[i]->getPosition().x,
                                    ghosts[i]->getPosition().y + touchGap.y);
         }
-    }
+    //}
     
     World *world =  World::getInstance();
     world->deleteWall();
