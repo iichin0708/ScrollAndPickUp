@@ -177,7 +177,7 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
 
 void HelloWorld::initPhysics()
 {
-    World *world = World::getInstance();
+    World::getInstance();
     //CCPoint delta = CCPointMake(-50.0f, 50.0f);
     //world->moveWall(delta);
     
@@ -470,8 +470,6 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
     CCPoint touchLocation = touch->getLocationInView();
     touchLocation = CCDirector::sharedDirector()->convertToGL(touchLocation);
     
-    CCSize s = CCDirector::sharedDirector()->getWinSize();
-    
     if(isObjectTouched) {
         //movePointがプラスかマイナスか判別するフラグ
         int x_plusFlag;
@@ -618,7 +616,7 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
 
 void HelloWorld::moveMap(CCPoint touchGap) {
-    CCSize s = CCDirector::sharedDirector()->getWinSize();
+//    CCSize s = CCDirector::sharedDirector()->getWinSize();
     
     // x方向にフィールドが動かせるかどうか
     /*
