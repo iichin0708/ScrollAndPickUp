@@ -35,9 +35,16 @@ HelloWorld::HelloWorld()
     /*
     float x=0, y=0, z=0;
     CCCamera* pCamera = this->getCamera();
+
     pCamera->getCenterXYZ(&x, &y, &z);
     pCamera->setCenterXYZ(x, y+0.0000001, z);
+
+    pCamera->getCenterXYZ(&x, &y, &z);
+    pCamera->setEyeXYZ(x, y, 500);
+    pCamera->getCenterXYZ(&x, &y, &z);
+    CCLOG("z = %f", z);
     */
+
     isMoving = false;
     
     isContacted = false;
@@ -319,7 +326,7 @@ void HelloWorld::update(float dt)
         
         float delta = ccpDistance(dispCenter, movedPosition);
         
-        CCLog("delta = %f", delta);
+        //CCLog("delta = %f", delta);
         
         if(100 < delta) {
             isTrace = true;
@@ -638,8 +645,10 @@ void HelloWorld::moveMap(CCPoint touchGap) {
     CCSize s = CCDirector::sharedDirector()->getWinSize();
     
     // x方向にフィールドが動かせるかどうか
+    /*
     if(field->getPosition().x + touchGap.x <= field->width / 2 &&
        field->getPosition().x + field->width / 2 + touchGap.x >= s.width) {
+    */
         
         // フィールドスライド
         field->setPosition(field->getPosition().x + touchGap.x,
@@ -672,7 +681,7 @@ void HelloWorld::moveMap(CCPoint touchGap) {
             ghosts[i]->setPosition(ghosts[i]->getPosition().x + touchGap.x,
                                    ghosts[i]->getPosition().y);
         }
-    }
+    //}
     
         
     // y方向にフィールドが動かせるかどうか
