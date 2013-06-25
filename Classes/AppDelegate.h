@@ -11,6 +11,9 @@
 
 #include "CCApplication.h"
 
+#define DISP_WIDTH 768
+#define DISP_HEIGHT 1024
+
 /**
 @brief    The cocos2d Application.
 

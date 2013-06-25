@@ -5,7 +5,7 @@ USING_NS_CC;
 
 Field::Field()
 {
-    sprite = CCSprite::create("field.jpg", CCRectMake(0, 0, 1012, 2048) );
+    sprite = CCSprite::create("field.jpg", CCRectMake(0, 0, 1674, 2048) );
     width = 640;
     height = sprite->getContentSize().height;
 }

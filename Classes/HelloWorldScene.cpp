@@ -382,6 +382,7 @@ void HelloWorld::update(float dt)
         //回転を止める
         monkeys[i]->getBody()->SetTransform(b2Vec2(monkeys[i]->getBody()->GetPosition().x,
                                                    monkeys[i]->getBody()->GetPosition().y), 0);
+
         //そのターンのプレイヤーにポインタの表示.　かつ、マップの移動
         if(i == Player::getPlayerTurnId()){
             //カーソルのひょうじ
@@ -621,10 +622,8 @@ void HelloWorld::moveMap(CCPoint touchGap) {
     CCSize s = CCDirector::sharedDirector()->getWinSize();
     
     // x方向にフィールドが動かせるかどうか
-    /*
-    if(field->getPosition().x + touchGap.x <= field->width / 2 &&
-       field->getPosition().x + field->width / 2 + touchGap.x >= s.width) {
-    */
+    if(field->getPosition().x + touchGap.x <= field->getSprite()->getContentSize().width/2 &&
+       field->getPosition().x + field->getSprite()->getContentSize().width / 2 + touchGap.x >= s.width) {
         
         // フィールドスライド
         field->setPosition(field->getPosition().x + touchGap.x,
@@ -657,7 +656,14 @@ void HelloWorld::moveMap(CCPoint touchGap) {
             ghosts[i]->setPosition(ghosts[i]->getPosition().x + touchGap.x,
                                    ghosts[i]->getPosition().y);
         }
-    //}
+        
+        // エフェクトスライド
+        for(int i = 0; i < HIT_EF_NUM; i++) {
+            if(hitEfs[i] == NULL) continue;
+            hitEfs[i]->setPosition(hitEfs[i]->getPosition().x + touchGap.x,
+                                   hitEfs[i]->getPosition().y);
+        }
+    }
     
         
     // y方向にフィールドが動かせるかどうか
@@ -695,6 +701,13 @@ void HelloWorld::moveMap(CCPoint touchGap) {
             if(ghosts[i] == NULL) continue;
             ghosts[i]->setPosition(ghosts[i]->getPosition().x,
                                    ghosts[i]->getPosition().y + touchGap.y);
+        }
+        
+        // エフェクトスライド
+        for(int i = 0; i < HIT_EF_NUM; i++) {
+            if(hitEfs[i] == NULL) continue;
+            hitEfs[i]->setPosition(hitEfs[i]->getPosition().x,
+                                   hitEfs[i]->getPosition().y + touchGap.y);
         }
     }
     
