@@ -194,7 +194,6 @@
 		D3190871176FF4D900D07510 /* button_check_on.png in Resources */ = {isa = PBXBuildFile; fileRef = D319086D176FF4D900D07510 /* button_check_on.png */; };
 		D3190872176FF4D900D07510 /* button_close_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = D319086E176FF4D900D07510 /* button_close_pressed.png */; };
 		D3190873176FF4D900D07510 /* button_close.png in Resources */ = {isa = PBXBuildFile; fileRef = D319086F176FF4D900D07510 /* button_close.png */; };
-		D319088517703E5000D07510 /* field.png in Resources */ = {isa = PBXBuildFile; fileRef = D319088417703E5000D07510 /* field.png */; };
 		D3C68A851779624000DA1BE9 /* field.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A841779624000DA1BE9 /* field.jpg */; };
 		D3FF4D10177148CC00037D94 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = D3FF4D0F177148CC00037D94 /* blocks.png */; };
 		D3FF515317738BD900037D94 /* CContactListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FF514317738BD900037D94 /* CContactListener.cpp */; };
@@ -589,7 +588,6 @@
 		D319086D176FF4D900D07510 /* button_check_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_check_on.png; sourceTree = "<group>"; };
 		D319086E176FF4D900D07510 /* button_close_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_close_pressed.png; sourceTree = "<group>"; };
 		D319086F176FF4D900D07510 /* button_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_close.png; sourceTree = "<group>"; };
-		D319088417703E5000D07510 /* field.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = field.png; sourceTree = "<group>"; };
 		D3C68A841779624000DA1BE9 /* field.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = field.jpg; sourceTree = "<group>"; };
 		D3FF4D0F177148CC00037D94 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blocks.png; sourceTree = "<group>"; };
 		D3FF514317738BD900037D94 /* CContactListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CContactListener.cpp; sourceTree = "<group>"; };
@@ -1287,7 +1285,6 @@
 				D30D14281776E7B800293343 /* effect_attack.png */,
 				D30D14291776E7B800293343 /* effect_hitting.png */,
 				D30D141E1775FBAB00293343 /* field_old.jpg */,
-				D319088417703E5000D07510 /* field.png */,
 				D30D141F1775FBAC00293343 /* ghost.png */,
 				D3190866176FF3B000D07510 /* hamburger.png */,
 				1AFAF8BB16D35E4900DB1158 /* HelloWorld.png */,
@@ -1396,7 +1393,6 @@
 				D3190871176FF4D900D07510 /* button_check_on.png in Resources */,
 				D3190872176FF4D900D07510 /* button_close_pressed.png in Resources */,
 				D3190873176FF4D900D07510 /* button_close.png in Resources */,
-				D319088517703E5000D07510 /* field.png in Resources */,
 				D3FF4D10177148CC00037D94 /* blocks.png in Resources */,
 				D3FF516817738C4300037D94 /* 003.png in Resources */,
 				D3FF516E1773E31300037D94 /* arrow_l.png in Resources */,
