@@ -133,6 +133,10 @@ HelloWorld::HelloWorld()
         monkeys[i] = new Player(this, ccp(s.width/2 -150 + 150 * i, s.height/2 + -100), 1.5f, 0.6f, 1.0f);
     }
     
+    
+    // 障害物の用意
+    Obstacle *obstacle = new Obstacle(this, "wood01.png", CCSizeMake(110, 110), CCPointMake(180, 220), 1.0f, 0.6f, 0.6f);
+    
     // 終了ボタン
     CCMenuItemImage *pCloseItem =
     CCMenuItemImage::create(

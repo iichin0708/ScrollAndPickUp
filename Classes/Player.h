@@ -33,7 +33,7 @@ public:
         
         parent->addChild(sprite);
         
-        createDynamicBody(location, sprite, density, friction, restitution);
+        createBody(location, sprite, density, friction, restitution);
         
         //画面に表示する.
         sprite->setPhysicsBody(_body);

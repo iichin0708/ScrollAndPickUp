@@ -21,7 +21,7 @@ public:
 
     ~RigidBody();
 
-    void createDynamicBody(cocos2d::CCPoint location, PhysicsSprite *pSprite, float density, float friction, float restitution);
+    void createBody(cocos2d::CCPoint location, PhysicsSprite *pSprite, float density, float friction, float restitution);
 
     virtual b2Body* getBody();
 
