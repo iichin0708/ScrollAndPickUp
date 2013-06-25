@@ -80,7 +80,11 @@ public:
     //移動中かどうか
     bool isMoving;
     
+    //移動を追うフラグ
     bool isTrace;
+    
+    //次のポインタの表示を行うフラウg
+    bool isShowedNextPointer;
     
     cocos2d::CCPoint speedVec;
     

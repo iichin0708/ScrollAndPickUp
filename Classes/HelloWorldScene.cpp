@@ -141,6 +141,8 @@ HelloWorld::HelloWorld()
     
     isObjectTouched = false;
     
+    isShowedNextPointer = false;
+    
     shootRadian = 0;
     
     blink = false;
@@ -323,15 +325,18 @@ void HelloWorld::update(float dt)
             isTrace = true;
         }
         
+        
         if(isTrace) {
             CCPoint gap = CCPointMake(dispCenter.x - movedPosition.x, dispCenter.y - movedPosition.y);
             speedVec = CCPointMake(gap.x / 10, gap.y / 10);
             if (delta < 10) {
                 isTrace = false;
+                isShowedNextPointer = false;
             } else {
                 moveMap(speedVec);
             }
         }
+         
     }
     
     
@@ -375,36 +380,55 @@ void HelloWorld::update(float dt)
         //回転を止める
         monkeys[i]->getBody()->SetTransform(b2Vec2(monkeys[i]->getBody()->GetPosition().x,
                                                    monkeys[i]->getBody()->GetPosition().y), 0);
-        //そのターンのプレイヤーにポインタの表示.　かつ、マップの移動
+        
+        //プレイヤーの存在するマップまでの移動
+        CCPoint playerPosition = monkeys[i]->getPlayerPosition(i);
+        
+        CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
+        CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
+        float delta = ccpDistance(dispCenter, playerPosition);
+        
+        //そのターンのプレイヤーにポインタの表示.
         if(i == Player::getPlayerTurnId()){
             //カーソルのひょうじ
             cursor->setPosition(monkeys[i]->getBody()->GetPosition().x * PTM_RATIO,
                                 monkeys[i]->getBody()->GetPosition().y * PTM_RATIO);
             cursor->setVisible(true);
             //cursor->getSprite()->runAction(cocos2d::CCBlink::create(0.7f, 5));
-            
-            //プレイヤーの存在するマップまでの移動
-            CCPoint playerPosition = monkeys[i]->getPlayerPosition(i);
-            
-            CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
-            CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
-            float delta = ccpDistance(dispCenter, playerPosition);
-            
-            if(100 < delta) {
-                isTrace = true;
-            }
-            
-            if(isTrace) {
-                CCPoint gap = CCPointMake(dispCenter.x - playerPosition.x, dispCenter.y - playerPosition.y);
-                speedVec = CCPointMake(gap.x / 10, gap.y / 10);
-                if (delta < 10) {
-                    isTrace = false;
-                } else {
-                    moveMap(speedVec);
-                }
+        }
+        
+        if(100 < delta) {
+            isTrace = true;
+        }
+        
+        /*
+        if(Player::nextTurn) {
+            CCPoint gap = CCPointMake(dispCenter.x - playerPosition.x, dispCenter.y - playerPosition.y);
+            speedVec = CCPointMake(gap.x / 10, gap.y / 10);
+            if (delta < 20) {
+                Player::nextTurn = false;
+            } else {
+                moveMap(speedVec);
             }
         }
+         */
     }
+    
+    //次のプレイヤーのポインタを表示する
+    if(!isShowedNextPointer) {
+        CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
+        CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
+        CCPoint playerPosition = monkeys[Player::getPlayerTurnId()]->getPlayerPosition(Player::getPlayerTurnId());
+        float delta = ccpDistance(dispCenter, playerPosition);
+        CCPoint gap = CCPointMake(dispCenter.x - playerPosition.x, dispCenter.y - playerPosition.y);
+        speedVec = CCPointMake(gap.x / 10, gap.y / 10);
+        if (delta < 20) {
+            isShowedNextPointer = true;
+        } else {
+            moveMap(speedVec);
+        }
+    }
+
     
     // 敵キャラの毎フレーム実行する処理
     for(int i = 0; i < ENEMY_NUM; i++) {
