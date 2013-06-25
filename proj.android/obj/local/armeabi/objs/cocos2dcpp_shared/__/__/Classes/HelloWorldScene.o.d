@@ -278,7 +278,7 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/HelloWorldScene.o: \
  jni/../../Classes/Player.h jni/../../Classes/Field.h \
  jni/../../Classes/Enemy.h jni/../../Classes/Coin.h \
  jni/../../Classes/Ghost.h jni/../../Classes/Cursor.h \
- jni/../../Classes/HitEffect.h \
+ jni/../../Classes/HitEffect.h jni/../../Classes/Water.h \
  /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../CocosDenshion/android/../include/SimpleAudioEngine.h \
  /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../CocosDenshion/android/../include/Export.h \
  jni/../../Classes/CContactListener.h
@@ -850,6 +850,8 @@ jni/../../Classes/Ghost.h:
 jni/../../Classes/Cursor.h:
 
 jni/../../Classes/HitEffect.h:
+
+jni/../../Classes/Water.h:
 
 /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../CocosDenshion/android/../include/SimpleAudioEngine.h:
 

@@ -93,15 +93,5 @@ void Coin::update()
             isCorrect = false;
         }
         frameCount++;
-        
-        /*
-        cocos2d::CCRect cr = CCRectMake(x, y, 40, 40);
-        cocos2d::CCRect pr = CCRectMake(tx, ty, 120, 139);
-        
-        if(pr.intersectsRect(cr)) {
-            frameCount = 0;
-            setVisible(false, 0);
-        }
-         */
     }
 }
