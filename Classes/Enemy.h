@@ -20,7 +20,7 @@ public:
     // コンストラクタ
     Enemy(cocos2d::CCNode* parent, int kind, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody()
     {
-        char* imageName;
+        const char* imageName;
         isInvincible = false;
         switch (kind) {
             case KIND_ONION:

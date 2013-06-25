@@ -24,7 +24,18 @@ RigidBody::~RigidBody() {
 void RigidBody::createDynamicBody(CCPoint location, PhysicsSprite *pSprite, float density, float friction, float restitution) {
     //ボディを定義する
     b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
+    //bodyDef.type = b2_dynamicBody;
+    switch(pSprite->tag) {
+        case TAG_PLAYER:
+        case TAG_ENEMY:
+            bodyDef.type = b2_dynamicBody;
+            break;
+        case TAG_OBSTACLE:
+            bodyDef.type = b2_staticBody;
+            break;
+        default:
+            break;
+    }
     bodyDef.position.Set(location.x/PTM_RATIO, location.y/PTM_RATIO);
 
     //一律で減衰率は8.0

@@ -196,6 +196,7 @@
 		D3190873176FF4D900D07510 /* button_close.png in Resources */ = {isa = PBXBuildFile; fileRef = D319086F176FF4D900D07510 /* button_close.png */; };
 		D319088517703E5000D07510 /* field.png in Resources */ = {isa = PBXBuildFile; fileRef = D319088417703E5000D07510 /* field.png */; };
 		D3C68A851779624000DA1BE9 /* field.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A841779624000DA1BE9 /* field.jpg */; };
+		D3C68A891779651A00DA1BE9 /* Obstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3C68A871779651A00DA1BE9 /* Obstacle.cpp */; };
 		D3FF4D10177148CC00037D94 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = D3FF4D0F177148CC00037D94 /* blocks.png */; };
 		D3FF515317738BD900037D94 /* CContactListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FF514317738BD900037D94 /* CContactListener.cpp */; };
 		D3FF515417738BD900037D94 /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FF514517738BD900037D94 /* Enemy.cpp */; };
@@ -591,6 +592,8 @@
 		D319086F176FF4D900D07510 /* button_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_close.png; sourceTree = "<group>"; };
 		D319088417703E5000D07510 /* field.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = field.png; sourceTree = "<group>"; };
 		D3C68A841779624000DA1BE9 /* field.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = field.jpg; sourceTree = "<group>"; };
+		D3C68A871779651A00DA1BE9 /* Obstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Obstacle.cpp; path = ../Classes/Obstacle.cpp; sourceTree = "<group>"; };
+		D3C68A881779651A00DA1BE9 /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Obstacle.h; path = ../Classes/Obstacle.h; sourceTree = "<group>"; };
 		D3FF4D0F177148CC00037D94 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blocks.png; sourceTree = "<group>"; };
 		D3FF514317738BD900037D94 /* CContactListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CContactListener.cpp; sourceTree = "<group>"; };
 		D3FF514417738BD900037D94 /* CContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CContactListener.h; sourceTree = "<group>"; };
@@ -1168,6 +1171,8 @@
 				D30D142D1776E7EA00293343 /* Cursor.h */,
 				D30D14351776EF3C00293343 /* HitEffect.cpp */,
 				D30D14361776EF3C00293343 /* HitEffect.h */,
+				D3C68A871779651A00DA1BE9 /* Obstacle.cpp */,
+				D3C68A881779651A00DA1BE9 /* Obstacle.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -1589,6 +1594,7 @@
 				BA9DBA9F1776A3400001E1A1 /* Ghost.cpp in Sources */,
 				D30D142E1776E7EA00293343 /* Cursor.cpp in Sources */,
 				D30D14371776EF3C00293343 /* HitEffect.cpp in Sources */,
+				D3C68A891779651A00DA1BE9 /* Obstacle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

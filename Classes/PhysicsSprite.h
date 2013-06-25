@@ -16,7 +16,7 @@
 #define PTM_RATIO 32
 #define TAG_PLAYER 1
 #define TAG_ENEMY 2
-
+#define TAG_OBSTACLE 3
 
 class PhysicsSprite : public cocos2d::CCSprite
 {

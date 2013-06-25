@@ -19,6 +19,7 @@
 #include "Ghost.h"
 #include "Cursor.h"
 #include "HitEffect.h"
+#include "Obstacle.h"
 
 #define ENEMY_NUM 15
 #define COIN_NUM 50
