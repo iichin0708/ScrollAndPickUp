@@ -14,8 +14,9 @@
 #include "PhysicsSprite.h"
 #include "RigidBody.h"
 
-class Obstacle : RigidBody {
+class Obstacle : public RigidBody {
 public:
+    // コンストラクタ
     Obstacle(cocos2d::CCNode* parent, const char *imgName, cocos2d::CCSize imgSize, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody() {
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create(imgName, 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
@@ -37,12 +38,12 @@ public:
         //画面に表示する.
         sprite->setPhysicsBody(_body);
     }
-    
-private:
     // 画像のサイズ
     float width, height;
     
     cocos2d::CCSize getImgSize();
+    
+    cocos2d::CCPoint getObstaclePosition();
 };
 
 #endif /* defined(__ScrollAndPickUp__Obstacle__) */

@@ -208,6 +208,7 @@
 		D3C68AA01779771600DA1BE9 /* wood06.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A951779771600DA1BE9 /* wood06.png */; };
 		D3C68AA11779771600DA1BE9 /* wood07.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A961779771600DA1BE9 /* wood07.png */; };
 		D3C68AA21779771600DA1BE9 /* wood08.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A971779771600DA1BE9 /* wood08.png */; };
+		D3C68AA817798B5200DA1BE9 /* wood03.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C68AA717798B5200DA1BE9 /* wood03.png */; };
 		D3FF4D10177148CC00037D94 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = D3FF4D0F177148CC00037D94 /* blocks.png */; };
 		D3FF515317738BD900037D94 /* CContactListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FF514317738BD900037D94 /* CContactListener.cpp */; };
 		D3FF515417738BD900037D94 /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FF514517738BD900037D94 /* Enemy.cpp */; };
@@ -616,6 +617,7 @@
 		D3C68A951779771600DA1BE9 /* wood06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood06.png; sourceTree = "<group>"; };
 		D3C68A961779771600DA1BE9 /* wood07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood07.png; sourceTree = "<group>"; };
 		D3C68A971779771600DA1BE9 /* wood08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood08.png; sourceTree = "<group>"; };
+		D3C68AA717798B5200DA1BE9 /* wood03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood03.png; sourceTree = "<group>"; };
 		D3FF4D0F177148CC00037D94 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blocks.png; sourceTree = "<group>"; };
 		D3FF514317738BD900037D94 /* CContactListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CContactListener.cpp; sourceTree = "<group>"; };
 		D3FF514417738BD900037D94 /* CContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CContactListener.h; sourceTree = "<group>"; };
@@ -1298,6 +1300,7 @@
 				D3C68A901779771600DA1BE9 /* saku02.png */,
 				D3C68A911779771600DA1BE9 /* wood01.png */,
 				D3C68A921779771600DA1BE9 /* wood02.png */,
+				D3C68AA717798B5200DA1BE9 /* wood03.png */,
 				D3C68A931779771600DA1BE9 /* wood04.png */,
 				D3C68A941779771600DA1BE9 /* wood05.png */,
 				D3C68A951779771600DA1BE9 /* wood06.png */,
@@ -1467,6 +1470,7 @@
 				D3C68AA01779771600DA1BE9 /* wood06.png in Resources */,
 				D3C68AA11779771600DA1BE9 /* wood07.png in Resources */,
 				D3C68AA21779771600DA1BE9 /* wood08.png in Resources */,
+				D3C68AA817798B5200DA1BE9 /* wood03.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
