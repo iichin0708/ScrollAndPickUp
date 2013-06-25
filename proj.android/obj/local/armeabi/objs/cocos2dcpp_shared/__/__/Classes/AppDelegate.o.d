@@ -281,7 +281,7 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/AppDelegate.o: \
  jni/../../Classes/Player.h jni/../../Classes/Field.h \
  jni/../../Classes/Enemy.h jni/../../Classes/Coin.h \
  jni/../../Classes/Ghost.h jni/../../Classes/Cursor.h \
- jni/../../Classes/HitEffect.h
+ jni/../../Classes/HitEffect.h jni/../../Classes/Water.h
 
 jni/../../Classes/AppDelegate.h:
 
@@ -858,3 +858,5 @@ jni/../../Classes/Ghost.h:
 jni/../../Classes/Cursor.h:
 
 jni/../../Classes/HitEffect.h:
+
+jni/../../Classes/Water.h:

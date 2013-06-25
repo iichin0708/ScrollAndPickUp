@@ -277,7 +277,7 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Coin.o: \
  jni/../../Classes/GLES-Render.h jni/../../Classes/Player.h \
  jni/../../Classes/Field.h jni/../../Classes/Enemy.h \
  jni/../../Classes/Ghost.h jni/../../Classes/Cursor.h \
- jni/../../Classes/HitEffect.h \
+ jni/../../Classes/HitEffect.h jni/../../Classes/Water.h \
  /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../external/Box2D/../Box2D/Box2d.h
 
 jni/../../Classes/Coin.h:
@@ -847,5 +847,7 @@ jni/../../Classes/Ghost.h:
 jni/../../Classes/Cursor.h:
 
 jni/../../Classes/HitEffect.h:
+
+jni/../../Classes/Water.h:
 
 /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../external/Box2D/../Box2D/Box2d.h:

@@ -20,7 +20,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Coin.cpp \
                    ../../Classes/Ghost.cpp \
                    ../../Classes/Cursor.cpp \
-                   ../../Classes/HitEffect.cpp
+                   ../../Classes/HitEffect.cpp \
+                   ../../Classes/Water.cpp
                    
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

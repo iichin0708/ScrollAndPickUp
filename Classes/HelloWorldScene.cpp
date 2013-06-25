@@ -95,6 +95,13 @@ HelloWorld::HelloWorld()
                               0.6f);
     }
     
+    // 水の用意
+    for(int i = 0; i < WATER_NUM; i++) {
+        waters[i] = new Water();
+        waters[i]->setVisible(false, 0);
+        addChild(waters[i]->getSprite());
+    }
+    
     // コインの用意
     for(int i = 0; i < COIN_NUM; i++) {
         coins[i] = new Coin();
@@ -103,6 +110,7 @@ HelloWorld::HelloWorld()
         addChild(coins[i]->getSprite());
     }
     
+    // 敵キャラの用意
     for(int i = 0; i < ENEMY_NUM; i++) {
         ghosts[i] = new Ghost();
         ghosts[i]->setVisible(false);
@@ -157,6 +165,8 @@ HelloWorld::HelloWorld()
     world->setContactListener();
     
     scheduleUpdate();
+    
+    CCLOG("width = %f  :  height = %f", s.width, s.height);
 }
 
 HelloWorld::~HelloWorld()
@@ -341,11 +351,19 @@ void HelloWorld::update(float dt)
         }
     }
     
-    //コインの毎フレーム実行する処理
+    // コインの毎フレーム実行する処理
     for(int i = 0; i < COIN_NUM; i++) {
         if(coins[i] == NULL) continue;
         if(coins[i]->getVisible()) {
             coins[i]->update();
+        }
+    }
+    
+    // 水しぶきの毎フレーム実行する処理
+    for(int i = 0; i < WATER_NUM; i++) {
+        if(waters[i] == NULL) continue;
+        if(waters[i]->getVisible()) {
+            waters[i]->update();
         }
     }
     
@@ -398,8 +416,41 @@ void HelloWorld::update(float dt)
         //CCSprite sprite = enemys[i]->getBody()->GetUserData();
         enemys[i]->hpSprite->setPosition(ccp(enemys[i]->getBody()->GetPosition().x * PTM_RATIO,
                                              enemys[i]->getBody()->GetPosition().y * PTM_RATIO - enemys[i]->height / 2));
+        // 画面端に行くと消える（落ちる）
+        if (enemys[i]->getBody()->GetPosition().x * PTM_RATIO > field->getPosition().x + field->width / 2||
+            enemys[i]->getBody()->GetPosition().x * PTM_RATIO < field->getPosition().x - field->width / 2) {
+            enemys[i]->hpSprite->setVisible(false);
+            
+            /*
+            // 水しぶきのエフェクト
+            for(int j = 0; j < WATER_NUM; j++) {
+                if(waters[j]->getVisible()) continue;
+                waters[j]->setPosition(enemys[i]->getBody()->GetPosition().x*PTM_RATIO,
+                                       enemys[i]->getBody()->GetPosition().y*PTM_RATIO);
+                CCLOG("x = %d  :  y = %d", enemys[i]->getBody()->GetPosition().x/PTM_RATIO, enemys[i]->getBody()->GetPosition().y/PTM_RATIO);
+                waters[j]->setVisible(true);
+                break;
+            }
+            */
+            
+            int countWater = 0;
+            // 水しぶきのエフェクト
+            for(int j = 0; j < WATER_NUM; j++) {
+                if(waters[j]->getVisible()) continue;
+                waters[j]->setVisible(true, enemys[i]->getBody()->GetPosition().y * PTM_RATIO);
+                waters[j]->setPosition(enemys[i]->getBody()->GetPosition().x * PTM_RATIO,
+                                      enemys[i]->getBody()->GetPosition().y * PTM_RATIO);
+                waters[j]->tarIndex = pIndex;
+                countWater++;
+                if(countWater >= 5) break;
+            }
+            
+
+        
+            removeChild((PhysicsSprite*)enemys[i]->getBody()->GetUserData());
+            destroyObject((RigidBody *&)enemys[i]);
+        }
     }
-    
 }
 
 void HelloWorld::playerChange() {
@@ -616,13 +667,11 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
 
 void HelloWorld::moveMap(CCPoint touchGap) {
-//    CCSize s = CCDirector::sharedDirector()->getWinSize();
+    CCSize s = CCDirector::sharedDirector()->getWinSize();
     
     // x方向にフィールドが動かせるかどうか
-    /*
-    if(field->getPosition().x + touchGap.x <= field->width / 2 &&
-       field->getPosition().x + field->width / 2 + touchGap.x >= s.width) {
-    */
+    if(field->getPosition().x + touchGap.x <= field->getSprite()->getContentSize().width / 2 &&
+       field->getPosition().x + field->getSprite()->getContentSize().width / 2 + touchGap.x >= s.width) {
         
         // フィールドスライド
         field->setPosition(field->getPosition().x + touchGap.x,
@@ -655,7 +704,15 @@ void HelloWorld::moveMap(CCPoint touchGap) {
             ghosts[i]->setPosition(ghosts[i]->getPosition().x + touchGap.x,
                                    ghosts[i]->getPosition().y);
         }
-    //}
+        
+        // 水しぶきスライド
+        for(int i = 0; i < WATER_NUM; i++) {
+            if(waters[i] == NULL) continue;
+            waters[i]->setPosition(waters[i]->getPosition().x + touchGap.x,
+                                   waters[i]->getPosition().y);
+            waters[i]->groundHeight += touchGap.y;
+        }
+    }
     
     /*
     // y方向にフィールドが動かせるかどうか
@@ -694,6 +751,16 @@ void HelloWorld::moveMap(CCPoint touchGap) {
             ghosts[i]->setPosition(ghosts[i]->getPosition().x,
                                    ghosts[i]->getPosition().y + touchGap.y);
         }
+    
+        // 水しぶきスライド
+        for(int i = 0; i < WATER_NUM; i++) {
+            if(waters[i] == NULL) continue;
+            waters[i]->setPosition(waters[i]->getPosition().x,
+                                   waters[i]->getPosition().y + touchGap.y);
+            waters[i]->groundHeight += touchGap.y;
+        }
+    
+
     //}
     
     World *world =  World::getInstance();

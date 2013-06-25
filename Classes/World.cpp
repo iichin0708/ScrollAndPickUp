@@ -125,6 +125,7 @@ void World::createWall(CCRect rect) {
     groundBox.Set(b2Vec2(_rectWall.getMinX()/PTM_RATIO, _rectWall.getMaxY()/PTM_RATIO), b2Vec2(_rectWall.getMaxX()/PTM_RATIO, _rectWall.getMaxY()/PTM_RATIO));
     _wall->CreateFixture(&groundBox,0);
     
+    /*
     // left
     groundBox.Set(b2Vec2(_rectWall.getMinX()/PTM_RATIO, _rectWall.getMaxY()/PTM_RATIO), b2Vec2(_rectWall.getMinX()/PTM_RATIO, _rectWall.getMinY()/PTM_RATIO));
     _wall->CreateFixture(&groundBox,0);
@@ -132,6 +133,7 @@ void World::createWall(CCRect rect) {
     // right
     groundBox.Set(b2Vec2(_rectWall.getMaxX()/PTM_RATIO, _rectWall.getMaxY()/PTM_RATIO), b2Vec2(_rectWall.getMaxX()/PTM_RATIO, _rectWall.getMinY()/PTM_RATIO));
     _wall->CreateFixture(&groundBox,0);
+    */
 }
 
 void World::deleteWall() {
