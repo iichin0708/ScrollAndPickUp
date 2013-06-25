@@ -6,6 +6,7 @@ USING_NS_CC;
 //初期化
 int Player::playerTurnId = 0;
 
+
 //現在のターンIDを返す
 int Player::getPlayerTurnId() {
     //プレイヤーの合計人数の余りが次の人のターン

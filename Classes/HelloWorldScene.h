@@ -80,7 +80,11 @@ public:
     //移動中かどうか
     bool isMoving;
     
+    //移動を追うフラグ
     bool isTrace;
+    
+    //次のプレイヤーのためにマップを動かすフラグ１
+    bool isShowedNextPlayer;
     
     cocos2d::CCPoint speedVec;
     
@@ -115,6 +119,13 @@ private:
     float shootRadian;
         
     void addNewBody(float density, char* fileName);
+    
+    void addDelay();
+    
+    void playerChange();
+    
+    void moveMapWithObject(b2Body *moveObjectBody);
+    
 };
 
 #endif // __HELLO_WORLD_H__

@@ -47,6 +47,7 @@ public:
     
     //現在のターンのユーザIDを取得
     static int getPlayerTurnId();
+    
 };
 
 #endif /* defined(__ScrollAndPickUp__Player__) */
