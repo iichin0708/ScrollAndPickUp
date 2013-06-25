@@ -19,10 +19,12 @@
 #include "Ghost.h"
 #include "Cursor.h"
 #include "HitEffect.h"
+#include "Obstacle.h"
 
 #define ENEMY_NUM 15
 #define COIN_NUM 50
 #define HIT_EF_NUM 10
+#define OBSTACLE_NUM 12
 
 class HelloWorld : public cocos2d::CCLayer {
 public:
@@ -37,6 +39,7 @@ public:
     Coin *coins[COIN_NUM];
     Ghost *ghosts[ENEMY_NUM];
     HitEffect *hitEfs[HIT_EF_NUM];
+    Obstacle *obstacles[OBSTACLE_NUM];
     Cursor *cursor;
     Field *field;
     
@@ -120,11 +123,11 @@ private:
         
     void addNewBody(float density, char* fileName);
     
-    void addDelay();
-    
     void playerChange();
     
     void moveMapWithObject(b2Body *moveObjectBody);
+    
+    void setObstacle();
     
 };
 

@@ -119,7 +119,7 @@ HelloWorld::HelloWorld()
     arrow->setAnchorPoint(CCPointMake(0, 0.5f));
     
     //スプライトをレイヤに追加
-    this->addChild(arrow);
+    this->addChild(arrow, 2);
     
     // 当たったときのエフェクト追加
     for(int i = 0; i < HIT_EF_NUM; i++) {
@@ -132,6 +132,9 @@ HelloWorld::HelloWorld()
     for(int i =0; i < PLAYER_NUM; i++) {
         monkeys[i] = new Player(this, ccp(s.width/2 -150 + 150 * i, s.height/2 + -100), 1.5f, 0.6f, 1.0f);
     }
+
+    // 障害物の配置
+    setObstacle();
     
     // 終了ボタン
     CCMenuItemImage *pCloseItem =
@@ -202,8 +205,95 @@ void HelloWorld::draw()
     kmGLPopMatrix();
 }
 
-void HelloWorld::addDelay() {
+void HelloWorld::setObstacle() {
     
+    CCDictionary *imgDict = CCDictionary::create();
+
+    for (int i = 0; i < OBSTACLE_NUM; i++) {
+        obstacles[i] = NULL;
+    }
+    
+    /*
+    //障害物
+    CCArray *imgSize = CCArray::createWithCapacity(2);
+    imgSize->addObject(CCFloat::create(228));
+    imgSize->addObject(CCFloat::create(285));
+    imgDict->setObject(imgSize, "wood01.png");
+
+    
+    imgSize = new CCArray(2);
+    imgSize[0] = 183;
+    imgSize[1] = 248;
+    imgDict->setObject(imgSize, "wood02.png");
+    
+    imgSize = new CCArray(2);
+    imgSize[0] = 157;
+    imgSize[1] = 170;
+    imgDict->setObject(imgSize, "wood03.png");
+    
+    imgSize = new CCArray(2);
+    imgSize[0] = 190;
+    imgSize[1] = 135;
+    imgDict->setObject(imgSize, "wood04.png");
+    
+    imgSize = new CCArray(2);
+    imgSize[0] = 174;
+    imgSize[1] = 145;
+    imgDict->setObject(imgSize, "wood05.png");
+    
+    imgSize = new CCArray(2);
+    imgSize[0] = 95;
+    imgSize[1] = 120;
+    imgDict->setObject(imgSize, "wood06.png");
+    
+    imgSize = new CCArray(2);
+    imgSize[0] = 278;
+    imgSize[1] = 246;
+    imgDict->setObject(imgSize, "wood07.png");
+    
+    imgSize = new CCArray(2);
+    imgSize[0] = 97;
+    imgSize[1] = 40;
+    imgDict->setObject(imgSize, "wood08.png");
+    
+    imgSize = new CCArray(2);
+    imgSize[0] = 55;
+    imgSize[1] = 392;
+    imgDict->setObject(imgSize, "saku01.png");
+
+    imgSize = new CCArray(2);
+    imgSize[0] = 49;
+    imgSize[1] = 279;
+    imgDict->setObject(imgSize, "saku02.png");
+
+    imgSize = new CCArray(2);
+    imgSize[0] = 192;
+    imgSize[1] = 131;
+    imgDict->setObject(imgSize, "iwa01.png");
+    
+    imgSize = new CCArray(2);
+    imgSize[0] = 268;
+    imgSize[1] = 168;
+    imgDict->setObject(imgSize, "iwa02.png");
+    */
+    
+
+
+    obstacles[8] = new Obstacle(this, "saku01.png", CCSizeMake(55, 392), CCPointMake(40, 320), 1.0f, 0.6f, 0.6f);
+    obstacles[9] = new Obstacle(this, "saku02.png", CCSizeMake(49, 279), CCPointMake(40, 1200), 1.0f, 0.6f, 0.6f);
+    
+    obstacles[0] = new Obstacle(this, "wood01.png", CCSizeMake(228, 285), CCPointMake(550, 300), 1.0f, 0.6f, 0.6f);
+    obstacles[1] = new Obstacle(this, "wood02.png", CCSizeMake(183, 248), CCPointMake(100, 1600), 1.0f, 0.6f, 0.6f);
+    obstacles[2] = new Obstacle(this, "wood03.png", CCSizeMake(157, 170), CCPointMake(400, 1050), 1.0f, 0.6f, 0.6f);
+    obstacles[3] = new Obstacle(this, "wood04.png", CCSizeMake(190, 135), CCPointMake(180, 200), 1.0f, 0.6f, 0.6f);
+    obstacles[4] = new Obstacle(this, "wood05.png", CCSizeMake(174, 145), CCPointMake(180, 1980), 1.0f, 0.6f, 0.6f);
+    obstacles[5] = new Obstacle(this, "wood06.png", CCSizeMake(95, 120), CCPointMake(550, 1800), 1.0f, 0.6f, 0.6f);
+    
+//    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(246, 278), CCPointMake(120, 750), 1.0f, 0.6f, 0.6f);
+    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(246, 278), CCPointMake(120, 780), 1.0f, 0.6f, 0.6f);
+    obstacles[7] = new Obstacle(this, "wood08.png", CCSizeMake(97, 40), CCPointMake(550, 1500), 1.0f, 0.6f, 0.6f);
+    obstacles[10] = new Obstacle(this, "iwa01.png", CCSizeMake(192, 131), CCPointMake(400, 550), 1.0f, 0.6f, 0.6f);
+    obstacles[11] = new Obstacle(this, "iwa02.png", CCSizeMake(268, 168), CCPointMake(500, 1620), 1.0f, 0.6f, 0.6f);
 }
 
 //idを持つ剛体を終点から始点のベクトルにボディを飛ばす
@@ -655,6 +745,14 @@ void HelloWorld::moveMap(CCPoint touchGap) {
             ghosts[i]->setPosition(ghosts[i]->getPosition().x + touchGap.x,
                                    ghosts[i]->getPosition().y);
         }
+    
+        // 障害物スライド
+        for(int i = 0; i < OBSTACLE_NUM; i++) {
+            if(obstacles[i] == NULL) continue;
+                obstacles[i]->getBody()->SetTransform(b2Vec2(obstacles[i]->getBody()->GetPosition().x + touchGap.x / PTM_RATIO, obstacles[i]->getBody()->GetPosition().y), 0);
+        }
+
+
     //}
     
     /*
@@ -694,6 +792,13 @@ void HelloWorld::moveMap(CCPoint touchGap) {
             ghosts[i]->setPosition(ghosts[i]->getPosition().x,
                                    ghosts[i]->getPosition().y + touchGap.y);
         }
+    
+        // 障害物スライド
+        for(int i = 0; i < OBSTACLE_NUM; i++) {
+            if(obstacles[i] == NULL) continue;
+            obstacles[i]->getBody()->SetTransform(b2Vec2(obstacles[i]->getBody()->GetPosition().x, obstacles[i]->getBody()->GetPosition().y  + touchGap.y/ PTM_RATIO), 0);
+        }
+
     //}
     
     World *world =  World::getInstance();

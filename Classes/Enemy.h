@@ -20,7 +20,7 @@ public:
     // コンストラクタ
     Enemy(cocos2d::CCNode* parent, int kind, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody()
     {
-        char* imageName;
+        const char* imageName;
         isInvincible = false;
         switch (kind) {
             case KIND_ONION:
@@ -65,7 +65,7 @@ public:
         
         parent->addChild(sprite);
         
-        createDynamicBody(location, sprite, density, friction, restitution);
+        createBody(location, sprite, density, friction, restitution);
         setDecreaseSpeedRatio(decreaseRatio);
         //画面に表示する.
         sprite->setPhysicsBody(_body);
