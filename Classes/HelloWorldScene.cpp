@@ -151,8 +151,13 @@ HelloWorld::HelloWorld()
                             "button_close_pressed.png",
                             this,
                             menu_selector(HelloWorld::menuCloseCallback));
-    pCloseItem->setPosition(ccp(s.width - pCloseItem->getContentSize().width / 2,
-                                pCloseItem->getContentSize().height / 2 + 100));
+    
+    CCDirector* pDirector = CCDirector::sharedDirector();
+    CCPoint origin = pDirector->getVisibleOrigin();
+    CCSize visibleSize = pDirector->getVisibleSize();
+    
+    pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width / 2,
+                                origin.y + pCloseItem->getContentSize().height / 2));
     
     CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
     pMenu->setPosition(CCPointZero);
