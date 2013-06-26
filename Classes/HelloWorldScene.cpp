@@ -68,7 +68,7 @@ HelloWorld::HelloWorld()
     // フィールドの用意
     field = new Field();
     field->setPosition(s.width/2, field->height/2);
-    field->getSprite()->setVisible(false);
+    //field->getSprite()->setVisible(false);
     addChild(field->getSprite());
     
     
