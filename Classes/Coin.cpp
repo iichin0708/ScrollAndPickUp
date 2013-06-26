@@ -59,39 +59,54 @@ int Coin::getGroundHeight()
 void Coin::update()
 {
     if(!isCorrect) {
+    // バウンド状態
         sprite->setPosition(ccp(sprite->getPositionX() + speedX,
                                 sprite->getPositionY() + speedY));
         speedY += GRAVITY;
         
+        // 基準線を下回ったとき
         if(getPosition().y < groundHeight) {
             if(speedY > -5) {
+            // スピードが衰えているとき
                 isCorrect = true;
-                //setVisible(false, 0);
                 frameCount = 0;
             } else {
+            // 通常の動作（はねる）
                 speedY = -speedY / 1.5f;
             }
         }
         
+        // 一定フレーム経過
         if(frameCount == 120) {
             isCorrect = true;
-            //setVisible(false, 0);
             frameCount = 0;
         }
         frameCount++;
+        
     } else {
+    // 集まり状態
         HelloWorld* hw = HelloWorld::Instance;
-        int tx = hw->monkeys[tarIndex]->getBody()->GetPosition().x * PTM_RATIO;
-        int ty = hw->monkeys[tarIndex]->getBody()->GetPosition().y * PTM_RATIO;
-        int x = getPosition().x;
-        int y = getPosition().y;
-        setPosition(x + (tx - x) / 10,
-                    y + (ty - y) / 10);
-        if(frameCount > 12) {
+        
+        if(hw->monkeys[tarIndex] == NULL || hw->monkeys[tarIndex]->isFalled) {
+        // 既に集合対象のキャラクターが消えている場合
             frameCount = 0;
             setVisible(false, 0);
             isCorrect = false;
+        } else {
+        // 通常（集まる）
+            int tx = hw->monkeys[tarIndex]->getBody()->GetPosition().x * PTM_RATIO;
+            int ty = hw->monkeys[tarIndex]->getBody()->GetPosition().y * PTM_RATIO;
+            int x = getPosition().x;
+            int y = getPosition().y;
+            setPosition(x + (tx - x) / 10,
+                        y + (ty - y) / 10);
+            
+            if(frameCount > 12) {
+                frameCount = 0;
+                setVisible(false, 0);
+                isCorrect = false;
+            }
+            frameCount++;
         }
-        frameCount++;
     }
 }
