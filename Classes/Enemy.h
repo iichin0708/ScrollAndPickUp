@@ -27,8 +27,8 @@ public:
                 imageName = "004.png";//"004.png";
                 width = 80;
                 height = 80;
-                hp = 2;
                 density = 2.5f;
+                maxHp = 1;
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 0.8f;
                 //自身の吹っ飛び率
@@ -39,8 +39,8 @@ public:
                 imageName = "003.png";
                 width = 115;
                 height = 121;
-                hp = 2;
                 density = 3.0f;
+                maxHp = 2;
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 1.0f;
                 decreaseRatio =10;
@@ -50,13 +50,14 @@ public:
                 imageName = "002.png";
                 width = 150;
                 height = 150;
-                hp = 4;
                 density = 3.5f;
+                maxHp = 4;
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 1.5f;
                 decreaseRatio = 14;
                 break;
         }
+        hp = maxHp;
         _kind = kind;
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create(imageName, 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
@@ -75,9 +76,17 @@ public:
         sprite->setPhysicsBody(_body);
         
         // 体力画像のセット
-        hpSprite = cocos2d::CCSprite::create("hp1-1.png", cocos2d::CCRectMake(0, 0, 98, 11) );
+        hpSprite = cocos2d::CCSprite::create("hp_frame.png", cocos2d::CCRectMake(0, 0, 98, 11) );
         hpSprite->setPosition(ccp(this->getBody()->GetPosition().x * PTM_RATIO,
                                   this->getBody()->GetPosition().y * PTM_RATIO - this->height / 2));
+        
+        barSprite = cocos2d::CCSprite::create("red_bar.png", cocos2d::CCRectMake(0, 0, 80, 7) );
+        barSprite->setPosition(ccp(hpSprite->getContentSize().width / 2 - barSprite->getContentSize().width / 2,
+                                   hpSprite->getContentSize().height / 2));
+        barSprite->setAnchorPoint(ccp(0.0, 0.5));
+        barSprite->setScaleX(1);
+        hpSprite->addChild(barSprite);
+
         parent->addChild(hpSprite);
     }
 
@@ -89,6 +98,7 @@ public:
     
     // 体力
     int hp;
+    int maxHp;
     
     // インスタンスの種類
     int _kind;
@@ -98,9 +108,10 @@ public:
     
     // 体力表示用のスプライト
     cocos2d::CCSprite* hpSprite;
+    cocos2d::CCSprite* barSprite;
     
     // 攻撃を受ける
-    void damaged();
+    void damaged(int);
     
     // 無敵状態のフラグ
     bool isInvincible;
