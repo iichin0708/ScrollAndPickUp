@@ -298,19 +298,19 @@ void CContactListener::setPlayerBoundRatio(b2Body *playerBody, int npType, b2Bod
     switch (npType) {
         case TYPE_PLAYER:
         {
-            playerBody->SetLinearDamping(0.6f);
-            npBody->SetLinearDamping(0.6f);
+            playerBody->SetLinearDamping(8.0f);
+            npBody->SetLinearDamping(8.0f);
             break;
         }
         case TYPE_ENEMY:
         {
-            npBody->SetLinearDamping(hw->enemys[npNum]->getPlayerBoundRatio());
+            playerBody->SetLinearDamping(hw->enemys[npNum]->getPlayerBoundRatio());
 //            npBody->SetLinearDamping(e->getPlayerBoundRatio());
             break;
         }
         case TYPE_OBSTACLE:
         {
-            npBody->SetLinearDamping(hw->obstacles[npNum]->getPlayerBoundRatio());
+            playerBody->SetLinearDamping(hw->obstacles[npNum]->getPlayerBoundRatio());
 //            Obstacle *o = hw->obstacles[npNum];
 //            bodyP1->SetLinearDamping(o->getPlayerBoundRatio());
             break;

@@ -794,6 +794,7 @@ void HelloWorld::moveMapWithObject(b2Body *moveObjectBody) {
     moveObjectVec = touchObjectBody->GetLinearVelocity();
     if( (-1.0f < moveObjectVec.x && moveObjectVec.x < 1.0f) && (-1.0f < moveObjectVec.y && moveObjectVec.y < 1.0f)) {
         isMoving = false;
+        moveObjectBody->SetLinearDamping(8.0f);
         this->scheduleOnce(schedule_selector(HelloWorld::playerChange), 0.5f);
         
     }

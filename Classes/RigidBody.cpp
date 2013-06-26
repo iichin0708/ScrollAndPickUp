@@ -40,7 +40,7 @@ void RigidBody::createCircleBody(CCPoint location, PhysicsSprite *pSprite, float
     bodyDef.position.Set(location.x/PTM_RATIO, location.y/PTM_RATIO);
 
     //一律で減衰率は8.0
-    bodyDef.linearDamping = 6.0;
+    bodyDef.linearDamping = 8.0;
 
     //回転を許さない
     bodyDef.fixedRotation = true;

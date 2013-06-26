@@ -38,13 +38,13 @@ void Enemy::setNoInvincible()
 int Enemy::getPlayerBoundRatio() {
     switch(_kind) {
         case KIND_DRAGON:
-            return 0.6;
+            return 4.0f;
             break;
         case KIND_GOBLIN:
-            return 0.4;
+            return 6.0f;
             break;
         case KIND_ONION:
-            return 0.2;
+            return 8.0f;
             break;
         default:
             return -1;

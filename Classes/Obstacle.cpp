@@ -20,15 +20,15 @@ cocos2d::CCPoint Obstacle::getObstaclePosition() {
 int Obstacle::getPlayerBoundRatio() {
     switch (_kind) {
         case 0: case 1:
-            return 0.6;
+            return 6.0f;
         case 2: case 3:
-            return 0.4;
+            return 4.0f;
         case 4:  case 5:  case 6:
         case 7:  case 8:  case 9:
         case 10: case 11:
-            return 0.2;
+            return 2.0f;
         default:
-            return -1;
+            return 0;
     }
 }
 
