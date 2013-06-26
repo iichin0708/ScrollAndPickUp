@@ -375,10 +375,14 @@ void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
     isMoving = true;
     
     Player::playerTurnId++;
+    // 次ターンのプレイヤーがいなければ順番を飛ばす(全員いなければ無限ループになります！要修正)
+    while(monkeys[Player::getPlayerTurnId()] == NULL ||
+          monkeys[Player::getPlayerTurnId()]->isFalled) Player::playerTurnId++;
 }
 
 void HelloWorld::update(float dt)
 {
+    
     if(isContacted && // 衝突した
        enemys[contactEnemyindex] != NULL && // 指定の敵配列が空でない
        ! enemys[contactEnemyindex]->isInvincible ) // 敵が無敵でない
@@ -479,20 +483,43 @@ void HelloWorld::update(float dt)
                                 monkeys[i]->getBody()->GetPosition().y * PTM_RATIO);
             cursor->setVisible(true);
         }
+        
+        // 画面端に行くと消える（落ちる）
+        if (monkeys[i]->getBody()->GetPosition().x * PTM_RATIO > field->getPosition().x + field->width / 2||
+            monkeys[i]->getBody()->GetPosition().x * PTM_RATIO < field->getPosition().x - field->width / 2) {
+            
+            int countWater = 0;
+            // 水しぶきのエフェクト
+            for(int j = 0; j < WATER_NUM; j++) {
+                if(waters[j]->getVisible()) continue;
+                waters[j]->setVisible(true, monkeys[i]->getBody()->GetPosition().y * PTM_RATIO);
+                waters[j]->setPosition(monkeys[i]->getBody()->GetPosition().x * PTM_RATIO,
+                                       monkeys[i]->getBody()->GetPosition().y * PTM_RATIO);
+                waters[j]->tarIndex = pIndex;
+                countWater++;
+                if(countWater >= 5) break;
+            }
+            
+            PhysicsSprite* pSprite = (PhysicsSprite*)monkeys[i]->getBody()->GetUserData();
+            pSprite->setVisible(false);
+            monkeys[i]->isFalled = true;
+        }
     }
     
     //次のプレイヤーにマップを一度だけ移動しポインタをあわせる
     if(!isShowedNextPlayer) {
         CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
         CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
-        CCPoint playerPosition = monkeys[Player::getPlayerTurnId()]->getPlayerPosition(Player::getPlayerTurnId());
-        float delta = ccpDistance(dispCenter, playerPosition);
-        CCPoint gap = CCPointMake(dispCenter.x - playerPosition.x, dispCenter.y - playerPosition.y);
-        speedVec = CCPointMake(gap.x / 10, gap.y / 10);
-        if (delta < 20) {
-            isShowedNextPlayer = true;
-        } else {
-            moveMap(speedVec);
+        if(monkeys[Player::getPlayerTurnId()] != NULL) {
+            CCPoint playerPosition = monkeys[Player::getPlayerTurnId()]->getPlayerPosition(Player::getPlayerTurnId());
+            float delta = ccpDistance(dispCenter, playerPosition);
+            CCPoint gap = CCPointMake(dispCenter.x - playerPosition.x, dispCenter.y - playerPosition.y);
+            speedVec = CCPointMake(gap.x / 10, gap.y / 10);
+            if (delta < 20) {
+                isShowedNextPlayer = true;
+            } else {
+                moveMap(speedVec);
+            }
         }
     }
 
@@ -545,6 +572,17 @@ void HelloWorld::update(float dt)
 void HelloWorld::playerChange() {
     isMoving = false;
     isShowedNextPlayer = false;
+    
+    // 溺れ状態のプレイヤーを除去する
+    for(int i = 0; i < PLAYER_NUM; i++) {
+        if(monkeys[i] != NULL &&
+           monkeys[i]->isFalled) {
+            cursor->setVisible(false);
+            touchObjectBody = NULL;
+            removeChild((PhysicsSprite*)monkeys[i]->getBody()->GetUserData());
+            destroyObject((RigidBody *&)monkeys[i]);
+        }
+    }
 }
 
 void HelloWorld::moveMapWithObject(b2Body *moveObjectBody) {
@@ -610,7 +648,7 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
     CCPoint touchLocation = touch->getLocationInView();
     touchLocation = CCDirector::sharedDirector()->convertToGL(touchLocation);
     
-    if(isObjectTouched) {
+    if(isObjectTouched && touchObjectBody != NULL) {
         //movePointがプラスかマイナスか判別するフラグ
         int x_plusFlag;
         int y_plusFlag;
@@ -622,11 +660,10 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
         
         //タッチしたオブジェクトの中心座標を取得
         CCPoint objectPoint = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
-        /*
-         CCLog("radius = %f", radius);
-         CCLog("move.x   = %f, move.y   = %f", touchLocation.x, touchLocation.y);
-         CCLog("object.x = %f, ovject.y = %f", objectPoint.x, objectPoint.y);
-         */
+        
+        // CCLog("radius = %f", radius);
+        // CCLog("move.x   = %f, move.y   = %f", touchLocation.x, touchLocation.y);
+        // CCLog("object.x = %f, ovject.y = %f", objectPoint.x, objectPoint.y);
         
         //startとendの距離を測る
         float diffX = touchLocation.x - objectPoint.x;
@@ -702,7 +739,6 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
             arrow->setColor(ccc3(0, 200, 100));
             arrow->setVisible(true);
         }
-        
     } else {
         // 画面をタッチして動かす処理
         CCPoint touchGap = ccp(touchLocation.x - moveTouchPoint.x,
@@ -738,7 +774,7 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
         endPoint = touchLocation;
         
         //タッチしていたオブジェクトを飛ばす
-        if(isObjectTouched) {
+        if(isObjectTouched && touchObjectBody != NULL) {
             PhysicsSprite *pSprite = (PhysicsSprite *)touchObjectBody->GetUserData();
             //タッチしたオブジェクトの半径(正確には矩形)
             float radius = pSprite->getContentSize().width / 2;

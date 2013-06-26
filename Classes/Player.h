@@ -20,6 +20,8 @@ public:
     static int playerTurnId;
     
     Player(cocos2d::CCNode* parent, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody() {
+        isFalled = false;
+        
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create("001.png", 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
         
@@ -48,6 +50,8 @@ public:
     //現在のターンのユーザIDを取得
     static int getPlayerTurnId();
     
+    // 水に落ちているかどうかのフラグ
+    bool isFalled;
 };
 
 #endif /* defined(__ScrollAndPickUp__Player__) */
