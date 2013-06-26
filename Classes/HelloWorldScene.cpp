@@ -68,7 +68,7 @@ HelloWorld::HelloWorld()
     // フィールドの用意
     field = new Field();
     field->setPosition(s.width/2, field->height/2);
-    //field->getSprite()->setVisible(false);
+    field->getSprite()->setVisible(false);
     addChild(field->getSprite());
     
     
@@ -288,24 +288,23 @@ void HelloWorld::setObstacle() {
     */
     
 
-
-    obstacles[8] = new Obstacle(this, "saku01.png", CCSizeMake(55, 392), CCPointMake(40, 320), 1.0f, 0.6f, 0.6f);
-    obstacles[9] = new Obstacle(this, "saku02.png", CCSizeMake(49, 279), CCPointMake(40, 1200), 1.0f, 0.6f, 0.6f);
+    //作成するShape(当たり判定の形)は丸とする.
+    //(parent, 画像名, 画像サイズ, 当たり判定サイズ, 初期位置, Shapeの形, 質量, 摩擦, 反発係数)となっている. boxの場合は当たり判定に縦と横のサイズを渡すが、cricleの場合は半径を渡す.
+    obstacles[8] = new Obstacle(this, "saku01.png", CCSizeMake(55, 392), CCSizeMake(55 / 2, 392 / 2), CCPointMake(40, 320), BOX_SHAPE, 1.0f, 0.6f, 0.4f);
+    obstacles[9] = new Obstacle(this, "saku02.png", CCSizeMake(49, 279), CCSizeMake(49 / 2, 279 / 2), CCPointMake(40, 1200), BOX_SHAPE, 1.0f, 0.6f, 0.4f);
     
-    obstacles[0] = new Obstacle(this, "wood01.png", CCSizeMake(228, 285), CCPointMake(550, 300), 1.0f, 0.6f, 0.6f);
-    obstacles[1] = new Obstacle(this, "wood02.png", CCSizeMake(183, 248), CCPointMake(100, 1600), 1.0f, 0.6f, 0.6f);
-    obstacles[2] = new Obstacle(this, "wood03.png", CCSizeMake(157, 170), CCPointMake(400, 1050), 1.0f, 0.6f, 0.6f);
-    obstacles[3] = new Obstacle(this, "wood04.png", CCSizeMake(190, 135), CCPointMake(180, 200), 1.0f, 0.6f, 0.6f);
-    obstacles[4] = new Obstacle(this, "wood05.png", CCSizeMake(174, 145), CCPointMake(180, 1980), 1.0f, 0.6f, 0.6f);
-    obstacles[5] = new Obstacle(this, "wood06.png", CCSizeMake(95, 120), CCPointMake(550, 1800), 1.0f, 0.6f, 0.6f);
-    
+    obstacles[0] = new Obstacle(this, "wood01.png", CCSizeMake(228, 285), CCSizeMake(228 / 2, 228 / 2), CCPointMake(550, 300), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
+    obstacles[1] = new Obstacle(this, "wood02.png", CCSizeMake(183, 248), CCSizeMake(183 / 2, 183 / 2), CCPointMake(100, 1600), CIRCLE_SHAPE, 1.0f, 0.6f, 0.4f);
+    obstacles[2] = new Obstacle(this, "wood03.png", CCSizeMake(157, 170), CCSizeMake(157 / 2, 157 / 2), CCPointMake(400, 1050), CIRCLE_SHAPE, 1.0f, 0.6f, 0.4f);
+    obstacles[3] = new Obstacle(this, "wood04.png", CCSizeMake(190, 135), CCSizeMake(135 / 2, 135 / 2), CCPointMake(180, 200), CIRCLE_SHAPE, 1.0f, 0.6f, 0.2f);
+    obstacles[4] = new Obstacle(this, "wood05.png", CCSizeMake(174, 145), CCSizeMake(145 / 2, 145 / 2), CCPointMake(180, 1980), CIRCLE_SHAPE, 1.0f, 0.6f, 0.2f);
+    obstacles[5] = new Obstacle(this, "wood06.png", CCSizeMake(95, 83), CCSizeMake(95 / 2, 95 / 2), CCPointMake(550, 1800), CIRCLE_SHAPE, 1.0f, 0.6f, 0.2f);
 //    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(246, 278), CCPointMake(120, 750), 1.0f, 0.6f, 0.6f);
-    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(246, 278), CCPointMake(120, 780), 1.0f, 0.6f, 0.6f);
-    obstacles[7] = new Obstacle(this, "wood08.png", CCSizeMake(97, 40), CCPointMake(550, 1500), 1.0f, 0.6f, 0.6f);
-    obstacles[10] = new Obstacle(this, "iwa01.png", CCSizeMake(192, 131), CCPointMake(400, 550), 1.0f, 0.6f, 0.6f);
-    obstacles[11] = new Obstacle(this, "iwa02.png", CCSizeMake(268, 168), CCPointMake(500, 1620), 1.0f, 0.6f, 0.6f);
+    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(278, 168), CCSizeMake(168 / 2, 168 / 2), CCPointMake(120, 780), CIRCLE_SHAPE, 1.0f, 0.6f, 0.2f);
+    obstacles[7] = new Obstacle(this, "wood08.png", CCSizeMake(81, 40), CCSizeMake(40 / 2, 40 / 2), CCPointMake(550, 1500), CIRCLE_SHAPE, 1.0f, 0.6f, 0.4f);
+    obstacles[10] = new Obstacle(this, "iwa01.png", CCSizeMake(192, 131), CCSizeMake(131 / 2, 131 / 2), CCPointMake(400, 550), CIRCLE_SHAPE, 1.0f, 0.6f, 0.6f);
+    obstacles[11] = new Obstacle(this, "iwa02.png", CCSizeMake(268, 168), CCSizeMake(168 / 2, 0), CCPointMake(500, 1620), CIRCLE_SHAPE, 1.0f, 0.6f, 0.6f);
 }
-
 //idを持つ剛体を終点から始点のベクトルにボディを飛ばす
 void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
 {
@@ -495,7 +494,7 @@ void HelloWorld::update(float dt)
             moveMap(speedVec);
         }
     }
-
+     
     
     // 敵キャラの毎フレーム実行する処理
     for(int i = 0; i < ENEMY_NUM; i++) {
@@ -544,27 +543,7 @@ void HelloWorld::update(float dt)
 }
 
 void HelloWorld::playerChange() {
-    isMoving = false;
     isShowedNextPlayer = false;
-}
-
-void HelloWorld::moveMapWithObject(b2Body *moveObjectBody) {
-    b2Vec2 moveObjectVec = moveObjectBody->GetLinearVelocity();
-    moveObjectVec = touchObjectBody->GetLinearVelocity();
-    if( (-1.0f < moveObjectVec.x && moveObjectVec.x < 1.0f) && (-1.0f < moveObjectVec.y && moveObjectVec.y < 1.0f)) {
-        
-        this->scheduleOnce(schedule_selector(HelloWorld::playerChange), 0.5f);
-
-    }
-    
-    CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
-    CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
-    
-    movedPosition = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
-    
-    CCPoint gap = CCPointMake(dispCenter.x - movedPosition.x, dispCenter.y - movedPosition.y);
-    speedVec = CCPointMake(gap.x / 10, gap.y / 10);
-    moveMap(speedVec);
 }
 
 void HelloWorld::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent) {
@@ -753,6 +732,26 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
     
     cursor->setVisible(false);
     arrow->setVisible(false);
+}
+
+
+void HelloWorld::moveMapWithObject(b2Body *moveObjectBody) {
+    b2Vec2 moveObjectVec = moveObjectBody->GetLinearVelocity();
+    moveObjectVec = touchObjectBody->GetLinearVelocity();
+    if( (-1.0f < moveObjectVec.x && moveObjectVec.x < 1.0f) && (-1.0f < moveObjectVec.y && moveObjectVec.y < 1.0f)) {
+        isMoving = false;
+        this->scheduleOnce(schedule_selector(HelloWorld::playerChange), 0.5f);
+        
+    }
+    
+    CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
+    CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
+    
+    movedPosition = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
+    
+    CCPoint gap = CCPointMake(dispCenter.x - movedPosition.x, dispCenter.y - movedPosition.y);
+    speedVec = CCPointMake(gap.x / 10, gap.y / 10);
+    moveMap(speedVec);
 }
 
 

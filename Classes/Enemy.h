@@ -65,7 +65,7 @@ public:
         
         parent->addChild(sprite);
         
-        createBody(location, sprite, density, friction, restitution);
+        createCircleBody(location, sprite, width / 2, density, friction, restitution);
         setDecreaseSpeedRatio(decreaseRatio);
         //画面に表示する.
         sprite->setPhysicsBody(_body);
