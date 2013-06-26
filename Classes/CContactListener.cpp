@@ -204,6 +204,14 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
         }
     }
     
+    for(int i = 0; i < OBSTACLE_NUM; i++) {
+        Obstacle* obstacle = hw->obstacles[i];
+        if (aBody == obstacle->getBody()) {
+            aNum = i;
+            aType = TYPE_OBSTACLE;
+        }
+    }
+    
     // bBodyは何か探索
     int bNum;
     int bType = TYPE_NULL;
@@ -224,7 +232,20 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
             bType = TYPE_ENEMY;
         }
     }
-
+    
+    for (int i = 0; i < OBSTACLE_NUM; i++) {
+        Obstacle *obstacle = hw->obstacles[i];
+        if (bBody == obstacle->getBody()) {
+            bNum = i;
+            bType = TYPE_OBSTACLE;
+        }
+    }
+    
+    //プレイヤーとプレイヤーの接触の場合
+    if (aType == TYPE_PLAYER && bType == TYPE_PLAYER) {
+        setPlayerBoundRatio(aBody, bType, bBody, bNum);
+    }
+    
     // プレイヤーと敵の接触の場合
     if(aType == TYPE_PLAYER && bType == TYPE_ENEMY) {
         if( ! hw->enemys[bNum]->isInvincible ) {
@@ -233,6 +254,8 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
             contactPlayerNum = aNum;
             hw->contactEnemyindex = bNum;
             hw->pIndex = aNum;
+            
+            setPlayerBoundRatio(aBody, bType, bBody, bNum);
             
             for(int i = 0; i < HIT_EF_NUM; i++) {
                 if(hw->hitEfs[i]->getVisible()) continue;
@@ -249,6 +272,8 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
             hw->contactEnemyindex = aNum;
             hw->pIndex = bNum;
             
+            setPlayerBoundRatio(bBody, aType, aBody, aNum);
+            
             for(int i = 0; i < HIT_EF_NUM; i++) {
                 if(hw->hitEfs[i]->getVisible()) continue;
                 hw->hitEfs[i]->setPosition(contactPoint.x, contactPoint.y);
@@ -257,6 +282,43 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
             }
         }
     }
+    
+    //プレイヤーと障害物との接触の場合
+    if (aType == TYPE_PLAYER && bType == TYPE_OBSTACLE) {
+        setPlayerBoundRatio(aBody, bType, bBody, bNum);
+    } else if(aType == TYPE_OBSTACLE && bType == TYPE_PLAYER) {
+        setPlayerBoundRatio(bBody, aType, aBody, aNum);
+    }
+    
+}
+
+//どのオブジェクトに衝突したかによって、プレイヤーの速度の減衰率を調整
+void CContactListener::setPlayerBoundRatio(b2Body *playerBody, int npType, b2Body *npBody, int npNum) {
+    HelloWorld* hw = HelloWorld::Instance;
+    switch (npType) {
+        case TYPE_PLAYER:
+        {
+            playerBody->SetLinearDamping(0.6f);
+            npBody->SetLinearDamping(0.6f);
+            break;
+        }
+        case TYPE_ENEMY:
+        {
+            npBody->SetLinearDamping(hw->enemys[npNum]->getPlayerBoundRatio());
+//            npBody->SetLinearDamping(e->getPlayerBoundRatio());
+            break;
+        }
+        case TYPE_OBSTACLE:
+        {
+            npBody->SetLinearDamping(hw->obstacles[npNum]->getPlayerBoundRatio());
+//            Obstacle *o = hw->obstacles[npNum];
+//            bodyP1->SetLinearDamping(o->getPlayerBoundRatio());
+            break;
+        }
+        default:
+            break;
+    }
+    
 }
 
 

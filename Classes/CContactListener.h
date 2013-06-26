@@ -16,6 +16,7 @@
 #define TYPE_NULL 0
 #define TYPE_PLAYER 1
 #define TYPE_ENEMY 2
+#define TYPE_OBSTACLE 3
 
 
 class CContactListener : public b2ContactListener {
@@ -32,6 +33,9 @@ private:
     
     bool isContactedToEnemy;
     int contactPlayerNum;
+    
+    //np => Not Player
+    void setPlayerBoundRatio(b2Body *playerBody, int npType, b2Body *npBody, int npNum);
 };
 
 #endif /* defined(__box2d__CContactListener__) */
