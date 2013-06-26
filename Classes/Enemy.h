@@ -54,6 +54,7 @@ public:
                 decreaseRatio = 14;
                 break;
         }
+        _kind = kind;
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create(imageName, 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
         
@@ -86,6 +87,9 @@ public:
     // 体力
     int hp;
     
+    // インスタンスの種類
+    int _kind;
+    
     // プレイヤーの反発係数 (プレイヤーの攻撃からどの程度自分が跳ね返るか)
     int decreaseRatio;
     
@@ -100,6 +104,9 @@ public:
     
     // 無敵状態を解除する
     void setNoInvincible();
+
+    //プレイヤーのバウンド率を取得する
+    int getPlayerBoundRatio();
 };
 
 #endif /* defined(__ScrollAndPickUp__Enemy__) */

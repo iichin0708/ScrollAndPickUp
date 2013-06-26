@@ -26,6 +26,8 @@ public:
         width = imgSize.width;
         height = imgSize.height;
         
+        setKind(imgName);
+        
         sprite->initWithTexture(m_pSpriteTexture, cocos2d::CCRectMake(0,0,width,height));
         sprite->autorelease();
         //sprite->setTag(sprite_id++);
@@ -45,9 +47,19 @@ public:
     // 画像のサイズ
     float width, height;
     
+    // 障害物の種類
+    int _kind;
+    
     cocos2d::CCSize getImgSize();
     
     cocos2d::CCPoint getObstaclePosition();
+
+    int getKind();
+    
+    //プレイヤーのバウンド率を取得する
+    int getPlayerBoundRatio();
+private:
+    void setKind(const char *imgName);
 };
 
 #endif /* defined(__ScrollAndPickUp__Obstacle__) */

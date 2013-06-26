@@ -31,7 +31,8 @@ void RigidBody::createCircleBody(CCPoint location, PhysicsSprite *pSprite, float
             bodyDef.type = b2_dynamicBody;
             break;
         case TAG_OBSTACLE:
-            bodyDef.type = b2_staticBody;
+            bodyDef.type = b2_dynamicBody;
+            density = 10000.0f;
             break;
         default:
             break;
@@ -40,6 +41,9 @@ void RigidBody::createCircleBody(CCPoint location, PhysicsSprite *pSprite, float
 
     //一律で減衰率は8.0
     bodyDef.linearDamping = 8.0;
+
+    //回転を許さない
+    bodyDef.fixedRotation = true;
     
     World *world = World::getInstance();
     
@@ -80,7 +84,8 @@ void RigidBody::createBoxBody(CCPoint location, PhysicsSprite *pSprite, CCSize c
             bodyDef.type = b2_dynamicBody;
             break;
         case TAG_OBSTACLE:
-            bodyDef.type = b2_staticBody;
+            bodyDef.type = b2_dynamicBody;
+            density = 10000.0f;
             break;
         default:
             break;
@@ -89,6 +94,9 @@ void RigidBody::createBoxBody(CCPoint location, PhysicsSprite *pSprite, CCSize c
     
     //一律で減衰率は8.0
     bodyDef.linearDamping = 8.0;
+    
+    //回転を許さない
+    bodyDef.fixedRotation = true;
     
     World *world = World::getInstance();
     

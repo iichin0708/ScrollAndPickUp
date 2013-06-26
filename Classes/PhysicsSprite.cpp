@@ -49,13 +49,13 @@ CCAffineTransform PhysicsSprite::nodeToParentTransform(void)
     float s = sinf(radians);
     
     if( ! m_obAnchorPointInPoints.equals(CCPointZero) ){
-        x += c*-m_obAnchorPointInPoints.x + -s*-m_obAnchorPointInPoints.y;
-        y += s*-m_obAnchorPointInPoints.x + c*-m_obAnchorPointInPoints.y;
+        x += c*-m_obAnchorPointInPoints.x * m_fScaleX + -s*-m_obAnchorPointInPoints.y * m_fScaleY;
+        y += s*-m_obAnchorPointInPoints.x * m_fScaleX + c*-m_obAnchorPointInPoints.y * m_fScaleY;
     }
     
     // Rot, Translate Matrix
-    m_sTransform = CCAffineTransformMake( c,  s,
-                                        -s,    c,
+    m_sTransform = CCAffineTransformMake( c * m_fScaleX,  s * m_fScaleX,
+                                        -s * m_fScaleY,    c * m_fScaleY,
                                          x,    y );
     
     return m_sTransform;

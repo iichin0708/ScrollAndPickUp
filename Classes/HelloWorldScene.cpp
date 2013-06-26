@@ -294,20 +294,20 @@ void HelloWorld::setObstacle() {
 
     //作成するShape(当たり判定の形)は丸とする.
     //(parent, 画像名, 画像サイズ, 当たり判定サイズ, 初期位置, Shapeの形, 質量, 摩擦, 反発係数)となっている. boxの場合は当たり判定に縦と横のサイズを渡すが、cricleの場合は半径を渡す.
-    obstacles[8] = new Obstacle(this, "saku01.png", CCSizeMake(55, 392), CCSizeMake(55 / 2, 392 / 2), CCPointMake(40, 320), BOX_SHAPE, 1.0f, 0.6f, 0.4f);
-    obstacles[9] = new Obstacle(this, "saku02.png", CCSizeMake(49, 279), CCSizeMake(49 / 2, 279 / 2), CCPointMake(40, 1200), BOX_SHAPE, 1.0f, 0.6f, 0.4f);
+    obstacles[8] = new Obstacle(this, "saku01.png", CCSizeMake(55, 392), CCSizeMake(55 / 2, 392 / 2), CCPointMake(40, 320), BOX_SHAPE, 0.0f, 0.0f, 0.0f);
+    obstacles[9] = new Obstacle(this, "saku02.png", CCSizeMake(49, 279), CCSizeMake(49 / 2, 279 / 2), CCPointMake(40, 1200), BOX_SHAPE, 0.0f, 0.0f, 0.0f);
     
     obstacles[0] = new Obstacle(this, "wood01.png", CCSizeMake(228, 285), CCSizeMake(228 / 2, 228 / 2), CCPointMake(550, 300), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-    obstacles[1] = new Obstacle(this, "wood02.png", CCSizeMake(183, 248), CCSizeMake(183 / 2, 183 / 2), CCPointMake(100, 1600), CIRCLE_SHAPE, 1.0f, 0.6f, 0.4f);
-    obstacles[2] = new Obstacle(this, "wood03.png", CCSizeMake(157, 170), CCSizeMake(157 / 2, 157 / 2), CCPointMake(400, 1050), CIRCLE_SHAPE, 1.0f, 0.6f, 0.4f);
-    obstacles[3] = new Obstacle(this, "wood04.png", CCSizeMake(190, 135), CCSizeMake(135 / 2, 135 / 2), CCPointMake(180, 200), CIRCLE_SHAPE, 1.0f, 0.6f, 0.2f);
-    obstacles[4] = new Obstacle(this, "wood05.png", CCSizeMake(174, 145), CCSizeMake(145 / 2, 145 / 2), CCPointMake(180, 1980), CIRCLE_SHAPE, 1.0f, 0.6f, 0.2f);
-    obstacles[5] = new Obstacle(this, "wood06.png", CCSizeMake(95, 83), CCSizeMake(95 / 2, 95 / 2), CCPointMake(550, 1800), CIRCLE_SHAPE, 1.0f, 0.6f, 0.2f);
+    obstacles[1] = new Obstacle(this, "wood02.png", CCSizeMake(183, 248), CCSizeMake(183 / 2, 183 / 2), CCPointMake(100, 1600), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
+    obstacles[2] = new Obstacle(this, "wood03.png", CCSizeMake(157, 170), CCSizeMake(157 / 2, 157 / 2), CCPointMake(400, 1050), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
+    obstacles[3] = new Obstacle(this, "wood04.png", CCSizeMake(190, 135), CCSizeMake(135 / 2, 135 / 2), CCPointMake(180, 200), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
+    obstacles[4] = new Obstacle(this, "wood05.png", CCSizeMake(174, 145), CCSizeMake(145 / 2, 145 / 2), CCPointMake(180, 1980), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
+    obstacles[5] = new Obstacle(this, "wood06.png", CCSizeMake(95, 83), CCSizeMake(95 / 2, 95 / 2), CCPointMake(550, 1800), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
 //    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(246, 278), CCPointMake(120, 750), 1.0f, 0.6f, 0.6f);
-    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(278, 168), CCSizeMake(168 / 2, 168 / 2), CCPointMake(120, 780), CIRCLE_SHAPE, 1.0f, 0.6f, 0.2f);
-    obstacles[7] = new Obstacle(this, "wood08.png", CCSizeMake(81, 40), CCSizeMake(40 / 2, 40 / 2), CCPointMake(550, 1500), CIRCLE_SHAPE, 1.0f, 0.6f, 0.4f);
-    obstacles[10] = new Obstacle(this, "iwa01.png", CCSizeMake(192, 131), CCSizeMake(131 / 2, 131 / 2), CCPointMake(400, 550), CIRCLE_SHAPE, 1.0f, 0.6f, 0.6f);
-    obstacles[11] = new Obstacle(this, "iwa02.png", CCSizeMake(268, 168), CCSizeMake(168 / 2, 0), CCPointMake(500, 1620), CIRCLE_SHAPE, 1.0f, 0.6f, 0.6f);
+    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(278, 168), CCSizeMake(168 / 2, 168 / 2), CCPointMake(120, 780), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
+    obstacles[7] = new Obstacle(this, "wood08.png", CCSizeMake(81, 40), CCSizeMake(40 / 2, 40 / 2), CCPointMake(550, 1500), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
+    obstacles[10] = new Obstacle(this, "iwa01.png", CCSizeMake(192, 131), CCSizeMake(131 / 2, 131 / 2), CCPointMake(400, 550), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
+    obstacles[11] = new Obstacle(this, "iwa02.png", CCSizeMake(268, 168), CCSizeMake(168 / 2, 0), CCPointMake(500, 1620), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
 }
 //idを持つ剛体を終点から始点のベクトルにボディを飛ばす
 void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
@@ -491,10 +491,7 @@ void HelloWorld::update(float dt)
     // プレイヤーの毎フレーム実行する処理
     for(int i = 0; i < PLAYER_NUM; i++) {
         if(monkeys[i] == NULL) continue;
-        //回転を止める
-        monkeys[i]->getBody()->SetTransform(b2Vec2(monkeys[i]->getBody()->GetPosition().x,
-                                                   monkeys[i]->getBody()->GetPosition().y), 0);
-        
+                
         //そのターンのプレイヤーにポインタの表示.
         if(i == Player::getPlayerTurnId()){
             //カーソルの表示
@@ -547,8 +544,10 @@ void HelloWorld::update(float dt)
     for(int i = 0; i < ENEMY_NUM; i++) {
         if(enemys[i] == NULL) continue;
         //回転を止める
+        /*
         enemys[i]->getBody()->SetTransform(b2Vec2(enemys[i]->getBody()->GetPosition().x,
                                                   enemys[i]->getBody()->GetPosition().y), 0);
+         */
         //CCSprite sprite = enemys[i]->getBody()->GetUserData();
         enemys[i]->hpSprite->setPosition(ccp(enemys[i]->getBody()->GetPosition().x * PTM_RATIO,
                                              enemys[i]->getBody()->GetPosition().y * PTM_RATIO - enemys[i]->height / 2));
@@ -795,6 +794,7 @@ void HelloWorld::moveMapWithObject(b2Body *moveObjectBody) {
     moveObjectVec = touchObjectBody->GetLinearVelocity();
     if( (-1.0f < moveObjectVec.x && moveObjectVec.x < 1.0f) && (-1.0f < moveObjectVec.y && moveObjectVec.y < 1.0f)) {
         isMoving = false;
+        moveObjectBody->SetLinearDamping(8.0f);
         this->scheduleOnce(schedule_selector(HelloWorld::playerChange), 0.5f);
         
     }

@@ -34,3 +34,21 @@ void Enemy::setNoInvincible()
 {
     isInvincible = false;
 }
+
+// プレイヤーのバウンド率の調整
+int Enemy::getPlayerBoundRatio() {
+    switch(_kind) {
+        case KIND_DRAGON:
+            return 10.0f;
+            break;
+        case KIND_GOBLIN:
+            return 9.0f;
+            break;
+        case KIND_ONION:
+            return 8.0f;
+            break;
+        default:
+            return -1;
+            break;
+    }
+}
