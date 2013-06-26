@@ -512,7 +512,7 @@ void HelloWorld::update(float dt)
             enemys[i]->hpSprite->setVisible(false);
             
             /*
-            // 水しぶきのエフェクト
+            // 水しぶきのエフェクト(CCJump)
             for(int j = 0; j < WATER_NUM; j++) {
                 if(waters[j]->getVisible()) continue;
                 waters[j]->setPosition(enemys[i]->getBody()->GetPosition().x*PTM_RATIO,
@@ -535,10 +535,9 @@ void HelloWorld::update(float dt)
                 if(countWater >= 5) break;
             }
             
-
-        
             removeChild((PhysicsSprite*)enemys[i]->getBody()->GetUserData());
             destroyObject((RigidBody *&)enemys[i]);
+            isContacted = false;
         }
     }
 }
@@ -551,10 +550,10 @@ void HelloWorld::playerChange() {
 void HelloWorld::moveMapWithObject(b2Body *moveObjectBody) {
     b2Vec2 moveObjectVec = moveObjectBody->GetLinearVelocity();
     moveObjectVec = touchObjectBody->GetLinearVelocity();
-    if( (-1.0f < moveObjectVec.x && moveObjectVec.x < 1.0f) && (-1.0f < moveObjectVec.y && moveObjectVec.y < 1.0f)) {
-        
+    if( (-1.0f < moveObjectVec.x && moveObjectVec.x < 1.0f) &&
+        (-1.0f < moveObjectVec.y && moveObjectVec.y < 1.0f) )
+    {
         this->scheduleOnce(schedule_selector(HelloWorld::playerChange), 0.5f);
-
     }
     
     CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
