@@ -11,6 +11,7 @@
 // When you import this file, you import all the cocos2d classes
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
+#include "AppDelegate.h"
 #include "RigidBody.h"
 #include "Player.h"
 #include "Field.h"
@@ -56,6 +57,10 @@ public:
     
     // returns a Scene that contains the HelloWorld as the only child
     static cocos2d::CCScene* scene();
+    
+    // 実際の画面サイズ
+    static int realDispWidth;
+    static int realDispHeight;
     
     void initPhysics();
     // adds a new sprite at a given coordinate
@@ -104,6 +109,9 @@ public:
     
     // 攻撃をしたプレイヤーのインデックス
     int pIndex;
+    
+    // ゲームオーバーフラグ
+    bool isGameover;
     
 private:
     //    b2World* world;

@@ -273,6 +273,8 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/HelloWorldScene.o: \
  /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../external/Box2D/../Box2D/Dynamics/Joints/b2RevoluteJoint.h \
  /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../external/Box2D/../Box2D/Dynamics/Joints/b2RopeJoint.h \
  /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../external/Box2D/../Box2D/Dynamics/Joints/b2WeldJoint.h \
+ jni/../../Classes/AppDelegate.h \
+ /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../cocos2dx/platform/android/CCApplication.h \
  jni/../../Classes/RigidBody.h jni/../../Classes/PhysicsSprite.h \
  jni/../../Classes/World.h jni/../../Classes/GLES-Render.h \
  jni/../../Classes/Player.h jni/../../Classes/Field.h \
@@ -829,6 +831,10 @@ jni/../../Classes/HelloWorldScene.h:
 /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../external/Box2D/../Box2D/Dynamics/Joints/b2RopeJoint.h:
 
 /Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../external/Box2D/../Box2D/Dynamics/Joints/b2WeldJoint.h:
+
+jni/../../Classes/AppDelegate.h:
+
+/Users/gpn/Documents/cocos2d-x/cocos2d-2.1rc0-x-2.1.3/projects/ScrollAndPickUp/proj.android/../../../cocos2dx/platform/android/CCApplication.h:
 
 jni/../../Classes/RigidBody.h:
 

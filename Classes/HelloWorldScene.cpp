@@ -30,6 +30,9 @@ enum {
 
 int HelloWorld::sprite_id = 2;
 
+int HelloWorld::realDispWidth = 0;
+int HelloWorld::realDispHeight = 0;
+
 HelloWorld::HelloWorld()
 {
     /*
@@ -46,10 +49,9 @@ HelloWorld::HelloWorld()
     */
 
     isMoving = false;
-    
     isContacted = false;
-    
     isTrace = true;
+    isGameover = false;
     
     // 自分自身を静的メンバーから参照できるように設定
     HelloWorld:Instance = this;
@@ -79,7 +81,7 @@ HelloWorld::HelloWorld()
     
     cursor = new Cursor();
     cursor->setPosition(100, 100);
-    cursor->setVisible(false);
+    //cursor->setVisible(false);
     addChild(cursor->getSprite());
     
     // 敵の用意
@@ -106,7 +108,6 @@ HelloWorld::HelloWorld()
     for(int i = 0; i < COIN_NUM; i++) {
         coins[i] = new Coin();
         coins[i]->setVisible(false, 0);
-        //coins[i]->setPosition(100, 100);
         addChild(coins[i]->getSprite());
     }
     
@@ -146,13 +147,13 @@ HelloWorld::HelloWorld()
     
     // 終了ボタン
     CCMenuItemImage *pCloseItem =
-    CCMenuItemImage::create(
-                            "button_close.png",
+    CCMenuItemImage::create("button_close.png",
                             "button_close_pressed.png",
                             this,
                             menu_selector(HelloWorld::menuCloseCallback));
     pCloseItem->setPosition(ccp(s.width - pCloseItem->getContentSize().width / 2,
-                                pCloseItem->getContentSize().height / 2));
+                                pCloseItem->getContentSize().height / 2 + 100));
+    
     CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu);
@@ -168,8 +169,6 @@ HelloWorld::HelloWorld()
     world->setContactListener();
     
     scheduleUpdate();
-    
-    CCLOG("width = %f  :  height = %f", s.width, s.height);
 }
 
 HelloWorld::~HelloWorld()
@@ -374,13 +373,29 @@ void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
     isMoving = true;
     
     Player::playerTurnId++;
-    // 次ターンのプレイヤーがいなければ順番を飛ばす(全員いなければ無限ループになります！要修正)
+    
+    // 次ターンのプレイヤーがいなければ順番を飛ばす
     while(monkeys[Player::getPlayerTurnId()] == NULL ||
-          monkeys[Player::getPlayerTurnId()]->isFalled) Player::playerTurnId++;
+          monkeys[Player::getPlayerTurnId()]->isFalled) {
+        Player::playerTurnId++;
+    }
 }
 
 void HelloWorld::update(float dt)
 {
+    int countPlayer = 0;
+    // 対象のプレイヤーがいなければ順番を飛ばす
+    for(int i = 0; i < PLAYER_NUM; i++) {
+        if(monkeys[Player::getPlayerTurnId()] == NULL ||
+           monkeys[Player::getPlayerTurnId()]->isFalled) {
+            Player::playerTurnId++;
+        } else {
+            countPlayer++;
+        }
+    }
+    if(countPlayer < 1) {
+        isGameover = true;
+    }
     
     if(isContacted && // 衝突した
        enemys[contactEnemyindex] != NULL && // 指定の敵配列が空でない
@@ -420,9 +435,9 @@ void HelloWorld::update(float dt)
     }
     
     //動いている物体と同時にマップを動かす
-    if (isMoving) {
-//         moveMapWithObject(touchObjectBody->GetLinearVelocity());
-            moveMapWithObject(touchObjectBody);
+    if (isMoving && touchObjectBody != NULL) {
+        //moveMapWithObject(touchObjectBody->GetLinearVelocity());
+        moveMapWithObject(touchObjectBody);
     }
     
     
