@@ -364,8 +364,8 @@ void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
         angleAndSpeed.x = angleAndSpeed.x * 0.35;
         angleAndSpeed.y = angleAndSpeed.y * 0.35;
     } else if (175 <= distance) {
-        angleAndSpeed.x = angleAndSpeed.x * 1.0f;
-        angleAndSpeed.y = angleAndSpeed.y * 1.0f;
+        angleAndSpeed.x = angleAndSpeed.x * 0.5f;
+        angleAndSpeed.y = angleAndSpeed.y * 0.5f;
     }
     
     //CCLog("angeleX = %f, angleY = %f", angleAndSpeed.x, angleAndSpeed.y);
@@ -441,6 +441,12 @@ void HelloWorld::update(float dt)
     
     //動いている物体と同時にマップを動かす
     if (isMoving && touchObjectBody != NULL) {
+        b2Vec2 vec = touchObjectBody->GetLinearVelocity();
+        CCLog("vec.x = %f, vec.y = %f", vec.x, vec.y);
+        //最後にスーっと動くように。
+        if((-10 < vec.x && vec.x < 10) && (-10 < vec.y && vec.y < 10)) {
+            touchObjectBody->SetLinearDamping(4.0f);
+        }
         //moveMapWithObject(touchObjectBody->GetLinearVelocity());
         moveMapWithObject(touchObjectBody);
     }
@@ -796,7 +802,7 @@ void HelloWorld::moveMapWithObject(b2Body *moveObjectBody) {
         isMoving = false;
         moveObjectBody->SetLinearDamping(8.0f);
         this->scheduleOnce(schedule_selector(HelloWorld::playerChange), 0.5f);
-        
+        CCLog("");
     }
     
     CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
