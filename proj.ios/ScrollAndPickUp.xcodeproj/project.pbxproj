@@ -208,6 +208,8 @@
 		D3C68AA11779771600DA1BE9 /* wood07.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A961779771600DA1BE9 /* wood07.png */; };
 		D3C68AA21779771600DA1BE9 /* wood08.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A971779771600DA1BE9 /* wood08.png */; };
 		D3C68AA817798B5200DA1BE9 /* wood03.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C68AA717798B5200DA1BE9 /* wood03.png */; };
+		D3C68AB017799CA100DA1BE9 /* Water.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3C68AAE17799C4B00DA1BE9 /* Water.cpp */; };
+		D3C68AB217799CD700DA1BE9 /* water.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C68AB117799CD700DA1BE9 /* water.png */; };
 		D3FF4D10177148CC00037D94 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = D3FF4D0F177148CC00037D94 /* blocks.png */; };
 		D3FF515317738BD900037D94 /* CContactListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FF514317738BD900037D94 /* CContactListener.cpp */; };
 		D3FF515417738BD900037D94 /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FF514517738BD900037D94 /* Enemy.cpp */; };
@@ -616,6 +618,9 @@
 		D3C68A961779771600DA1BE9 /* wood07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood07.png; sourceTree = "<group>"; };
 		D3C68A971779771600DA1BE9 /* wood08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood08.png; sourceTree = "<group>"; };
 		D3C68AA717798B5200DA1BE9 /* wood03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood03.png; sourceTree = "<group>"; };
+		D3C68AAE17799C4B00DA1BE9 /* Water.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Water.cpp; path = ../Classes/Water.cpp; sourceTree = "<group>"; };
+		D3C68AAF17799C4B00DA1BE9 /* Water.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Water.h; path = ../Classes/Water.h; sourceTree = "<group>"; };
+		D3C68AB117799CD700DA1BE9 /* water.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = water.png; sourceTree = "<group>"; };
 		D3FF4D0F177148CC00037D94 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blocks.png; sourceTree = "<group>"; };
 		D3FF514317738BD900037D94 /* CContactListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CContactListener.cpp; sourceTree = "<group>"; };
 		D3FF514417738BD900037D94 /* CContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CContactListener.h; sourceTree = "<group>"; };
@@ -1165,6 +1170,8 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D3C68AAE17799C4B00DA1BE9 /* Water.cpp */,
+				D3C68AAF17799C4B00DA1BE9 /* Water.h */,
 				D3FF517A17747F4F00037D94 /* Coin.cpp */,
 				D3FF517B17747F4F00037D94 /* Coin.h */,
 				D3FF515B17738C0300037D94 /* AppDelegate.cpp */,
@@ -1292,6 +1299,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D3C68AB117799CD700DA1BE9 /* water.png */,
 				D3C68A8D1779771600DA1BE9 /* iwa01.png */,
 				D3C68A8E1779771600DA1BE9 /* iwa02.png */,
 				D3C68A8F1779771600DA1BE9 /* saku01.png */,
@@ -1467,6 +1475,7 @@
 				D3C68AA11779771600DA1BE9 /* wood07.png in Resources */,
 				D3C68AA21779771600DA1BE9 /* wood08.png in Resources */,
 				D3C68AA817798B5200DA1BE9 /* wood03.png in Resources */,
+				D3C68AB217799CD700DA1BE9 /* water.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1477,6 +1486,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3C68AB017799CA100DA1BE9 /* Water.cpp in Sources */,
 				15A3D8FF1682F7D5002FB0C5 /* b2BroadPhase.cpp in Sources */,
 				15A3D9001682F7D5002FB0C5 /* b2CollideCircle.cpp in Sources */,
 				15A3D9011682F7D5002FB0C5 /* b2CollideEdge.cpp in Sources */,
