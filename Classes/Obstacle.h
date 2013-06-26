@@ -17,7 +17,7 @@
 class Obstacle : public RigidBody {
 public:
     // コンストラクタ
-    Obstacle(cocos2d::CCNode* parent, const char *imgName, cocos2d::CCSize imgSize, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody() {
+    Obstacle(cocos2d::CCNode* parent, const char *imgName, cocos2d::CCSize imgSize, cocos2d::CCSize collisionSize, cocos2d::CCPoint location, int shapeTag, float density, float friction, float restitution) : RigidBody() {
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create(imgName, 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
         
@@ -33,7 +33,11 @@ public:
         
         parent->addChild(sprite);
         
-        createBody(location, sprite, density, friction, restitution);
+        if (shapeTag == CIRCLE_SHAPE) {
+            createCircleBody(location, sprite, collisionSize.width, density, friction, restitution);
+        } else if (shapeTag == BOX_SHAPE) {
+            createBoxBody(location, sprite, collisionSize, density, friction, restitution);
+        }
         
         //画面に表示する.
         sprite->setPhysicsBody(_body);
