@@ -278,7 +278,7 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/World.o: \
  jni/../../Classes/Field.h jni/../../Classes/Enemy.h \
  jni/../../Classes/Coin.h jni/../../Classes/Ghost.h \
  jni/../../Classes/Cursor.h jni/../../Classes/HitEffect.h \
- jni/../../Classes/Water.h
+ jni/../../Classes/Obstacle.h jni/../../Classes/Water.h
 
 jni/../../Classes/CContactListener.h:
 
@@ -849,5 +849,7 @@ jni/../../Classes/Ghost.h:
 jni/../../Classes/Cursor.h:
 
 jni/../../Classes/HitEffect.h:
+
+jni/../../Classes/Obstacle.h:
 
 jni/../../Classes/Water.h:
