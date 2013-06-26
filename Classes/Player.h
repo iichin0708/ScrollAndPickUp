@@ -7,6 +7,7 @@
 #include "RigidBody.h"
 
 #define PLAYER_NUM 3
+#define OFFENSE 1;
 
 class Player : public RigidBody
 {
@@ -21,6 +22,7 @@ public:
     
     Player(cocos2d::CCNode* parent, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody() {
         isFalled = false;
+        offense = OFFENSE;
         
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create("001.png", 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
@@ -39,7 +41,7 @@ public:
         
         //画面に表示する.
         sprite->setPhysicsBody(_body);
-        
+        //sprite->setScale(2);
     }
     
     // 画像のサイズ
@@ -52,6 +54,9 @@ public:
     
     // 水に落ちているかどうかのフラグ
     bool isFalled;
+    
+    // 攻撃力
+    int offense;
 };
 
 #endif /* defined(__ScrollAndPickUp__Player__) */

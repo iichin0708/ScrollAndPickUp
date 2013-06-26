@@ -4,11 +4,13 @@
 USING_NS_CC;
 
 // 攻撃を受ける
-void Enemy::damaged() {
-    hp--;
+void Enemy::damaged(int offence) {
+    hp -= offence;
 
     if(hp > 0) {
         isInvincible = true;
+        
+        barSprite->setScaleX((float)hp/maxHp);
         
         // 回転アクション（回転せず、0.7秒の間を持たせる＝無敵時間）
         cocos2d::CCActionInterval* action1 = cocos2d::CCRotateBy::create(0.7f, 0);
@@ -19,11 +21,7 @@ void Enemy::damaged() {
         
         PhysicsSprite* sprite = (PhysicsSprite*)this->getBody()->GetUserData();
         sprite->runAction(action);
-    }
-    
-    if(hp <= 1 && hp > 0) {
-        hpSprite->setTexture(cocos2d::CCTextureCache::sharedTextureCache()->addImage("hp1-2.png"));
-    } else if (hp <= 0) {
+    } else {
         hpSprite->setVisible(false);
     }
 }
