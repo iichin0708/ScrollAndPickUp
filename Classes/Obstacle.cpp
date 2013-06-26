@@ -17,16 +17,18 @@ cocos2d::CCPoint Obstacle::getObstaclePosition() {
     return obstaclePoint;
 }
 
+// プレイヤーのバウンド率の調整
 int Obstacle::getPlayerBoundRatio() {
     switch (_kind) {
+        //岩
         case 0: case 1:
+            return 8.0f;
+        //木と柵
+        case 2: case 3: case 4: case 5: case 6:
             return 6.0f;
-        case 2: case 3:
+        //草むら系
+       case 7:  case 8:  case 9: case 10: case 11:
             return 4.0f;
-        case 4:  case 5:  case 6:
-        case 7:  case 8:  case 9:
-        case 10: case 11:
-            return 2.0f;
         default:
             return 0;
     }
