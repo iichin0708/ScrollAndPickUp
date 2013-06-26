@@ -6,7 +6,7 @@ USING_NS_CC;
 // 攻撃を受ける
 void Enemy::damaged() {
     hp--;
-    
+
     if(hp > 0) {
         isInvincible = true;
         

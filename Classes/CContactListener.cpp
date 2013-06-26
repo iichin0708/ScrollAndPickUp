@@ -224,7 +224,7 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
             bType = TYPE_ENEMY;
         }
     }
-    
+
     // プレイヤーと敵の接触の場合
     if(aType == TYPE_PLAYER && bType == TYPE_ENEMY) {
         if( ! hw->enemys[bNum]->isInvincible ) {
