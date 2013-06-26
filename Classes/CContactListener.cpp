@@ -294,6 +294,12 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
 
 //どのオブジェクトに衝突したかによって、プレイヤーの速度の減衰率を調整
 void CContactListener::setPlayerBoundRatio(b2Body *playerBody, int npType, b2Body *npBody, int npNum) {
+    //プレイヤーの速度を取得
+    b2Vec2 playerVec = playerBody->GetLinearVelocity();
+    if ((-10 < playerVec.x && playerVec.x < 10) || (-10 < playerVec.y && playerVec.y < 10)) {
+        return;
+    }
+    
     HelloWorld* hw = HelloWorld::Instance;
     switch (npType) {
         case TYPE_PLAYER:
@@ -305,14 +311,11 @@ void CContactListener::setPlayerBoundRatio(b2Body *playerBody, int npType, b2Bod
         case TYPE_ENEMY:
         {
             playerBody->SetLinearDamping(hw->enemys[npNum]->getPlayerBoundRatio());
-//            npBody->SetLinearDamping(e->getPlayerBoundRatio());
             break;
         }
         case TYPE_OBSTACLE:
         {
             playerBody->SetLinearDamping(hw->obstacles[npNum]->getPlayerBoundRatio());
-//            Obstacle *o = hw->obstacles[npNum];
-//            bodyP1->SetLinearDamping(o->getPlayerBoundRatio());
             break;
         }
         default:
