@@ -252,6 +252,7 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
             hw->isContacted = true;
             isContactedToEnemy = true;
             contactPlayerNum = aNum;
+            hw->contactPlayerOffence = hw->monkeys[aNum]->offense;
             hw->contactEnemyindex = bNum;
             hw->pIndex = aNum;
             
@@ -269,6 +270,7 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
             hw->isContacted = true;
             isContactedToEnemy = true;
             contactPlayerNum = bNum;
+            hw->contactPlayerOffence = hw->monkeys[bNum]->offense;
             hw->contactEnemyindex = aNum;
             hw->pIndex = bNum;
             
