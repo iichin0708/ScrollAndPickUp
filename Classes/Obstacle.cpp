@@ -22,13 +22,13 @@ int Obstacle::getPlayerBoundRatio() {
     switch (_kind) {
         //岩
         case 0: case 1:
-            return 8.0f;
+            return 10.0f;
         //木と柵
         case 2: case 3: case 4: case 5: case 6:
-            return 10.0f;
+            return 9.0f;
         //草むら系
        case 7:  case 8:  case 9: case 10: case 11:
-            return 12.0f;
+            return 8.0f;
         default:
             return 0;
     }
