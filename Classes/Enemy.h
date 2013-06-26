@@ -27,11 +27,12 @@ public:
                 imageName = "004.png";//"004.png";
                 width = 80;
                 height = 80;
-                hp = 1;
+                hp = 2;
+                density = 2.5f;
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 0.8f;
                 //自身の吹っ飛び率
-                decreaseRatio = 4;
+                decreaseRatio = 10;
                 break;
                 
             case KIND_GOBLIN:
@@ -39,6 +40,7 @@ public:
                 width = 115;
                 height = 121;
                 hp = 2;
+                density = 3.0f;
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 1.0f;
                 decreaseRatio =10;
@@ -49,6 +51,7 @@ public:
                 width = 150;
                 height = 150;
                 hp = 4;
+                density = 3.5f;
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 1.5f;
                 decreaseRatio = 14;

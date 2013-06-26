@@ -111,7 +111,7 @@ HelloWorld::HelloWorld()
         addChild(coins[i]->getSprite());
     }
     
-    // 敵キャラの用意
+    // 幽霊の用意
     for(int i = 0; i < ENEMY_NUM; i++) {
         ghosts[i] = new Ghost();
         ghosts[i]->setVisible(false);
@@ -442,7 +442,7 @@ void HelloWorld::update(float dt)
     //動いている物体と同時にマップを動かす
     if (isMoving && touchObjectBody != NULL) {
         b2Vec2 vec = touchObjectBody->GetLinearVelocity();
-        CCLog("vec.x = %f, vec.y = %f", vec.x, vec.y);
+        //CCLog("vec.x = %f, vec.y = %f", vec.x, vec.y);
         //最後にスーっと動くように。
         if((-10 < vec.x && vec.x < 10) && (-10 < vec.y && vec.y < 10)) {
             touchObjectBody->SetLinearDamping(4.0f);
@@ -802,7 +802,7 @@ void HelloWorld::moveMapWithObject(b2Body *moveObjectBody) {
         isMoving = false;
         moveObjectBody->SetLinearDamping(8.0f);
         this->scheduleOnce(schedule_selector(HelloWorld::playerChange), 0.5f);
-        CCLog("");
+        //CCLog("");
     }
     
     CCSize dispSize = CCDirector::sharedDirector()->getWinSize();

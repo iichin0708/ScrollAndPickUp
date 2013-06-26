@@ -58,7 +58,7 @@ void CContactListener::BeginContact(b2Contact *contact) {
 void CContactListener::EndContact(b2Contact *contact) {
     //敵とぶつかったなら
     if(isContactedToEnemy) {
-        HelloWorld* hw = HelloWorld::Instance;
+/*    HelloWorld* hw = HelloWorld::Instance;
         Player *player = hw->monkeys[contactPlayerNum];
         b2Body *pBody = player->getBody();
         b2Vec2 pVec = pBody->GetLinearVelocity();
@@ -74,7 +74,7 @@ void CContactListener::EndContact(b2Contact *contact) {
         pVec.y *= boundRatio;
         //CCLog("pVec.x = %f, pVec.y = %f", pVec.x, pVec.y);
         pBody->SetLinearVelocity(pVec);
-        isContactedToEnemy = false;
+*/      isContactedToEnemy = false;
     }
 }
 
@@ -296,7 +296,7 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
 void CContactListener::setPlayerBoundRatio(b2Body *playerBody, int npType, b2Body *npBody, int npNum) {
     //プレイヤーの速度を取得
     b2Vec2 playerVec = playerBody->GetLinearVelocity();
-    if ((-10 < playerVec.x && playerVec.x < 10) || (-10 < playerVec.y && playerVec.y < 10)) {
+    if ((-30 < playerVec.x && playerVec.x < 30) && (-30 < playerVec.y && playerVec.y < 30)) {
         return;
     }
     
