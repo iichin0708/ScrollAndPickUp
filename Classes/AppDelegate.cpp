@@ -28,8 +28,10 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     // initialize director
     CCDirector *pDirector = CCDirector::sharedDirector();
+
     CCEGLView* pEGView = CCEGLView::sharedOpenGLView();
     pDirector->setOpenGLView(pEGView);
+    
     
     //pEGView->setDesignResolutionSize(DISP_WIDTH, DISP_HEIGHT, kResolutionShowAll);
     pEGView->setDesignResolutionSize(DISP_WIDTH, DISP_HEIGHT, kResolutionNoBorder);

@@ -11,6 +11,7 @@
 
 #include "CCApplication.h"
 
+// 想定の画面サイズ
 #define DISP_WIDTH 720
 #define DISP_HEIGHT 1280
 
