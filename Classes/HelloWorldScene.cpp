@@ -232,10 +232,10 @@ void HelloWorld::offWait()
     CCRotateBy* actionBlank = CCRotateBy::create(1.0f, 1);
     CCFadeOut* actionFadeOut = CCFadeOut::create(1.0f);
     CCCallFunc* actionStart = CCCallFunc::create(this, callfunc_selector(HelloWorld::offReady));
-    CCSequence* actionIntro1 = CCSequence::create(actionBlank, actionFadeOut);
-    CCSequence* actionIntro2 = CCSequence::create(actionIntro1, actionStart);
+    CCSequence* actionIntro1 = CCSequence::create(actionFadeOut, actionStart);
     
-    readyLabel->runAction(actionIntro2);
+    readyLabel->runAction(actionIntro1);
+    
     
     addChild(readyLabel);
 }
