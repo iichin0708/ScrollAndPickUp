@@ -126,6 +126,61 @@ b2Body* RigidBody::getBody() {
     return _body;
 }
 
+//ベクトルから向いている角度を取得
+float RigidBody::getAngle(b2Vec2 vec) {
+    
+    //矢印の回転
+    float arcRadian = atanf(vec.y / vec.x);
+    //ラジアンを角度に変換
+    float arcDegree =  CC_RADIANS_TO_DEGREES(arcRadian);
+    
+    CCLog("b2Vec2.x = %f, b2Vec2.y = %f", vec.x, vec.y);
+    CCLog("arcDegree => %f", arcDegree);
+    
+/*
+    if (end.x < start.x) {
+        x_plusFlag = -1;
+        x *= -1;
+        if(end.y < start.y) {
+            y_plusFlag = -1;
+            arcDegree += 180;
+            y *= -1;
+        } else if(end.y == start.y) {
+            y_plusFlag = 0;
+            arcDegree += 180;
+        } else {
+            y_plusFlag = 1;
+            arcDegree += 180;
+        }
+    } else  if(end.x == start.x){
+        x_plusFlag = 0;
+        if(end.y < start.y) {
+            y_plusFlag = -1;
+            //arcDegree += 90;
+            y *= -1;
+        } else if(end.y == start.y) {
+            y_plusFlag = 0;
+        } else {
+            y_plusFlag = 1;
+            //arcDegree += 270;
+        }
+    } else {
+        x_plusFlag = 1;
+        if(end.y < start.y) {
+            y_plusFlag = -1;
+            arcDegree += 360;
+            y *= -1;
+        } else if(end.y == start.y) {
+            y_plusFlag = 0;
+        } else {
+            y_plusFlag = 1;
+        }
+    }
+*/
+    
+    return arcDegree;
+}
+
 //ベクトルから向いている方角を取得
 int RigidBody::getDirection(b2Vec2 vec) {
     /** x,y方向のベクトルのうち、大きい方のベクトルを自分の向きとする **/

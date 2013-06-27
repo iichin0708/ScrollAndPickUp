@@ -15,6 +15,29 @@ int Player::getPlayerTurnId() {
     return Player::playerTurnId;
 }
 
+void Player::setImage(int direction) {
+    PhysicsSprite *pSprite = (PhysicsSprite *)_body->GetUserData();
+    CCSpriteBatchNode *image;
+    switch (direction) {
+        case UP:
+            image = CCSpriteBatchNode::create("player001.png", 100);
+            break;
+        case DOWN:
+            image = CCSpriteBatchNode::create("player002.png", 100);
+            break;
+        case LEFT:
+            image = CCSpriteBatchNode::create("player003.png", 100);
+            break;
+        case RIGHT:
+            image = CCSpriteBatchNode::create("player004.png", 100);
+            break;
+    }
+    
+    //画像の差し替え
+    cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
+    pSprite->setTexture(m_pSpriteTexture);
+}
+
 /*
 //受け取ったIDのPlayerの位置を返す
 CCPoint Player::getPlayerPosition() {

@@ -13,7 +13,7 @@ class Player : public RigidBody
 {
 private:
 
-    
+
 protected:
     
 public:
@@ -24,7 +24,8 @@ public:
         isFalled = false;
         offense = OFFENSE;
         
-        cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create("001.png", 100);
+        _direction = UP;
+        cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create("player001.png", 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
         
         PhysicsSprite *sprite = new PhysicsSprite(TAG_PLAYER);
@@ -53,6 +54,9 @@ public:
     
     //現在のターンのユーザIDを取得
     static int getPlayerTurnId();
+
+    // 方角によって画像を変える.
+    void setImage(int direction);
     
     // 水に落ちているかどうかのフラグ
     bool isFalled;

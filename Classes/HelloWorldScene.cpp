@@ -801,7 +801,7 @@ void HelloWorld::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
             isObjectTouched = true;
             touchObjectBody = monkeys[i]->getBody();
             arrow->setScale(0.35f);
-            
+            touchObjectNum = i;
             break;
         } else {
             isObjectTouched = false;
@@ -832,6 +832,11 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
             
             //進行方向の矢印を表示する
             showArrow(touchLocation, objectPoint, radius);
+            
+            b2Vec2 vec = b2Vec2(objectPoint.x - touchLocation.x, objectPoint.y - touchLocation.y);
+            int direction = monkeys[touchObjectNum]->getDirection(vec);
+            float angle = monkeys[touchObjectNum]->getAngle(vec);
+            monkeys[touchObjectNum]->setImage(direction);
         } else {
             // 画面をタッチして動かす処理
             CCPoint touchGap = ccp(touchLocation.x - moveTouchPoint.x,

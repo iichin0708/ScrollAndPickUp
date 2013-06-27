@@ -161,6 +161,7 @@ private:
     
     void setObstacle();
     
+    int touchObjectNum;
 };
 
 #endif // __HELLO_WORLD_H__

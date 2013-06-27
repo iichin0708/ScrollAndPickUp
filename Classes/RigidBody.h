@@ -37,6 +37,12 @@ public:
 
     b2Body *_body;
     
+    //オブジェクトの向いている方角
+    int _direction;
+    
+    //オブジェクトのベクトルから角度を取得
+    float getAngle(b2Vec2 vec);
+    
     //ベクトルから向いている方角を取得
     int getDirection(b2Vec2 vec);
 
