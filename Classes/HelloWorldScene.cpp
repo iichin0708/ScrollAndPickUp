@@ -53,7 +53,16 @@ HelloWorld::HelloWorld()
     isMoving = false;
     isContacted = false;
     isTrace = true;
+    // ゲームイントロ（開始前の導入シーン）フラグ
+    isGameintro = true;
+    isGameintroMove = false;
+    isGameWait = false;
+    isGameReady = false;
+    
+    // ゲームオーバー / ゲームクリアフラグ
     isGameover = false;
+    isGameclear = false;
+    
     isShotEnemy = false;
     
     // 自分自身を静的メンバーから参照できるように設定
@@ -64,8 +73,14 @@ HelloWorld::HelloWorld()
     setTouchEnabled( true );
     setAccelerometerEnabled( true );
     
+    CCDirector* pDirector = CCDirector::sharedDirector();
+    
     // 画面サイズ取得
-    CCSize s = CCDirector::sharedDirector()->getWinSize();
+    CCSize s = pDirector->getWinSize();
+    
+    // 表示できる画面サイズ取得
+    CCPoint origin = pDirector->getVisibleOrigin();
+    CCSize visibleSize = pDirector->getVisibleSize();
     
     // init physics
     this->initPhysics();
@@ -83,8 +98,7 @@ HelloWorld::HelloWorld()
     world->createWall(field->getRect());
     
     cursor = new Cursor();
-    cursor->setPosition(100, 100);
-    //cursor->setVisible(false);
+    cursor->setVisible(false);
     addChild(cursor->getSprite());
     
     // 敵の用意
@@ -155,10 +169,6 @@ HelloWorld::HelloWorld()
                             this,
                             menu_selector(HelloWorld::menuCloseCallback));
     
-    CCDirector* pDirector = CCDirector::sharedDirector();
-    CCPoint origin = pDirector->getVisibleOrigin();
-    CCSize visibleSize = pDirector->getVisibleSize();
-    
     pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width / 2,
                                 origin.y + pCloseItem->getContentSize().height / 2));
     
@@ -180,7 +190,68 @@ HelloWorld::HelloWorld()
         
     world->setContactListener();
     
+    // マップ最上部の位置を画面最上部にあわせる
+    moveMap(ccp(0, (origin.y + visibleSize.height - field->height/2) - field->getPosition().y));
+    
+    black = CCSprite::create("brack.png");
+    black->setPosition(ccp(s.width / 2, s.height / 2));
+    CCFadeOut* actionFadeOut = CCFadeOut::create(1.5f);
+    CCCallFunc* actionStart = CCCallFunc::create(this, callfunc_selector(HelloWorld::offIntro));
+    CCSequence* actionIntro = CCSequence::create(actionFadeOut, actionStart);
+    black->runAction(actionIntro);
+    
+    stageLabel = CCSprite::create("stage.png");
+    stageLabel->setPosition(ccp(s.width / 2, s.height / 2));
+    
+    addChild(black);
+    addChild(stageLabel);
+    
     scheduleUpdate();
+}
+
+void HelloWorld::offIntro()
+{
+    CCFadeOut* actionFadeOut2 = CCFadeOut::create(0.5f);
+    stageLabel->runAction(actionFadeOut2);
+    
+    isGameintro = false;
+    isGameintroMove = true;
+}
+
+void HelloWorld::offWait()
+{
+    isGameReady = true;
+    isGameWait = false;
+    
+    // 画面サイズ取得
+    CCSize s = CCDirector::sharedDirector()->getWinSize();
+    
+    // Ready...の画像表示
+    CCSprite* readyLabel = CCSprite::create("ready.png");
+    readyLabel->setPosition(ccp(s.width / 2, s.height / 2));
+    CCRotateBy* actionBlank = CCRotateBy::create(1.0f, 1);
+    CCFadeOut* actionFadeOut = CCFadeOut::create(1.0f);
+    CCCallFunc* actionStart = CCCallFunc::create(this, callfunc_selector(HelloWorld::offReady));
+    CCSequence* actionIntro1 = CCSequence::create(actionBlank, actionFadeOut);
+    CCSequence* actionIntro2 = CCSequence::create(actionIntro1, actionStart);
+    
+    readyLabel->runAction(actionIntro2);
+    
+    addChild(readyLabel);
+}
+
+void HelloWorld::offReady()
+{
+    // 画面サイズ取得
+    CCSize s = CCDirector::sharedDirector()->getWinSize();
+    
+    CCSprite* goLabel = CCSprite::create("go.png");
+    goLabel->setPosition(ccp(s.width / 2, s.height / 2));
+    CCFadeOut* actionFadeOut = CCFadeOut::create(0.5f);
+    goLabel->runAction(actionFadeOut);
+    addChild(goLabel);
+    
+    isGameReady = false;
 }
 
 HelloWorld::~HelloWorld()
@@ -395,6 +466,54 @@ void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
 
 void HelloWorld::update(float dt)
 {
+    int velocityIterations = 8;
+    int positionIterations = 1;
+    
+    World *world = World::getInstance();
+    world->getWorld()->Step(dt, velocityIterations, positionIterations);
+    
+    for (b2Body* b = world->getWorld()->GetBodyList(); b; b = b->GetNext())
+    {
+        if (b->GetUserData() != NULL) {
+            //CCLog("getLinearVelocity.x -> %f, getLinearVelocity.y -> %f", b->GetLinearVelocity().x, b->GetLinearVelocity().y);
+            
+            //Synchronize the AtlasSprites position and rotation with the corresponding body
+            CCSprite* myActor = (CCSprite*)b->GetUserData();
+            myActor->setPosition( CCPointMake( b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO) );
+            myActor->setRotation( -1 * CC_RADIANS_TO_DEGREES(b->GetAngle()) );
+        }
+    }
+    
+    if(isGameintro) {
+        // ゲーム導入シーン
+        return;
+        
+    } else if(isGameintroMove ) {
+        // ステージ確認シーン
+        
+        // 一番したまできたとき
+        if(field->getPosition().y >= field->height/2) {
+            isGameWait = true;
+            isGameintroMove = false;
+            CCRotateBy* actionBlank = CCRotateBy::create(1.0f, 0);
+            CCCallFunc* actionNext = CCCallFunc::create(this, callfunc_selector(HelloWorld::offWait));
+            CCSequence* actionIntro = CCSequence::create(actionBlank, actionNext);
+            
+            this->runAction(actionIntro);
+        } else {
+            // スクロール
+            moveMap(ccp(0, 6));
+        }
+        return;
+        
+    } else if (isGameWait) {
+        // 待ち時間
+        return;
+    } else if(isGameReady) {
+        // Ready… のシーン
+        return;
+    }
+    
     int countPlayer = 0;
     // 対象のプレイヤーがいなければ順番を飛ばす
     for(int i = 0; i < PLAYER_NUM; i++) {
@@ -406,13 +525,24 @@ void HelloWorld::update(float dt)
         }
     }
     
-    if(countPlayer < 1) {
+    // ゲームオーバーチェック
+    if(countPlayer < 1 && ! isGameover && ! isGameclear) {
         isGameover = true;
+        CCLabelTTF* overLabel = CCLabelTTF::create("GAME OVER", "arial", 48);
+        CCDirector* pDirector = CCDirector::sharedDirector();
+        CCPoint origin = pDirector->getVisibleOrigin();
+        CCSize visibleSize = pDirector->getVisibleSize();
+        
+        overLabel->setScale(2.0f);
+        overLabel->setPosition(ccp(origin.x + visibleSize.width / 2,
+                                   origin.y + visibleSize.height / 2));
+        this->addChild(overLabel);
     }
     
     if(isContacted && // 衝突した
        enemys[contactEnemyindex] != NULL && // 指定の敵配列が空でない
-       ! enemys[contactEnemyindex]->isInvincible ) // 敵が無敵でない
+       ! enemys[contactEnemyindex]->isInvincible
+       ) // 敵が無敵でない
     {
         // ぶつかられた敵はぶつかったプレイヤーの攻撃力分のダメージを受ける
         enemys[contactEnemyindex]->damaged(contactPlayerOffence);
@@ -470,25 +600,6 @@ void HelloWorld::update(float dt)
             moveMapWithObject(enemys[Enemy::enemyTurnId]->getBody());
         } else { //敵プレイヤーが自分で水に落ちた時
             this->scheduleOnce(schedule_selector(HelloWorld::enemyChange), 0.5f);
-        }
-    }
-    
-    
-    int velocityIterations = 8;
-    int positionIterations = 1;
-    
-    World *world = World::getInstance();
-    world->getWorld()->Step(dt, velocityIterations, positionIterations);
-    
-    for (b2Body* b = world->getWorld()->GetBodyList(); b; b = b->GetNext())
-    {
-        if (b->GetUserData() != NULL) {
-            //CCLog("getLinearVelocity.x -> %f, getLinearVelocity.y -> %f", b->GetLinearVelocity().x, b->GetLinearVelocity().y);
-            
-            //Synchronize the AtlasSprites position and rotation with the corresponding body
-            CCSprite* myActor = (CCSprite*)b->GetUserData();
-            myActor->setPosition( CCPointMake( b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO) );
-            myActor->setRotation( -1 * CC_RADIANS_TO_DEGREES(b->GetAngle()) );
         }
     }
     
@@ -599,9 +710,6 @@ void HelloWorld::update(float dt)
                                                   enemys[i]->getBody()->GetPosition().y), 0);
          */
         //CCSprite sprite = enemys[i]->getBody()->GetUserData();
-        enemys[i]->hpSprite->setPosition(ccp(enemys[i]->getBody()->GetPosition().x * PTM_RATIO,
-                                             enemys[i]->getBody()->GetPosition().y * PTM_RATIO - enemys[i]->height / 2));
-
         
         //そのターンの敵プレイヤーにポインタの表示.
         if(i == Enemy::getEnemyTurnId() && !isPlayerTurn){
@@ -661,6 +769,27 @@ void HelloWorld::playerChange() {
             removeChild((PhysicsSprite*)monkeys[i]->getBody()->GetUserData());
             destroyObject((RigidBody *&)monkeys[i]);
         }
+    }
+    
+    int countEnemy = 0;
+    // 残っている敵キャラの数を数える
+    for(int i = 0; i < ENEMY_NUM; i++) {
+        if(enemys[i] == NULL || ! enemys[i]->isVisible()) continue;
+        countEnemy++;
+    }
+    
+    // ゲームクリアチェック
+    if(countEnemy <= 0 && ! isGameover && ! isGameclear) {
+        isGameclear = true;
+        CCLabelTTF* clearLabel = CCLabelTTF::create("CLEAR!", "arial", 48);
+        CCDirector* pDirector = CCDirector::sharedDirector();
+        CCPoint origin = pDirector->getVisibleOrigin();
+        CCSize visibleSize = pDirector->getVisibleSize();
+        
+        clearLabel->setScale(2.0f);
+        clearLabel->setPosition(ccp(origin.x + visibleSize.width / 2,
+                                    origin.y + visibleSize.height / 2));
+        this->addChild(clearLabel);
     }
     
     //次の敵プレイヤーのポインタを探す(死んでいた場合は次の敵プレイヤーを探す) プレイヤーが敵を殺した場合も考えて
@@ -1052,6 +1181,10 @@ void HelloWorld::moveMap(CCPoint touchGap) {
                                    waters[i]->getPosition().y);
             waters[i]->groundHeight += touchGap.y;
         }
+        
+        //カーソルスライド
+        cursor->setPosition(cursor->getPosition().x + touchGap.x,
+                            cursor->getPosition().y);
     }
     
     /*
@@ -1107,7 +1240,9 @@ void HelloWorld::moveMap(CCPoint touchGap) {
             waters[i]->groundHeight += touchGap.y;
         }
     
-
+        //カーソルスライド
+        cursor->setPosition(cursor->getPosition().x,
+                            cursor->getPosition().y + touchGap.y);
     //}
     
     World *world =  World::getInstance();
@@ -1137,4 +1272,3 @@ CCScene* HelloWorld::scene()
     
     return scene;
 }
-

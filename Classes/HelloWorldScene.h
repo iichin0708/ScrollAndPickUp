@@ -126,11 +126,21 @@ public:
     
     // 攻撃をしたプレイヤーのインデックス
     int pIndex;
+
+    
+private:
+    // ゲームイントロフラグ
+    bool isGameintro;
+    bool isGameintroMove;
+    bool isGameWait;
+    bool isGameReady;
     
     // ゲームオーバーフラグ
     bool isGameover;
     
-private:
+    // ゲームクリアフラグ
+    bool isGameclear;
+    
     //    b2World* world;
     cocos2d::CCTexture2D* m_pSpriteTexture; // weak ref
     cocos2d::CCTexture2D* m_pSpriteTexture2;
@@ -162,6 +172,20 @@ private:
     void setObstacle();
     
     int touchObjectNum;
+
+    // イントロ（はじめに画面が表示される状態）フラグをおろす
+    void offIntro();
+    
+    // ウェイト（ステージが表示され終わったあとの間の状態）フラグをおろす
+    void offWait();
+    
+    // レディ（Ready...の状態）フラグをおろす
+    void offReady();
+    
+    cocos2d::CCSprite* black;
+    cocos2d::CCSprite* stageLabel;
+    
+
 };
 
 #endif // __HELLO_WORLD_H__

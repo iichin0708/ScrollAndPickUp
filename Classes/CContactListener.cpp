@@ -248,40 +248,55 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
     
     // プレイヤーと敵の接触の場合
     if(aType == TYPE_PLAYER && bType == TYPE_ENEMY) {
-        if( ! hw->enemys[bNum]->isInvincible ) {
-            hw->isContacted = true;
-            isContactedToEnemy = true;
-            contactPlayerNum = aNum;
-            hw->contactPlayerOffence = hw->monkeys[aNum]->offense;
-            hw->contactEnemyindex = bNum;
-            hw->pIndex = aNum;
-            
-            setPlayerBoundRatio(aBody, bType, bBody, bNum);
-            
-            for(int i = 0; i < HIT_EF_NUM; i++) {
-                if(hw->hitEfs[i]->getVisible()) continue;
-                hw->hitEfs[i]->setPosition(contactPoint.x, contactPoint.y);
-                hw->hitEfs[i]->setVisible(true);
-                break;
+        //プレイヤーのターンの処理
+        if(hw->isPlayerTurn) {
+            CCLog("aaa");
+            if( ! hw->enemys[bNum]->isInvincible ) {
+                hw->isContacted = true;
+                isContactedToEnemy = true;
+                contactPlayerNum = aNum;
+                hw->contactPlayerOffence = hw->monkeys[aNum]->offense;
+                hw->contactEnemyindex = bNum;
+                hw->pIndex = aNum;
+                
+                setPlayerBoundRatio(aBody, bType, bBody, bNum);
+                
+                for(int i = 0; i < HIT_EF_NUM; i++) {
+                    if(hw->hitEfs[i]->getVisible()) continue;
+                    hw->hitEfs[i]->setPosition(contactPoint.x, contactPoint.y);
+                    hw->hitEfs[i]->setVisible(true);
+                    break;
+                }
             }
         }
+        //敵プレイヤーのターン
+        else
+        {
+            
+        }
     } else if(aType == TYPE_ENEMY && bType == TYPE_PLAYER) {
-        if( ! hw->enemys[aNum]->isInvincible ) {
-            hw->isContacted = true;
-            isContactedToEnemy = true;
-            contactPlayerNum = bNum;
-            hw->contactPlayerOffence = hw->monkeys[bNum]->offense;
-            hw->contactEnemyindex = aNum;
-            hw->pIndex = bNum;
-            
-            setPlayerBoundRatio(bBody, aType, aBody, aNum);
-            
-            for(int i = 0; i < HIT_EF_NUM; i++) {
-                if(hw->hitEfs[i]->getVisible()) continue;
-                hw->hitEfs[i]->setPosition(contactPoint.x, contactPoint.y);
-                hw->hitEfs[i]->setVisible(true);
-                break;
+        //プレイヤーのターン
+        if(hw->isPlayerTurn) {
+            CCLog("aaa");
+            if( ! hw->enemys[aNum]->isInvincible ) {
+                hw->isContacted = true;
+                isContactedToEnemy = true;
+                contactPlayerNum = bNum;
+                hw->contactPlayerOffence = hw->monkeys[bNum]->offense;
+                hw->contactEnemyindex = aNum;
+                hw->pIndex = bNum;
+                
+                setPlayerBoundRatio(bBody, aType, aBody, aNum);
+                
+                for(int i = 0; i < HIT_EF_NUM; i++) {
+                    if(hw->hitEfs[i]->getVisible()) continue;
+                    hw->hitEfs[i]->setPosition(contactPoint.x, contactPoint.y);
+                    hw->hitEfs[i]->setVisible(true);
+                    break;
+                }
             }
+        } else {
+            
         }
     }
     
