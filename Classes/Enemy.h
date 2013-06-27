@@ -33,11 +33,8 @@ public:
                 width = 80;
                 height = 80;
                 density = 2.5f;
-<<<<<<< HEAD
                 maxHp = 1;
-=======
                 speed = 0.5f;
->>>>>>> TakuyaDev
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 0.8f;
                 //自身の吹っ飛び率
@@ -49,11 +46,8 @@ public:
                 width = 115;
                 height = 121;
                 density = 3.0f;
-<<<<<<< HEAD
                 maxHp = 2;
-=======
                 speed = 0.4f;
->>>>>>> TakuyaDev
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 1.0f;
                 decreaseRatio =10;
