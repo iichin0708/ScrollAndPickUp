@@ -10,6 +10,8 @@
 #define KIND_GOBLIN 1
 #define KIND_DRAGON 2
 
+#define ENEMY_NUM 15
+
 class Enemy : public RigidBody
 {
 private:
@@ -17,6 +19,9 @@ private:
 protected:
     
 public:
+    //敵のターンID
+    static int enemyTurnId;
+    
     // コンストラクタ
     Enemy(cocos2d::CCNode* parent, int kind, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody()
     {
@@ -29,6 +34,7 @@ public:
                 height = 80;
                 hp = 2;
                 density = 2.5f;
+                speed = 0.5f;
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 0.8f;
                 //自身の吹っ飛び率
@@ -41,6 +47,7 @@ public:
                 height = 121;
                 hp = 2;
                 density = 3.0f;
+                speed = 0.4f;
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 1.0f;
                 decreaseRatio =10;
@@ -52,6 +59,7 @@ public:
                 height = 150;
                 hp = 4;
                 density = 3.5f;
+                speed = 0.3f;
                 //プレイヤーをどの程度跳ね返すか
 //                restitution = 1.5f;
                 decreaseRatio = 14;
@@ -78,6 +86,8 @@ public:
         hpSprite = cocos2d::CCSprite::create("hp1-1.png", cocos2d::CCRectMake(0, 0, 98, 11) );
         hpSprite->setPosition(ccp(this->getBody()->GetPosition().x * PTM_RATIO,
                                   this->getBody()->GetPosition().y * PTM_RATIO - this->height / 2));
+        isFalled = false;
+        
         parent->addChild(hpSprite);
     }
 
@@ -87,8 +97,14 @@ public:
     // 攻撃を受けたかどうかのフラグ
     bool isDamaged;
     
+    // 水に落ちているかどうかのフラグ
+    bool isFalled;
+
     // 体力
     int hp;
+    
+    //スピード
+    float speed;
     
     // インスタンスの種類
     int _kind;
@@ -110,6 +126,12 @@ public:
 
     //プレイヤーのバウンド率を取得する
     int getPlayerBoundRatio();
+    
+    //現在のターンのEnemyIDを取得
+    static int getEnemyTurnId();
+    
+    //受け取ったIDの敵キャラの位置を返す
+    cocos2d::CCPoint getEnemyPosition();
 };
 
 #endif /* defined(__ScrollAndPickUp__Enemy__) */

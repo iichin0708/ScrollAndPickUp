@@ -3,6 +3,9 @@
 
 USING_NS_CC;
 
+//初期化
+int Enemy::enemyTurnId = 0;
+
 // 攻撃を受ける
 void Enemy::damaged() {
     hp--;
@@ -52,3 +55,18 @@ int Enemy::getPlayerBoundRatio() {
             break;
     }
 }
+
+//現在のターンIDを返す
+int Enemy::getEnemyTurnId() {
+    //プレイヤーの合計人数の余りが次の人のターン
+    Enemy::enemyTurnId %= ENEMY_NUM;
+    
+    return Enemy::enemyTurnId;
+}
+
+//Enemyの位置を返す
+CCPoint Enemy::getEnemyPosition() {
+    CCPoint enemyPoint = CCPointMake(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO);
+    return enemyPoint;
+}
+

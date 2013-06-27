@@ -23,7 +23,7 @@
 #include "Obstacle.h"
 #include "Water.h"
 
-#define ENEMY_NUM 15
+
 #define COIN_NUM 50
 #define HIT_EF_NUM 10
 #define OBSTACLE_NUM 12
@@ -84,6 +84,12 @@ public:
     
     // ゲーム終了イベント
     void menuCloseCallback(CCObject*);
+
+    //敵キャラの移動
+    void moveEnemy(int enemyId);
+    
+    //敵キャラから最も近いプレイヤーIDを返す
+    int getNearestPlayerId(int enemyId);
     
     // ぶつかった敵キャラ
     int contactEnemyindex;
@@ -94,8 +100,16 @@ public:
     //移動を追うフラグ
     bool isTrace;
     
-    //次のプレイヤーのためにマップを動かすフラグ１
+    //プレイヤーのターンかどうか
+    bool isPlayerTurn;
+    
+    //次のプレイヤーのためにマップを動かすフラグ
     bool isShowedNextPlayer;
+    
+    bool isShotEnemy;
+    
+    //次の敵にマップを動かすフラグ
+    bool isShowedNextEnemy;
     
     cocos2d::CCPoint speedVec;
     
@@ -135,6 +149,8 @@ private:
     void addNewBody(float density, char* fileName);
     
     void playerChange();
+    
+    void enemyChange();
     
     void moveMapWithObject(b2Body *moveObjectBody);
     

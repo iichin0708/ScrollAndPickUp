@@ -32,6 +32,7 @@ public:
         sprite->autorelease();
         //sprite->setTag(sprite_id++);
         sprite->setPosition( cocos2d::CCPointMake( location.x, location.y) );
+        sprite->setScale(0.8f);
         
         parent->addChild(sprite);
         
@@ -45,7 +46,7 @@ public:
     // 画像のサイズ
     float width , height;
 
-    cocos2d::CCPoint getPlayerPosition(int playerId);
+    cocos2d::CCPoint getPlayerPosition();
     
     //現在のターンのユーザIDを取得
     static int getPlayerTurnId();

@@ -16,7 +16,7 @@ int Player::getPlayerTurnId() {
 }
 
 //受け取ったIDのPlayerの位置を返す
-CCPoint Player::getPlayerPosition(int playerId) {
+CCPoint Player::getPlayerPosition() {
     CCPoint playerPoint = CCPointMake(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO);
     return playerPoint;
 }
