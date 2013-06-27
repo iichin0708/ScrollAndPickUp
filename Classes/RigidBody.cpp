@@ -126,6 +126,9 @@ b2Body* RigidBody::getBody() {
     return _body;
 }
 
+//移動中に向いている方向を取得
+
+
 void RigidBody::setDecreaseSpeedRatio(float ratio) {
     //b2Fixture *fixture = _body->GetFixtureList();
     _body->SetLinearDamping(ratio);
