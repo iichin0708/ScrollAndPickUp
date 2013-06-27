@@ -62,9 +62,10 @@ int Enemy::getEnemyTurnId() {
     return Enemy::enemyTurnId;
 }
 
+/*
 //Enemyの位置を返す
 CCPoint Enemy::getEnemyPosition() {
     CCPoint enemyPoint = CCPointMake(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO);
     return enemyPoint;
 }
-
+*/

@@ -48,7 +48,8 @@ public:
     // 画像のサイズ
     float width , height;
 
-    cocos2d::CCPoint getPlayerPosition();
+    
+    //cocos2d::CCPoint getPlayerPosition();
     
     //現在のターンのユーザIDを取得
     static int getPlayerTurnId();
