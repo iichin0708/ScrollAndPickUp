@@ -728,6 +728,9 @@ void HelloWorld::moveEnemy(int enemyId) {
     
     //CCLog("enemyShotAngle.x => %f, enemyShotAngle.y => %f", enemyShotAngle.x, enemyShotAngle.y);
     
+    PhysicsSprite *enemySprite = (PhysicsSprite *)enemys[enemyId]->getBody()->GetUserData();
+    
+    
     
     //発射
     enemys[enemyId]->getBody()->SetLinearVelocity(enemyShotAngle);
@@ -814,84 +817,8 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
             //タッチしたオブジェクトの中心座標を取得
             CCPoint objectPoint = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
             
-            // CCLog("radius = %f", radius);
-            // CCLog("move.x   = %f, move.y   = %f", touchLocation.x, touchLocation.y);
-            // CCLog("object.x = %f, ovject.y = %f", objectPoint.x, objectPoint.y);
-            
-            //startとendの距離を測る
-            float diffX = touchLocation.x - objectPoint.x;
-            float diffY = touchLocation.y - objectPoint.y;
-            float distance = sqrt(diffX * diffX + diffY * diffY);
-            
-            //表示位置の計算
-            float x = sqrt( ((touchLocation.x - objectPoint.x) * (touchLocation.x - objectPoint.x) * radius * radius) / ((touchLocation.x - objectPoint.x) * (touchLocation.x - objectPoint.x) + (touchLocation.y - objectPoint.y) * (touchLocation.y - objectPoint.y)) );
-            float y = sqrt( ((touchLocation.y - objectPoint.y) * (touchLocation.y - objectPoint.y) * radius * radius) / ((touchLocation.x - objectPoint.x) * (touchLocation.x - objectPoint.x) + (touchLocation.y - objectPoint.y) * (touchLocation.y - objectPoint.y)) );
-            
-            //矢印の回転
-            float arcRadian = atanf(((touchLocation.y - objectPoint.y) / (touchLocation.x - objectPoint.x)));
-            shootRadian = arcRadian;
-            //ラジアンを角度に変換
-            float arcDegree = -1 * CC_RADIANS_TO_DEGREES(arcRadian);
-            //        CCLog("arcDegree => %f", arcDegree);
-            
-            
-            if (objectPoint.x < touchLocation.x) {
-                x_plusFlag = -1;
-                x *= -1;
-                if(objectPoint.y < touchLocation.y) {
-                    y_plusFlag = -1;
-                    arcDegree += 180;
-                    y *= -1;
-                } else if(objectPoint.y == touchLocation.y) {
-                    y_plusFlag = 0;
-                    arcDegree += 180;
-                } else {
-                    y_plusFlag = 1;
-                    arcDegree += 180;
-                }
-            } else  if(objectPoint.x == touchLocation.x){
-                x_plusFlag = 0;
-                if(objectPoint.y < touchLocation.y) {
-                    y_plusFlag = -1;
-                    //arcDegree += 90;
-                    y *= -1;
-                } else if(objectPoint.y == touchLocation.y) {
-                    y_plusFlag = 0;
-                } else {
-                    y_plusFlag = 1;
-                    //arcDegree += 270;
-                }
-            } else {
-                x_plusFlag = 1;
-                if(objectPoint.y < touchLocation.y) {
-                    y_plusFlag = -1;
-                    arcDegree += 360;
-                    y *= -1;
-                } else if(objectPoint.y == touchLocation.y) {
-                    y_plusFlag = 0;
-                } else {
-                    y_plusFlag = 1;
-                }
-            }
-            
-            //CCLog("distance => %f", distance);
-            if(distance < 200) {
-                arrow->setScale(distance/ARROW_SCALE_RATIO);
-            }
-            
-            //表示位置の設定
-            arrow->setPosition(ccp(x + objectPoint.x, y + objectPoint.y));
-            
-            arrow->setRotation(arcDegree);
-            
-            //半径以下の時矢印の表示色を変える
-            if (radius < ccpDistance(startPoint, touchLocation)) {
-                arrow->setColor(ccc3(255, 200, 100));
-                arrow->setVisible(true);
-            } else {
-                arrow->setColor(ccc3(0, 200, 100));
-                arrow->setVisible(true);
-            }
+            //進行方向の矢印を表示する
+            showArrow(touchLocation, objectPoint, radius);
         } else {
             // 画面をタッチして動かす処理
             CCPoint touchGap = ccp(touchLocation.x - moveTouchPoint.x,
@@ -904,7 +831,88 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
     }
 }
 
+//進行方向の矢印を表示する
+void HelloWorld::showArrow(CCPoint start, CCPoint end, int radius) {
+    //movePointがプラスかマイナスか判別するフラグ
+    int x_plusFlag;
+    int y_plusFlag;
+    
+    //startとendの距離を測る
+    float diffX = start.x - end.x;
+    float diffY = start.y - end.y;
+    float distance = sqrt(diffX * diffX + diffY * diffY);
+    
+    //表示位置の計算
+    float x = sqrt( ((start.x - end.x) * (start.x - end.x) * radius * radius) / ((start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y)) );
+    float y = sqrt( ((start.y - end.y) * (start.y - end.y) * radius * radius) / ((start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y)) );
+    
+    //矢印の回転
+    float arcRadian = atanf(((start.y - end.y) / (start.x - end.x)));
+    shootRadian = arcRadian;
+    //ラジアンを角度に変換
+    float arcDegree = -1 * CC_RADIANS_TO_DEGREES(arcRadian);
+    //        CCLog("arcDegree => %f", arcDegree);
+    
+    
+    if (end.x < start.x) {
+        x_plusFlag = -1;
+        x *= -1;
+        if(end.y < start.y) {
+            y_plusFlag = -1;
+            arcDegree += 180;
+            y *= -1;
+        } else if(end.y == start.y) {
+            y_plusFlag = 0;
+            arcDegree += 180;
+        } else {
+            y_plusFlag = 1;
+            arcDegree += 180;
+        }
+    } else  if(end.x == start.x){
+        x_plusFlag = 0;
+        if(end.y < start.y) {
+            y_plusFlag = -1;
+            //arcDegree += 90;
+            y *= -1;
+        } else if(end.y == start.y) {
+            y_plusFlag = 0;
+        } else {
+            y_plusFlag = 1;
+            //arcDegree += 270;
+        }
+    } else {
+        x_plusFlag = 1;
+        if(end.y < start.y) {
+            y_plusFlag = -1;
+            arcDegree += 360;
+            y *= -1;
+        } else if(end.y == start.y) {
+            y_plusFlag = 0;
+        } else {
+            y_plusFlag = 1;
+        }
+    }
+    
+    //CCLog("distance => %f", distance);
+    if(distance < 200) {
+        arrow->setScale(distance/ARROW_SCALE_RATIO);
+    }
+    
+    //表示位置の設定
+    arrow->setPosition(ccp(x + end.x, y + end.y));
+    
+    arrow->setRotation(arcDegree);
+    
+    //半径以下の時矢印の表示色を変える
+    if (radius < ccpDistance(startPoint, start)) {
+        arrow->setColor(ccc3(255, 200, 100));
+        arrow->setVisible(true);
+    } else {
+        arrow->setColor(ccc3(0, 200, 100));
+        arrow->setVisible(true);
+    }
 
+}
 
 void HelloWorld::ccTouchesCancelled(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent) {
 }

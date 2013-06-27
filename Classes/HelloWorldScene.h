@@ -152,7 +152,7 @@ private:
     
     void enemyChange();
     
-    void showArrow();
+    void showArrow(cocos2d::CCPoint start, cocos2d::CCPoint end, int radius);
     
     void moveMapWithObject(b2Body *moveObjectBody);
     
