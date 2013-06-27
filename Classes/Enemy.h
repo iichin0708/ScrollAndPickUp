@@ -86,8 +86,8 @@ public:
         
         // 体力画像のセット
         hpSprite = cocos2d::CCSprite::create("hp_frame.png", cocos2d::CCRectMake(0, 0, 98, 11) );
-        hpSprite->setPosition(ccp(this->getBody()->GetPosition().x * PTM_RATIO,
-                                  this->getBody()->GetPosition().y * PTM_RATIO - this->height / 2));        
+        hpSprite->setPosition(ccp(sprite->getContentSize().width / 2,
+                                  -hpSprite->getContentSize().height / 2));
         barSprite = cocos2d::CCSprite::create("red_bar.png", cocos2d::CCRectMake(0, 0, 80, 7) );
         barSprite->setPosition(ccp(hpSprite->getContentSize().width / 2 - barSprite->getContentSize().width / 2,
                                    hpSprite->getContentSize().height / 2));
@@ -97,7 +97,7 @@ public:
 
         isFalled = false;
         
-        parent->addChild(hpSprite);
+        sprite->addChild(hpSprite);
     }
 
     // 画像のサイズ
