@@ -126,8 +126,51 @@ b2Body* RigidBody::getBody() {
     return _body;
 }
 
-//移動中に向いている方向を取得
+//ベクトルから向いている方角を取得
+int RigidBody::getDirection(b2Vec2 vec) {
+    /** x,y方向のベクトルのうち、大きい方のベクトルを自分の向きとする **/
+    //左方向
+    if(vec.x < 0) {
+        //上方向
+        if(0 <= vec.y) {
+            if(vec.x <= vec.y) {
+                return UP;
+            }
+        }
+        //下方向
+        else
+        {
+            if(vec.y < vec.x) {
+                return DOWN;
+            }
+        }
+        return LEFT;
+    }
+    //右方向
+    else
+    {
+        //上方向
+        if(0 <= vec.y) {
+            if(vec.x <= vec.y) {
+                return UP;
+            }
+        }
+        //下方向
+        else
+        {
+            if(vec.y < vec.x) {
+                return DOWN;
+            }
+        }
+        return RIGHT;
+    }
+    
+}
 
+CCPoint RigidBody::getRigidPosition() {
+    CCPoint rigidPoint = CCPointMake(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO);
+    return rigidPoint;
+}
 
 void RigidBody::setDecreaseSpeedRatio(float ratio) {
     //b2Fixture *fixture = _body->GetFixtureList();

@@ -16,6 +16,11 @@
 #define CIRCLE_SHAPE 0
 #define BOX_SHAPE 1
 
+#define UP 2
+#define DOWN 3
+#define RIGHT 4
+#define LEFT 5
+
 class RigidBody : public cocos2d::CCLayer {
 public:
     RigidBody(){};
@@ -31,9 +36,16 @@ public:
     virtual b2Body* getBody();
 
     b2Body *_body;
+    
+    //ベクトルから向いている方角を取得
+    int getDirection(b2Vec2 vec);
 
     void setDecreaseSpeedRatio(float ratio);
+    
+    //位置を返す
+    cocos2d::CCPoint getRigidPosition();
 protected:
+
 
 };
 

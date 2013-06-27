@@ -141,8 +141,10 @@ public:
     //現在のターンのEnemyIDを取得
     static int getEnemyTurnId();
     
+    /*
     //受け取ったIDの敵キャラの位置を返す
     cocos2d::CCPoint getEnemyPosition();
+     */
 };
 
 #endif /* defined(__ScrollAndPickUp__Enemy__) */
