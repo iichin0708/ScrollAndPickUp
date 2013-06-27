@@ -134,49 +134,14 @@ float RigidBody::getAngle(b2Vec2 vec) {
     //ラジアンを角度に変換
     float arcDegree =  CC_RADIANS_TO_DEGREES(arcRadian);
     
-    CCLog("b2Vec2.x = %f, b2Vec2.y = %f", vec.x, vec.y);
-    CCLog("arcDegree => %f", arcDegree);
-    
-/*
-    if (end.x < start.x) {
-        x_plusFlag = -1;
-        x *= -1;
-        if(end.y < start.y) {
-            y_plusFlag = -1;
-            arcDegree += 180;
-            y *= -1;
-        } else if(end.y == start.y) {
-            y_plusFlag = 0;
-            arcDegree += 180;
-        } else {
-            y_plusFlag = 1;
-            arcDegree += 180;
-        }
-    } else  if(end.x == start.x){
-        x_plusFlag = 0;
-        if(end.y < start.y) {
-            y_plusFlag = -1;
-            //arcDegree += 90;
-            y *= -1;
-        } else if(end.y == start.y) {
-            y_plusFlag = 0;
-        } else {
-            y_plusFlag = 1;
-            //arcDegree += 270;
-        }
+    //ラジアンを360度に変換する.
+    if (vec.x < 0) {
+        arcDegree += 180;
     } else {
-        x_plusFlag = 1;
-        if(end.y < start.y) {
-            y_plusFlag = -1;
+        if(vec.y < 0) {
             arcDegree += 360;
-            y *= -1;
-        } else if(end.y == start.y) {
-            y_plusFlag = 0;
-        } else {
-            y_plusFlag = 1;
         }
     }
-*/
     
     return arcDegree;
 }
