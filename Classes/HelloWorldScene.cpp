@@ -726,12 +726,6 @@ void HelloWorld::moveEnemy(int enemyId) {
     enemyShotAngle.x *= enemys[enemyId]->speed;
     enemyShotAngle.y *= enemys[enemyId]->speed;
     
-    //CCLog("enemyShotAngle.x => %f, enemyShotAngle.y => %f", enemyShotAngle.x, enemyShotAngle.y);
-    
-    PhysicsSprite *enemySprite = (PhysicsSprite *)enemys[enemyId]->getBody()->GetUserData();
-    
-    
-    
     //発射
     enemys[enemyId]->getBody()->SetLinearVelocity(enemyShotAngle);
     isShotEnemy = true;
