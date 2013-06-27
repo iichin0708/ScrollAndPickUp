@@ -18,6 +18,8 @@ int Player::getPlayerTurnId() {
 void Player::setImage(int direction) {
     PhysicsSprite *pSprite = (PhysicsSprite *)_body->GetUserData();
     CCSpriteBatchNode *image;
+    
+    //与えられた方向によって画像を変更
     switch (direction) {
         case UP:
             image = CCSpriteBatchNode::create("player001.png", 100);

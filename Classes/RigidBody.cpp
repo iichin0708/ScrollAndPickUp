@@ -153,14 +153,14 @@ int RigidBody::getDirection(b2Vec2 vec) {
     if(vec.x < 0) {
         //上方向
         if(0 <= vec.y) {
-            if(vec.x <= vec.y) {
+            if(-vec.x <= vec.y) {
                 return UP;
             }
         }
         //下方向
         else
         {
-            if(vec.y < vec.x) {
+            if(-vec.x < -vec.y) {
                 return DOWN;
             }
         }
@@ -178,7 +178,7 @@ int RigidBody::getDirection(b2Vec2 vec) {
         //下方向
         else
         {
-            if(vec.y < vec.x) {
+            if(vec.x < -vec.y) {
                 return DOWN;
             }
         }
