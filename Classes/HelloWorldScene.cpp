@@ -463,7 +463,7 @@ void HelloWorld::update(float dt)
             //CCLog("vec.x = %f, vec.y = %f", vec.x, vec.y);
             //最後にスーっと動くように。
             if((-10 < vec.x && vec.x < 10) && (-10 < vec.y && vec.y < 10)) {
-                //enemys[Enemy::enemyTurnId]->getBody()->SetLinearDamping(4.0f);
+                enemys[Enemy::enemyTurnId]->getBody()->SetLinearDamping(4.0f);
             }
             moveMapWithObject(enemys[Enemy::enemyTurnId]->getBody());
         } else { //敵プレイヤーが自分で水に落ちた時
@@ -692,6 +692,11 @@ void HelloWorld::enemyChange() {
     
     //敵が動いた
     isShotEnemy = false;
+
+    //減衰率を戻す
+    if(enemys[Enemy::getEnemyTurnId()] != NULL) {
+        enemys[Enemy::getEnemyTurnId()]->setDecreaseSpeedRatio(enemys[Enemy::getEnemyTurnId()]->decreaseRatio);
+    }
     
     Enemy::enemyTurnId++;
     
