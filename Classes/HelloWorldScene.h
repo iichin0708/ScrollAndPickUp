@@ -152,6 +152,8 @@ private:
     
     void enemyChange();
     
+    void showArrow();
+    
     void moveMapWithObject(b2Body *moveObjectBody);
     
     void setObstacle();

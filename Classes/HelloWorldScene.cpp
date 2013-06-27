@@ -884,7 +884,7 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
             
             arrow->setRotation(arcDegree);
             
-            //半径以下の時矢印を表示しない
+            //半径以下の時矢印の表示色を変える
             if (radius < ccpDistance(startPoint, touchLocation)) {
                 arrow->setColor(ccc3(255, 200, 100));
                 arrow->setVisible(true);
@@ -903,6 +903,7 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
         }
     }
 }
+
 
 
 void HelloWorld::ccTouchesCancelled(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent) {
