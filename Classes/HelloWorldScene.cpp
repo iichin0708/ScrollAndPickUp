@@ -52,6 +52,7 @@ HelloWorld::HelloWorld()
     isContacted = false;
     isTrace = true;
     isGameover = false;
+    isShotEnemy = false;
     
     // 自分自身を静的メンバーから参照できるように設定
     HelloWorld:Instance = this;
@@ -166,6 +167,10 @@ HelloWorld::HelloWorld()
     isObjectTouched = false;
     
     isShowedNextPlayer = false;
+    
+    isShowedNextEnemy = true;
+    
+    isPlayerTurn = true;
     
     shootRadian = 0;
     
@@ -398,6 +403,7 @@ void HelloWorld::update(float dt)
             countPlayer++;
         }
     }
+    
     if(countPlayer < 1) {
         isGameover = true;
     }
@@ -441,7 +447,8 @@ void HelloWorld::update(float dt)
     }
     
     //動いている物体と同時にマップを動かす
-    if (isMoving && touchObjectBody != NULL) {
+    //プレイヤーの時
+    if (isMoving && touchObjectBody != NULL && isPlayerTurn) {
         b2Vec2 vec = touchObjectBody->GetLinearVelocity();
         //CCLog("vec.x = %f, vec.y = %f", vec.x, vec.y);
         //最後にスーっと動くように。
@@ -450,6 +457,18 @@ void HelloWorld::update(float dt)
         }
         //moveMapWithObject(touchObjectBody->GetLinearVelocity());
         moveMapWithObject(touchObjectBody);
+    } else if (isShotEnemy && isMoving) { //敵プレイヤーの時
+        if (enemys[Enemy::enemyTurnId] != NULL) {
+            b2Vec2 vec = enemys[Enemy::enemyTurnId]->getBody()->GetLinearVelocity();
+            //CCLog("vec.x = %f, vec.y = %f", vec.x, vec.y);
+            //最後にスーっと動くように。
+            if((-10 < vec.x && vec.x < 10) && (-10 < vec.y && vec.y < 10)) {
+                //enemys[Enemy::enemyTurnId]->getBody()->SetLinearDamping(4.0f);
+            }
+            moveMapWithObject(enemys[Enemy::enemyTurnId]->getBody());
+        } else { //敵プレイヤーが自分で水に落ちた時
+            this->scheduleOnce(schedule_selector(HelloWorld::enemyChange), 0.5f);
+        }
     }
     
     
@@ -500,7 +519,7 @@ void HelloWorld::update(float dt)
         if(monkeys[i] == NULL) continue;
                 
         //そのターンのプレイヤーにポインタの表示.
-        if(i == Player::getPlayerTurnId()){
+        if(i == Player::getPlayerTurnId() && isPlayerTurn){
             //カーソルの表示
             cursor->setPosition(monkeys[i]->getBody()->GetPosition().x * PTM_RATIO,
                                 monkeys[i]->getBody()->GetPosition().y * PTM_RATIO);
@@ -530,11 +549,11 @@ void HelloWorld::update(float dt)
     }
     
     //次のプレイヤーにマップを一度だけ移動しポインタをあわせる
-    if(!isShowedNextPlayer) {
+    if(!isShowedNextPlayer && isPlayerTurn) {
         CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
         CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
         if(monkeys[Player::getPlayerTurnId()] != NULL) {
-            CCPoint playerPosition = monkeys[Player::getPlayerTurnId()]->getPlayerPosition(Player::getPlayerTurnId());
+            CCPoint playerPosition = monkeys[Player::getPlayerTurnId()]->getPlayerPosition();
             float delta = ccpDistance(dispCenter, playerPosition);
             CCPoint gap = CCPointMake(dispCenter.x - playerPosition.x, dispCenter.y - playerPosition.y);
             speedVec = CCPointMake(gap.x / 10, gap.y / 10);
@@ -545,11 +564,33 @@ void HelloWorld::update(float dt)
             }
         }
     }
-     
+    
+    
+    //次の敵プレイヤーにマップを一度だけ移動しポインタをあわせる
+    if(!isShowedNextEnemy && !isPlayerTurn) {
+        CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
+        CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
+        if(enemys[Enemy::getEnemyTurnId()] != NULL) {
+            CCPoint enemyPosition = enemys[Enemy::getEnemyTurnId()]->getEnemyPosition();
+            float delta = ccpDistance(dispCenter, enemyPosition);
+            CCPoint gap = CCPointMake(dispCenter.x - enemyPosition.x, dispCenter.y - enemyPosition.y);
+            speedVec = CCPointMake(gap.x / 10, gap.y / 10);
+            if (delta < 20) {
+                isShowedNextEnemy = true;
+            } else {
+                moveMap(speedVec);
+            }
+        }
+    }
+    
+//    CCLog("isPlayerTurn = %d", isPlayerTurn);
+//    CCLog("isGetEnemyTurnId = %d", Enemy::getEnemyTurnId());
     
     // 敵キャラの毎フレーム実行する処理
     for(int i = 0; i < ENEMY_NUM; i++) {
-        if(enemys[i] == NULL) continue;
+        if(enemys[i] == NULL) {
+            continue;
+        }
         //回転を止める
         /*
         enemys[i]->getBody()->SetTransform(b2Vec2(enemys[i]->getBody()->GetPosition().x,
@@ -558,6 +599,20 @@ void HelloWorld::update(float dt)
         //CCSprite sprite = enemys[i]->getBody()->GetUserData();
         enemys[i]->hpSprite->setPosition(ccp(enemys[i]->getBody()->GetPosition().x * PTM_RATIO,
                                              enemys[i]->getBody()->GetPosition().y * PTM_RATIO - enemys[i]->height / 2));
+
+        
+        //そのターンの敵プレイヤーにポインタの表示.
+        if(i == Enemy::getEnemyTurnId() && !isPlayerTurn){
+            //カーソルの表示
+            cursor->setPosition(enemys[i]->getBody()->GetPosition().x * PTM_RATIO,
+                                enemys[i]->getBody()->GetPosition().y * PTM_RATIO);
+            cursor->setVisible(true);
+        }
+        
+        if(!isShotEnemy && !isPlayerTurn && isShowedNextEnemy) {
+            moveEnemy(Enemy::getEnemyTurnId());
+        }
+        
         // 画面端に行くと消える（落ちる）
         if (enemys[i]->getBody()->GetPosition().x * PTM_RATIO > field->getPosition().x + field->width / 2||
             enemys[i]->getBody()->GetPosition().x * PTM_RATIO < field->getPosition().x - field->width / 2) {
@@ -595,8 +650,6 @@ void HelloWorld::update(float dt)
 }
 
 void HelloWorld::playerChange() {
-    isShowedNextPlayer = false;
-    
     // 溺れ状態のプレイヤーを除去する
     for(int i = 0; i < PLAYER_NUM; i++) {
         if(monkeys[i] != NULL &&
@@ -607,8 +660,103 @@ void HelloWorld::playerChange() {
             destroyObject((RigidBody *&)monkeys[i]);
         }
     }
+    
+    //次の敵プレイヤーのポインタを探す(死んでいた場合は次の敵プレイヤーを探す) プレイヤーが敵を殺した場合も考えて
+    int loopCount = 0;
+    for(int i = Enemy::enemyTurnId; loopCount < ENEMY_NUM; i++) {
+        if(enemys[Enemy::getEnemyTurnId()] == NULL) {
+            Enemy::enemyTurnId++;
+        } else {
+            break;
+        }
+        loopCount++;
+    }
+   
+    //プレイヤーターン終了
+    isPlayerTurn = false;
+    
+    //次のプレイヤーにポインタを動かすためのフラグ
+    isShowedNextPlayer = false;
+
+    //次の敵プレイヤーにポインタを動かすためのフラグ
+    isShowedNextEnemy = false;
+    
 }
 
+void HelloWorld::enemyChange() {
+    //次の敵プレイヤーにポインタを動かすためのフラグ
+    isShowedNextEnemy = false;
+    
+    //敵プレイヤーのターン終了
+    isPlayerTurn = true;
+    
+    //敵が動いた
+    isShotEnemy = false;
+    
+    Enemy::enemyTurnId++;
+    
+    //次の敵プレイヤーのポインタを探す(死んでいた場合は次のプレイヤーを探す)
+    int loopCount = 0;
+    for(int i = Enemy::enemyTurnId; loopCount < ENEMY_NUM; i++) {
+        if(enemys[Enemy::getEnemyTurnId()] == NULL) {
+            Enemy::enemyTurnId++;
+        } else {
+            break;
+        }
+        
+        loopCount++;
+    }
+}
+
+void HelloWorld::moveEnemy(int enemyId) {
+    int targetId = getNearestPlayerId(enemyId);
+    CCLog("enemyId => %d", enemyId);
+    CCPoint playerPoint = monkeys[targetId]->getPlayerPosition();
+    CCPoint enemyPoint = enemys[enemyId]->getEnemyPosition();
+    //float distance = ccpDistance(playerPoint, enemyPoint);
+    
+    
+    b2Vec2 enemyShotAngle = b2Vec2(playerPoint.x - enemyPoint.x, playerPoint.y - enemyPoint.y);
+    
+    //距離によって持たせる速度を調整しようとしたけどやめる.
+    /*
+    if()
+    */
+    
+    //敵の速度は固定とする.
+    enemyShotAngle.x *= enemys[enemyId]->speed;
+    enemyShotAngle.y *= enemys[enemyId]->speed;
+    
+    //CCLog("enemyShotAngle.x => %f, enemyShotAngle.y => %f", enemyShotAngle.x, enemyShotAngle.y);
+    
+    
+    //発射
+    enemys[enemyId]->getBody()->SetLinearVelocity(enemyShotAngle);
+    isShotEnemy = true;
+    isMoving = true;
+        
+    //isPlayerTurn = true;
+}
+
+
+//敵プレイヤーから最も近いプレイヤーIdを返す
+int HelloWorld::getNearestPlayerId(int enemyId) {
+    float longDistance = 0.0f;
+    int targetPlayerId = 0;
+    for(int i = 0; i < PLAYER_NUM; i++) {
+        if(monkeys[i] == NULL) continue;
+        
+        CCPoint enemyPoint = enemys[enemyId]->getEnemyPosition();
+        CCPoint playerPoint = monkeys[i]->getPlayerPosition();
+        float distance = ccpDistance(enemyPoint, playerPoint);
+        if(longDistance < distance) {
+            targetPlayerId = i;
+        }
+    }
+    return targetPlayerId;
+}
+
+ 
 void HelloWorld::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent) {
     
     CCTouch *touch = (CCTouch *)pTouches->anyObject();
@@ -633,8 +781,8 @@ void HelloWorld::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
                                        monkeys[i]->getBody()->GetPosition().y * PTM_RATIO - playerSprite->getContentSize().height/2,
                                        playerSprite->getContentSize().width, playerSprite->getContentSize().height);
         
-        //タッチした範囲に剛体の矩形が入っているかどうか判定する. 且つ,そのターンのプレイヤーかどうか判定.
-        if(touchRect.intersectsRect(playerRect) && i == Player::getPlayerTurnId()) {
+        //タッチした範囲に剛体の矩形が入っているかどうか判定する. 且つ,そのターンのプレイヤーかどうか判定. プレイヤーのターンかどうか
+        if(touchRect.intersectsRect(playerRect) && i == Player::getPlayerTurnId() && isPlayerTurn) {
             isObjectTouched = true;
             touchObjectBody = monkeys[i]->getBody();
             arrow->setScale(0.35f);
@@ -653,107 +801,110 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
     CCPoint touchLocation = touch->getLocationInView();
     touchLocation = CCDirector::sharedDirector()->convertToGL(touchLocation);
     
-    if(isObjectTouched && touchObjectBody != NULL) {
-        //movePointがプラスかマイナスか判別するフラグ
-        int x_plusFlag;
-        int y_plusFlag;
-        
-        PhysicsSprite *pSprite = (PhysicsSprite *)touchObjectBody->GetUserData();
-        
-        //タッチしたオブジェクトの半径(正確には矩形)
-        float radius = pSprite->getContentSize().width / 2;
-        
-        //タッチしたオブジェクトの中心座標を取得
-        CCPoint objectPoint = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
-        
-        // CCLog("radius = %f", radius);
-        // CCLog("move.x   = %f, move.y   = %f", touchLocation.x, touchLocation.y);
-        // CCLog("object.x = %f, ovject.y = %f", objectPoint.x, objectPoint.y);
-        
-        //startとendの距離を測る
-        float diffX = touchLocation.x - objectPoint.x;
-        float diffY = touchLocation.y - objectPoint.y;
-        float distance = sqrt(diffX * diffX + diffY * diffY);
-        
-        //表示位置の計算
-        float x = sqrt( ((touchLocation.x - objectPoint.x) * (touchLocation.x - objectPoint.x) * radius * radius) / ((touchLocation.x - objectPoint.x) * (touchLocation.x - objectPoint.x) + (touchLocation.y - objectPoint.y) * (touchLocation.y - objectPoint.y)) );
-        float y = sqrt( ((touchLocation.y - objectPoint.y) * (touchLocation.y - objectPoint.y) * radius * radius) / ((touchLocation.x - objectPoint.x) * (touchLocation.x - objectPoint.x) + (touchLocation.y - objectPoint.y) * (touchLocation.y - objectPoint.y)) );
-        
-        //矢印の回転
-        float arcRadian = atanf(((touchLocation.y - objectPoint.y) / (touchLocation.x - objectPoint.x)));
-        shootRadian = arcRadian;
-        //ラジアンを角度に変換
-        float arcDegree = -1 * CC_RADIANS_TO_DEGREES(arcRadian);
-        //        CCLog("arcDegree => %f", arcDegree);
-        
-        
-        if (objectPoint.x < touchLocation.x) {
-            x_plusFlag = -1;
-            x *= -1;
-            if(objectPoint.y < touchLocation.y) {
-                y_plusFlag = -1;
-                arcDegree += 180;
-                y *= -1;
-            } else if(objectPoint.y == touchLocation.y) {
-                y_plusFlag = 0;
-                arcDegree += 180;
+    if (isPlayerTurn) {
+        if(isObjectTouched && touchObjectBody != NULL) {
+            //movePointがプラスかマイナスか判別するフラグ
+            int x_plusFlag;
+            int y_plusFlag;
+            
+            PhysicsSprite *pSprite = (PhysicsSprite *)touchObjectBody->GetUserData();
+            
+            //タッチしたオブジェクトの半径(正確には矩形)
+            float radius = pSprite->getContentSize().width / 2;
+            
+            //タッチしたオブジェクトの中心座標を取得
+            CCPoint objectPoint = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
+            
+            // CCLog("radius = %f", radius);
+            // CCLog("move.x   = %f, move.y   = %f", touchLocation.x, touchLocation.y);
+            // CCLog("object.x = %f, ovject.y = %f", objectPoint.x, objectPoint.y);
+            
+            //startとendの距離を測る
+            float diffX = touchLocation.x - objectPoint.x;
+            float diffY = touchLocation.y - objectPoint.y;
+            float distance = sqrt(diffX * diffX + diffY * diffY);
+            
+            //表示位置の計算
+            float x = sqrt( ((touchLocation.x - objectPoint.x) * (touchLocation.x - objectPoint.x) * radius * radius) / ((touchLocation.x - objectPoint.x) * (touchLocation.x - objectPoint.x) + (touchLocation.y - objectPoint.y) * (touchLocation.y - objectPoint.y)) );
+            float y = sqrt( ((touchLocation.y - objectPoint.y) * (touchLocation.y - objectPoint.y) * radius * radius) / ((touchLocation.x - objectPoint.x) * (touchLocation.x - objectPoint.x) + (touchLocation.y - objectPoint.y) * (touchLocation.y - objectPoint.y)) );
+            
+            //矢印の回転
+            float arcRadian = atanf(((touchLocation.y - objectPoint.y) / (touchLocation.x - objectPoint.x)));
+            shootRadian = arcRadian;
+            //ラジアンを角度に変換
+            float arcDegree = -1 * CC_RADIANS_TO_DEGREES(arcRadian);
+            //        CCLog("arcDegree => %f", arcDegree);
+            
+            
+            if (objectPoint.x < touchLocation.x) {
+                x_plusFlag = -1;
+                x *= -1;
+                if(objectPoint.y < touchLocation.y) {
+                    y_plusFlag = -1;
+                    arcDegree += 180;
+                    y *= -1;
+                } else if(objectPoint.y == touchLocation.y) {
+                    y_plusFlag = 0;
+                    arcDegree += 180;
+                } else {
+                    y_plusFlag = 1;
+                    arcDegree += 180;
+                }
+            } else  if(objectPoint.x == touchLocation.x){
+                x_plusFlag = 0;
+                if(objectPoint.y < touchLocation.y) {
+                    y_plusFlag = -1;
+                    //arcDegree += 90;
+                    y *= -1;
+                } else if(objectPoint.y == touchLocation.y) {
+                    y_plusFlag = 0;
+                } else {
+                    y_plusFlag = 1;
+                    //arcDegree += 270;
+                }
             } else {
-                y_plusFlag = 1;
-                arcDegree += 180;
+                x_plusFlag = 1;
+                if(objectPoint.y < touchLocation.y) {
+                    y_plusFlag = -1;
+                    arcDegree += 360;
+                    y *= -1;
+                } else if(objectPoint.y == touchLocation.y) {
+                    y_plusFlag = 0;
+                } else {
+                    y_plusFlag = 1;
+                }
             }
-        } else  if(objectPoint.x == touchLocation.x){
-            x_plusFlag = 0;
-            if(objectPoint.y < touchLocation.y) {
-                y_plusFlag = -1;
-                //arcDegree += 90;
-                y *= -1;
-            } else if(objectPoint.y == touchLocation.y) {
-                y_plusFlag = 0;
+            
+            //CCLog("distance => %f", distance);
+            if(distance < 200) {
+                arrow->setScale(distance/ARROW_SCALE_RATIO);
+            }
+            
+            //表示位置の設定
+            arrow->setPosition(ccp(x + objectPoint.x, y + objectPoint.y));
+            
+            arrow->setRotation(arcDegree);
+            
+            //半径以下の時矢印の表示色を変える
+            if (radius < ccpDistance(startPoint, touchLocation)) {
+                arrow->setColor(ccc3(255, 200, 100));
+                arrow->setVisible(true);
             } else {
-                y_plusFlag = 1;
-                //arcDegree += 270;
+                arrow->setColor(ccc3(0, 200, 100));
+                arrow->setVisible(true);
             }
         } else {
-            x_plusFlag = 1;
-            if(objectPoint.y < touchLocation.y) {
-                y_plusFlag = -1;
-                arcDegree += 360;
-                y *= -1;
-            } else if(objectPoint.y == touchLocation.y) {
-                y_plusFlag = 0;
-            } else {
-                y_plusFlag = 1;
-            }
+            // 画面をタッチして動かす処理
+            CCPoint touchGap = ccp(touchLocation.x - moveTouchPoint.x,
+                                   touchLocation.y - moveTouchPoint.y);
+            
+            moveMap(touchGap);
+            
+            moveTouchPoint = touchLocation;
         }
-        
-        //CCLog("distance => %f", distance);
-        if(distance < 200) {
-            arrow->setScale(distance/ARROW_SCALE_RATIO);
-        }
-        
-        //表示位置の設定
-        arrow->setPosition(ccp(x + objectPoint.x, y + objectPoint.y));
-        
-        arrow->setRotation(arcDegree);
-        
-        //半径以下の時矢印を表示しない
-        if (radius < ccpDistance(startPoint, touchLocation)) {
-            arrow->setColor(ccc3(255, 200, 100));
-            arrow->setVisible(true);
-        } else {
-            arrow->setColor(ccc3(0, 200, 100));
-            arrow->setVisible(true);
-        }
-    } else {
-        // 画面をタッチして動かす処理
-        CCPoint touchGap = ccp(touchLocation.x - moveTouchPoint.x,
-                               touchLocation.y - moveTouchPoint.y);
-        
-        moveMap(touchGap);
-        
-        moveTouchPoint = touchLocation;
     }
 }
+
 
 
 void HelloWorld::ccTouchesCancelled(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent) {
@@ -798,18 +949,23 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
 void HelloWorld::moveMapWithObject(b2Body *moveObjectBody) {
     b2Vec2 moveObjectVec = moveObjectBody->GetLinearVelocity();
-    moveObjectVec = touchObjectBody->GetLinearVelocity();
     if( (-1.0f < moveObjectVec.x && moveObjectVec.x < 1.0f) && (-1.0f < moveObjectVec.y && moveObjectVec.y < 1.0f)) {
-        isMoving = false;
-        moveObjectBody->SetLinearDamping(8.0f);
-        this->scheduleOnce(schedule_selector(HelloWorld::playerChange), 0.5f);
-        //CCLog("");
+        //プレイヤーのターンの時
+        if (isPlayerTurn) {
+            isMoving = false;
+            moveObjectBody->SetLinearDamping(8.0f);
+            this->scheduleOnce(schedule_selector(HelloWorld::playerChange), 0.5f);
+        } else {
+            isMoving = false;
+//            isShotEnemy = false;
+            this->scheduleOnce(schedule_selector(HelloWorld::enemyChange), 0.5f);
+        }
     }
-    
     CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
     CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
     
-    movedPosition = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
+    movedPosition = CCPointMake(moveObjectBody->GetPosition().x * PTM_RATIO, moveObjectBody->GetPosition().y * PTM_RATIO);
+//    movedPosition = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
     
     CCPoint gap = CCPointMake(dispCenter.x - movedPosition.x, dispCenter.y - movedPosition.y);
     speedVec = CCPointMake(gap.x / 10, gap.y / 10);
