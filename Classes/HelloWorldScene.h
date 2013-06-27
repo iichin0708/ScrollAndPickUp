@@ -129,6 +129,7 @@ public:
     
     // ゲームオーバーフラグ
     bool isGameover;
+
     
 private:
     //    b2World* world;

@@ -410,7 +410,8 @@ void HelloWorld::update(float dt)
     
     if(isContacted && // 衝突した
        enemys[contactEnemyindex] != NULL && // 指定の敵配列が空でない
-       ! enemys[contactEnemyindex]->isInvincible ) // 敵が無敵でない
+       ! enemys[contactEnemyindex]->isInvincible
+       ) // 敵が無敵でない
     {
         // ぶつかられた敵はぶつかったプレイヤーの攻撃力分のダメージを受ける
         enemys[contactEnemyindex]->damaged(contactPlayerOffence);
@@ -1119,4 +1120,3 @@ CCScene* HelloWorld::scene()
     
     return scene;
 }
-
