@@ -46,6 +46,8 @@ HelloWorld::HelloWorld()
     pCamera->setEyeXYZ(x, y, 500);
     pCamera->getCenterXYZ(&x, &y, &z);
     CCLOG("z = %f", z);
+     iichinのsourceTreeの編集が反映さるのか
+     変更してる
     */
 
     isMoving = false;
@@ -725,7 +727,7 @@ void HelloWorld::moveEnemy(int enemyId) {
     b2Vec2 enemyShotAngle = b2Vec2(playerPoint.x - enemyPoint.x, playerPoint.y - enemyPoint.y);
     
     //距離によって持たせる速度を調整しようとしたけどやめる.
-    /*
+    /******
     if()
     */
     
