@@ -715,7 +715,7 @@ void HelloWorld::enemyChange() {
 
 void HelloWorld::moveEnemy(int enemyId) {
     int targetId = getNearestPlayerId(enemyId);
-    CCLog("enemyId => %d", enemyId);
+    //CCLog("enemyId => %d", enemyId);
     CCPoint playerPoint = monkeys[targetId]->getRigidPosition();
     CCPoint enemyPoint = enemys[enemyId]->getRigidPosition();
     //float distance = ccpDistance(playerPoint, enemyPoint);
@@ -731,6 +731,17 @@ void HelloWorld::moveEnemy(int enemyId) {
     //敵の速度は固定とする.
     enemyShotAngle.x *= enemys[enemyId]->speed;
     enemyShotAngle.y *= enemys[enemyId]->speed;
+    
+    int direction = enemys[enemyId]->getDirection(enemyShotAngle);
+    if(direction == LEFT) {
+        CCLog("LEFT");
+    } else if(direction == RIGHT) {
+        CCLog("RIGHT");
+    } else if(direction == UP) {
+        CCLog("UP");
+    } else if(direction == DOWN) {
+        CCLog("DOWN");
+    }
     
     //発射
     enemys[enemyId]->getBody()->SetLinearVelocity(enemyShotAngle);
@@ -806,8 +817,8 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
     if (isPlayerTurn) {
         if(isObjectTouched && touchObjectBody != NULL) {
             //movePointがプラスかマイナスか判別するフラグ
-            int x_plusFlag;
-            int y_plusFlag;
+            //int x_plusFlag;
+            //int y_plusFlag;
             
             PhysicsSprite *pSprite = (PhysicsSprite *)touchObjectBody->GetUserData();
             
