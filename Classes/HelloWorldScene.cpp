@@ -588,14 +588,16 @@ void HelloWorld::update(float dt)
     int countPlayer = 0;
     // 対象のプレイヤーがいなければ順番を飛ばす
     for(int i = 0; i < PLAYER_NUM; i++) {
-        if(monkeys[Player::getPlayerTurnId()] == NULL ||
-           monkeys[Player::getPlayerTurnId()]->isFalled) {
-            Player::playerTurnId++;
-        } else {
+        if (monkeys[i] == NULL) {
+            continue;
+        }
+        
+        if(!monkeys[i]->isFalled) {
             countPlayer++;
         }
     }
     
+    CCLog("countPlayer = %f", countPlayer);
     // ゲームオーバーチェック
     if(countPlayer < 1 && ! isGameover && ! isGameclear) {
         isGameover = true;
@@ -608,6 +610,7 @@ void HelloWorld::update(float dt)
         overLabel->setPosition(ccp(origin.x + visibleSize.width / 2,
                                    origin.y + visibleSize.height / 2));
         this->addChild(overLabel);
+        reorderChild(overLabel, 100);
     }
     
     if(isContacted && // 衝突した
@@ -911,7 +914,25 @@ void HelloWorld::playerChange() {
         this->addChild(clearLabel);
     }
     
+    
+    Player::prePlayerTurnId = Player::playerTurnId;
+    Player::playerTurnId++;
+    
     //次の敵プレイヤーのポインタを探す(死んでいた場合は次の敵プレイヤーを探す) プレイヤーが敵を殺した場合も考えて
+    int loop = 0;
+    for(int i = Player::playerTurnId; loop < PLAYER_NUM; i++) {
+        if(monkeys[Player::getPlayerTurnId()] == NULL) {
+            Player::playerTurnId++;
+        } else {
+            break;
+        }
+        loop++;
+    }
+   
+    //プレイヤーターン終了
+    isPlayerTurn = false;
+    
+    //次の敵プレイヤーのポインタを探す(死んでいた場合は次のプレイヤーを探す)
     int loopCount = 0;
     for(int i = Enemy::enemyTurnId; loopCount < ENEMY_NUM; i++) {
         if(enemys[Enemy::getEnemyTurnId()] == NULL) {
@@ -919,19 +940,8 @@ void HelloWorld::playerChange() {
         } else {
             break;
         }
+        
         loopCount++;
-    }
-   
-    //プレイヤーターン終了
-    isPlayerTurn = false;
-    
-    Player::prePlayerTurnId = Player::playerTurnId;
-    Player::playerTurnId++;
-    
-    // 次ターンのプレイヤーがいなければ順番を飛ばす
-    while(monkeys[Player::getPlayerTurnId()] == NULL ||
-          monkeys[Player::getPlayerTurnId()]->isFalled) {
-        Player::playerTurnId++;
     }
     
     //次のプレイヤーにポインタを動かすためのフラグ
@@ -943,6 +953,17 @@ void HelloWorld::playerChange() {
 }
 
 void HelloWorld::enemyChange() {
+    // 溺れ状態のプレイヤーを除去する
+    for(int i = 0; i < PLAYER_NUM; i++) {
+        if(monkeys[i] != NULL &&
+           monkeys[i]->isFalled) {
+            cursor->setVisible(false);
+            touchObjectBody = NULL;
+            removeChild((PhysicsSprite*)monkeys[i]->getBody()->GetUserData());
+            destroyObject((RigidBody *&)monkeys[i]);
+        }
+    }
+    
     //次の敵プレイヤーにポインタを動かすためのフラグ
     isShowedNextEnemy = false;
     
