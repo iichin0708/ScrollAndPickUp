@@ -1206,11 +1206,12 @@ void HelloWorld::moveMap(CCPoint touchGap) {
                             cursor->getPosition().y);
     }
     
-    /*
+
     // y方向にフィールドが動かせるかどうか
-    if(field->getPosition().y + touchGap.y <= field->height / 2 &&
-       field->getPosition().y + field->height / 2 + touchGap.y >= s.height) {
-      */  
+    if(field->getPosition().y + touchGap.y <= field->getSprite()->getContentSize().height / 2 + field->getSprite()->getContentSize().height / 4 &&
+           field->getPosition().y + field->getSprite()->getContentSize().height / 2 + touchGap.y >= s.width) {
+    
+    //if(field->getPosition().y - field->height / 2 > 0 && field->getPosition().y + field->height / 2 < field->height) {
         // フィールドスライド
         field->setPosition(field->getPosition().x,
                            field->getPosition().y + touchGap.y);
@@ -1262,7 +1263,7 @@ void HelloWorld::moveMap(CCPoint touchGap) {
         //カーソルスライド
         cursor->setPosition(cursor->getPosition().x,
                             cursor->getPosition().y + touchGap.y);
-    //}
+    }
     
     World *world =  World::getInstance();
     world->deleteWall();
