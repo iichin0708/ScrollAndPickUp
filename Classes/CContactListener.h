@@ -36,6 +36,8 @@ private:
     
     //np => Not Player
     void setPlayerBoundRatio(b2Body *playerBody, int npType, b2Body *npBody, int npNum);
+    
+    void setEnemyBoundRatio(b2Body *enemyBody, int contactedType, b2Body *contactedBody, int contactedNum);
 };
 
 #endif /* defined(__box2d__CContactListener__) */

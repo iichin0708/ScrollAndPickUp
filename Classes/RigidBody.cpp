@@ -146,6 +146,7 @@ float RigidBody::getAngle(b2Vec2 vec) {
     return arcDegree;
 }
 
+//角度から向いている方角を取得
 int RigidBody::getDirectionFromAngle(float angle) {
     if (0 < angle && angle < 60) {
         return RIGHT;
@@ -199,6 +200,104 @@ int RigidBody::getDirectionFromVec(b2Vec2 vec) {
         return RIGHT;
     }
     
+}
+
+
+//渡された方向と逆の方向を返す.
+int RigidBody::getReverseDirection(int direction) {
+    if(direction == UP) {
+        return DOWN;
+    } else if(direction == DOWN) {
+        return UP;
+    } else if(direction == RIGHT) {
+        return LEFT;
+    } else if(direction == LEFT) {
+        return RIGHT;
+    }
+    
+    //エラー
+    return -1;
+}
+
+
+//どこにぶつかられたか(正面、背後、左右)をセットする
+void RigidBody::setContactedDirection() {
+    switch(_preDirection) {
+        case UP:
+            switch (_postDirection) {
+                case UP:
+                    _contactedDirection = BACK;
+                    break;
+                case DOWN:
+                    _contactedDirection = FRONT;
+                    break;
+                default:
+                    _contactedDirection = SIDE;
+                    break;
+            }
+            break;
+        case DOWN:
+            switch (_postDirection) {
+                case UP:
+                    _contactedDirection = FRONT;
+                    break;
+                case DOWN:
+                    _contactedDirection = BACK;
+                    break;
+                default:
+                    _contactedDirection = SIDE;
+                    break;
+            }
+            break;
+        case LEFT:
+            switch (_postDirection) {
+                case LEFT:
+                    _contactedDirection = BACK;
+                    break;
+                case RIGHT:
+                    _contactedDirection = RIGHT;
+                    break;
+                default:
+                    _contactedDirection = SIDE;
+                    break;
+            }
+            break;
+        case RIGHT:
+            switch (_postDirection) {
+                case LEFT:
+                    _contactedDirection = FRONT;
+                    break;
+                case RIGHT:
+                    _contactedDirection = BACK;
+                    break;
+                default:
+                    _contactedDirection = SIDE;
+                    break;
+            }
+            break;
+    }
+}
+
+//当たった時の向きによって速度を変化させる.
+void RigidBody::setReviceVelocity(int contactedDirection) {
+    b2Vec2 objBodyVec = _body->GetLinearVelocity();
+    CCLog("_pre = %d, _post = %d", _preDirection, _postDirection);
+    CCLog("contactedDirection = %d", contactedDirection);
+    switch (contactedDirection) {
+        case FRONT:
+            objBodyVec.x *= 1.5;
+            objBodyVec.y *= 1.5;
+            break;
+        case BACK:
+            objBodyVec.x *= 3.0;
+            objBodyVec.y *= 3.0;
+            break;
+        case SIDE:
+            objBodyVec.x *= 2.25;
+            objBodyVec.y *= 2.25;
+            break;
+    }
+    _body->SetLinearVelocity(objBodyVec);
 }
 
 CCPoint RigidBody::getRigidPosition() {

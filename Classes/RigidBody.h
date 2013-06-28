@@ -21,6 +21,10 @@
 #define RIGHT 4
 #define LEFT 5
 
+#define FRONT 6
+#define BACK 7
+#define SIDE 8
+
 class RigidBody : public cocos2d::CCLayer {
 public:
     RigidBody(){};
@@ -37,8 +41,14 @@ public:
 
     b2Body *_body;
     
-    //オブジェクトの向いている方角
-    int _direction;
+    //どこにぶつかられたか(正面、背後、左、右)を保持する変数
+    int _contactedDirection;
+    
+    //移動前のオブジェクトの向いている方角
+    int _preDirection;
+    
+    //移動後のオブジェクトの向いている方角
+    int _postDirection;
     
     //オブジェクトのベクトルから角度を取得
     float getAngle(b2Vec2 vec);
@@ -50,6 +60,14 @@ public:
     int getDirectionFromVec(b2Vec2 vec);
 
     void setDecreaseSpeedRatio(float ratio);
+    
+    //どこにぶつかられたか(正面、背後、左、右)をセットする
+    void setContactedDirection();
+    
+    //現在の方向と逆の方向を取得
+    int getReverseDirection(int direction);
+    
+    void setReviceVelocity(int contactedDirection);
     
     //位置を返す
     cocos2d::CCPoint getRigidPosition();

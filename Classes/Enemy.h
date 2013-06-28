@@ -10,7 +10,7 @@
 #define KIND_GOBLIN 1
 #define KIND_DRAGON 2
 
-#define ENEMY_NUM 15
+#define ENEMY_NUM 5
 
 class Enemy : public RigidBody
 {
@@ -26,8 +26,10 @@ public:
     // コンストラクタ
     Enemy(cocos2d::CCNode* parent, int kind, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody()
     {
+        
         const char* imageName;
         isInvincible = false;
+        contactDirection = 0;
         switch (kind) {
             case KIND_ONION:
 //                imageName = "004.png";
@@ -42,7 +44,6 @@ public:
                 //restitution = 0.8f;
                 //自身の吹っ飛び率
                 decreaseRatio = 10;
-                _direction = DOWN;
                 break;
                 
             case KIND_GOBLIN:
@@ -59,7 +60,6 @@ public:
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 1.0f;
                 decreaseRatio =10;
-                _direction = DOWN;
                 break;
                 
             case KIND_DRAGON:
@@ -76,9 +76,11 @@ public:
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 1.5f;
                 decreaseRatio = 14;
-                _direction = DOWN;
                 break;
         }
+        _preDirection = DOWN;
+        _postDirection = DOWN;
+        
         hp = maxHp;
         _kind = kind;
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create(imageName, 100);
@@ -89,6 +91,15 @@ public:
         sprite->autorelease();
         //sprite->setTag(sprite_id++);
         sprite->setPosition( cocos2d::CCPointMake( location.x, location.y) );
+        
+        
+        if(_kind == 0) {
+            
+        } else if(_kind == 1) {
+            sprite->setColor(cocos2d::ccc3(255, 200, 100));
+        } else if(_kind == 2) {
+            sprite->setColor(cocos2d::ccc3(255, 100, 100));
+        }
         
         parent->addChild(sprite);
         
@@ -121,6 +132,9 @@ public:
     
     // 水に落ちているかどうかのフラグ
     bool isFalled;
+    
+    //衝突した場所を保持する.
+    int contactDirection;
 
     // 体力
     int hp;
@@ -157,6 +171,7 @@ public:
     //現在のターンのEnemyIDを取得
     static int getEnemyTurnId();
     
+    //画像の差し替え
     void setImage(int direction);
     
 };
