@@ -46,6 +46,7 @@ public:
     Water *waters[WATER_NUM];
     Cursor *cursor;
     Field *field;
+    cocos2d::CCSprite *windEffect;
     
     b2Body *backgroud;
     
@@ -191,7 +192,9 @@ private:
     cocos2d::CCSprite* black;
     cocos2d::CCSprite* stageLabel;
     
-
+    // 風エフェクトが追いかけるオブジェクト
+    int windTargetType;
+    int windTargetIndex;
 };
 
 #endif // __HELLO_WORLD_H__

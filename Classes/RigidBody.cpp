@@ -128,7 +128,6 @@ b2Body* RigidBody::getBody() {
 
 //ベクトルから向いている角度を取得
 float RigidBody::getAngle(b2Vec2 vec) {
-    
     //矢印の回転
     float arcRadian = atanf(vec.y / vec.x);
     //ラジアンを角度に変換

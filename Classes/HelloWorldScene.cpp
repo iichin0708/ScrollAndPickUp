@@ -158,6 +158,13 @@ HelloWorld::HelloWorld()
         monkeys[i] = new Player(this, ccp(s.width/2 -150 + 150 * i, s.height/2 + -100), 1.5f, 0.6f, 1.0f);
     }
     
+    // 移動中エフェクト
+    windEffect = CCSprite::create("effect_wind.png");
+    windEffect->setOpacity(170);
+    windEffect->setAnchorPoint(ccp((windEffect->getContentSize().width - 30) / windEffect->getContentSize().width,
+                                    0.5));
+    addChild(windEffect);
+    
     // 障害物の配置
     setObstacle();
     
@@ -442,6 +449,7 @@ void HelloWorld::setObstacle() {
 //idを持つ剛体を終点から始点のベクトルにボディを飛ばす
 void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
 {
+       
     //タッチしたオブジェクトの中心座標を取得
     CCPoint objectPoint = CCPointMake(touchObjectBody->GetPosition().x * PTM_RATIO, touchObjectBody->GetPosition().y * PTM_RATIO);
     
@@ -506,6 +514,22 @@ void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
     
     object->SetLinearVelocity(angleAndSpeed);
     isMoving = true;
+    
+    // 風エフェクトの設定
+    // 表示設定
+    angleAndSpeed.y *= -1;
+    float angle = monkeys[Player::playerTurnId]->getAngle(angleAndSpeed);
+    windEffect->setRotation(angle);
+    windEffect->setPosition(ccp(monkeys[Player::getPlayerTurnId()]->getBody()->GetPosition().x * PTM_RATIO,
+                                monkeys[Player::getPlayerTurnId()]->getBody()->GetPosition().y * PTM_RATIO));
+    windEffect->setVisible(true);
+    reorderChild(windEffect, 100);
+    // フェードアウト設定
+    CCFadeOut* actionFadeOut = CCFadeOut::create(0.3f);
+    windEffect->runAction(actionFadeOut);
+    // 風エフェクトがついているオブジェクトの指定
+    windTargetType = TYPE_PLAYER;
+    windTargetIndex = Player::getPlayerTurnId();
     
     Player::prePlayerTurnId = Player::playerTurnId;
     Player::playerTurnId++;
@@ -711,7 +735,6 @@ void HelloWorld::update(float dt)
             //カーソルの表示
             cursor->setPosition(monkeys[i]->getBody()->GetPosition().x * PTM_RATIO,
                                 monkeys[i]->getBody()->GetPosition().y * PTM_RATIO);
-            cursor->setVisible(true);
         }
         
         // 画面端に行くと消える（落ちる）
@@ -738,6 +761,10 @@ void HelloWorld::update(float dt)
     
     //次のプレイヤーにマップを一度だけ移動しポインタをあわせる
     if(!isShowedNextPlayer && isPlayerTurn) {
+        // カーソルの色
+        cursor->setVisible(true);
+        cursor->getSprite()->setColor(ccc3(255, 255, 255));
+        
         CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
         CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
         if(monkeys[Player::getPlayerTurnId()] != NULL) {
@@ -756,6 +783,10 @@ void HelloWorld::update(float dt)
     
     //次の敵プレイヤーにマップを一度だけ移動しポインタをあわせる
     if(!isShowedNextEnemy && !isPlayerTurn) {
+        // カーソルの色
+        cursor->setVisible(true);
+        cursor->getSprite()->setColor(ccc3(0, 0, 0));
+
         CCSize dispSize = CCDirector::sharedDirector()->getWinSize();
         CCPoint dispCenter = CCPointMake(dispSize.width / 2, dispSize.height / 2);
         if(enemys[Enemy::getEnemyTurnId()] != NULL) {
@@ -789,8 +820,8 @@ void HelloWorld::update(float dt)
         //そのターンの敵プレイヤーにポインタの表示.
         if(i == Enemy::getEnemyTurnId() && !isPlayerTurn){
             //カーソルの表示
-            cursor->setPosition(enemys[i]->getBody()->GetPosition().x * PTM_RATIO,
-                                enemys[i]->getBody()->GetPosition().y * PTM_RATIO);
+            cursor->setPosition(enemys[i]->getRigidPosition().x,
+                                enemys[i]->getRigidPosition().y);
             cursor->setVisible(true);
         }
         
@@ -830,6 +861,21 @@ void HelloWorld::update(float dt)
             removeChild((PhysicsSprite*)enemys[i]->getBody()->GetUserData());
             destroyObject((RigidBody *&)enemys[i]);
             isContacted = false;
+        }
+    }
+    
+    // 風のエフェクトが毎フレーム実行する処理
+    if(windTargetType == TYPE_PLAYER) {
+        if(monkeys[windTargetIndex] != NULL) {
+        windEffect->setPosition(monkeys[windTargetIndex]->getRigidPosition());
+        } else {
+            windEffect->setVisible(false);
+        }
+    } else if(windTargetType == TYPE_ENEMY) {
+        if(enemys[windTargetIndex] != NULL) {
+            windEffect->setPosition(enemys[windTargetIndex]->getRigidPosition());
+        } else {
+            windEffect->setVisible(false);
         }
     }
 }
@@ -948,7 +994,23 @@ void HelloWorld::moveEnemy(int enemyId) {
     enemys[enemyId]->getBody()->SetLinearVelocity(enemyShotAngle);
     isShotEnemy = true;
     isMoving = true;
-        
+    
+    // 風エフェクトの設定
+    // 表示設定
+    enemyShotAngle.y *= -1;
+    float reverseAngle = enemys[enemyId]->getAngle(enemyShotAngle);
+    windEffect->setRotation(reverseAngle);
+    windEffect->setPosition(ccp(enemys[enemyId]->getRigidPosition().x,
+                                enemys[enemyId]->getRigidPosition().y));
+    windEffect->setVisible(true);
+    reorderChild(windEffect, 100);
+    // フェードアウト設定
+    CCFadeOut* actionFadeOut = CCFadeOut::create(0.3f);
+    windEffect->runAction(actionFadeOut);
+    // 風エフェクトがついているオブジェクトの指定
+    windTargetType = TYPE_ENEMY;
+    windTargetIndex = enemyId;
+
 }
 
 

@@ -207,9 +207,9 @@
 		D34ED137177D20B20061F529 /* onion004.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED133177D20B10061F529 /* onion004.png */; };
 		D34ED138177D20B20061F529 /* onion002.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED134177D20B20061F529 /* onion002.png */; };
 		D34ED13B177D5BCF0061F529 /* player002.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED13A177D5BCF0061F529 /* player002.png */; };
-		D3984C48177D64700013AB2D /* effect_wind.png in Resources */ = {isa = PBXBuildFile; fileRef = D3984C45177D64700013AB2D /* effect_wind.png */; };
 		D3984C4A177D64700013AB2D /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = D3984C47177D64700013AB2D /* circle.png */; };
 		D3984C4C177D65B80013AB2D /* shockwave.png in Resources */ = {isa = PBXBuildFile; fileRef = D3984C4B177D65B80013AB2D /* shockwave.png */; };
+		D3984C50177D9A000013AB2D /* effect_wind.png in Resources */ = {isa = PBXBuildFile; fileRef = D3984C4F177D9A000013AB2D /* effect_wind.png */; };
 		D3C68A851779624000DA1BE9 /* field.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A841779624000DA1BE9 /* field.jpg */; };
 		D3C68A891779651A00DA1BE9 /* Obstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3C68A871779651A00DA1BE9 /* Obstacle.cpp */; };
 		D3C68A981779771600DA1BE9 /* iwa01.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A8D1779771600DA1BE9 /* iwa01.png */; };
@@ -632,9 +632,9 @@
 		D34ED133177D20B10061F529 /* onion004.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onion004.png; sourceTree = "<group>"; };
 		D34ED134177D20B20061F529 /* onion002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onion002.png; sourceTree = "<group>"; };
 		D34ED13A177D5BCF0061F529 /* player002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player002.png; sourceTree = "<group>"; };
-		D3984C45177D64700013AB2D /* effect_wind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = effect_wind.png; sourceTree = "<group>"; };
 		D3984C47177D64700013AB2D /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
 		D3984C4B177D65B80013AB2D /* shockwave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shockwave.png; sourceTree = "<group>"; };
+		D3984C4F177D9A000013AB2D /* effect_wind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = effect_wind.png; sourceTree = "<group>"; };
 		D3C68A841779624000DA1BE9 /* field.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = field.jpg; sourceTree = "<group>"; };
 		D3C68A871779651A00DA1BE9 /* Obstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Obstacle.cpp; path = ../Classes/Obstacle.cpp; sourceTree = "<group>"; };
 		D3C68A881779651A00DA1BE9 /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Obstacle.h; path = ../Classes/Obstacle.h; sourceTree = "<group>"; };
@@ -1331,6 +1331,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D3984C4F177D9A000013AB2D /* effect_wind.png */,
 				D34ED13A177D5BCF0061F529 /* player002.png */,
 				D3069BFD177D2E0C00142D65 /* blue_bar.png */,
 				D3069BF9177D2E0200142D65 /* hp_frame.png */,
@@ -1379,7 +1380,6 @@
 				7855E0DF153FEF240059DD9A /* Default.png */,
 				D446FD6D16102124000ADA7B /* Default@2x.png */,
 				D30D14281776E7B800293343 /* effect_attack.png */,
-				D3984C45177D64700013AB2D /* effect_wind.png */,
 				D3984C47177D64700013AB2D /* circle.png */,
 				D30D141E1775FBAB00293343 /* field_old.jpg */,
 				D30D141F1775FBAC00293343 /* ghost.png */,
@@ -1537,9 +1537,9 @@
 				D34ED137177D20B20061F529 /* onion004.png in Resources */,
 				D34ED138177D20B20061F529 /* onion002.png in Resources */,
 				D34ED13B177D5BCF0061F529 /* player002.png in Resources */,
-				D3984C48177D64700013AB2D /* effect_wind.png in Resources */,
 				D3984C4A177D64700013AB2D /* circle.png in Resources */,
 				D3984C4C177D65B80013AB2D /* shockwave.png in Resources */,
+				D3984C50177D9A000013AB2D /* effect_wind.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
