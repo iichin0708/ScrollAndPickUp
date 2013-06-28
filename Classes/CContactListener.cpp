@@ -346,7 +346,7 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
         //敵プレイヤーのターン
         else
         {
-            //if( ! hw->monkeys[bNum]->isInvincible ) {
+            if( ! hw->monkeys[bNum]->isInvincible ) {
                 hw->isContacted = true;
                 isContactedToEnemy = true;
                 contactPlayerNum = bNum;
@@ -369,7 +369,7 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
                 //衝突によってプレイヤー画像の差し替えを行う
                 float angle = hw->monkeys[bNum]->getAngle(bBody->GetLinearVelocity());
                 hw->monkeys[bNum]->setImage(hw->monkeys[bNum]->getDirectionFromAngle(angle));
-            //}
+            }
         }
     }
     

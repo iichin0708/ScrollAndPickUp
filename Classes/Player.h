@@ -24,8 +24,9 @@ public:
     
     Player(cocos2d::CCNode* parent, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody() {
         isFalled = false;
+        isInvincible = false;
         offense = OFFENSE;
-        maxHp = 4;
+        maxHp = 15;
         hp=maxHp;
         _direction = UP;
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create("player001.png", 100);
@@ -85,6 +86,15 @@ public:
     
     // 攻撃力
     int offense;
+    
+    // 攻撃を受ける
+    void damaged(int);
+    
+    // 無敵状態のフラグ
+    bool isInvincible;
+    
+    // 無敵状態を解除する
+    void setNoInvincible();
 };
 
 #endif /* defined(__ScrollAndPickUp__Player__) */
