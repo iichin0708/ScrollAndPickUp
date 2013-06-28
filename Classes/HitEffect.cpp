@@ -12,9 +12,9 @@ USING_NS_CC;
 
 HitEffect::HitEffect()
 {
-    width = 36;
-    height = 36;
-    sprite = CCSprite::create("effect_attack.png", CCRectMake(0, 0, width, height) );
+    width = 70;
+    height = 70;
+    sprite = CCSprite::create("shockwave.png", CCRectMake(0, 0, width, height) );
     
     // 透明度(0~255)
     sprite->setOpacity(220);
@@ -54,18 +54,20 @@ void HitEffect::setVisible(bool isVisible)
     this->isVisible = isVisible;
     sprite->setVisible(this->isVisible);
     sprite->setScale(1.0f);
+    sprite->setOpacity(255 * 0.8);
     
     // 拡大
-    CCActionInterval* actionScale = CCScaleBy::create(0.3f, 5.0f);
+    CCActionInterval* actionScale = CCScaleBy::create(0.15f, 5.0f);
     
     // フェードアウト
-    CCActionInterval* actionAlpha = CCFadeOut::create(0.3f);
+    CCActionInterval* actionAlpha = CCFadeOut::create(0.4f);
     // 非表示状態
     cocos2d::CCCallFunc* actionNoVisible = cocos2d::CCCallFunc::create(this, callfunc_selector(HitEffect::setNoVisible));
     // 処理順を並べる
-    CCSequence* actionFadeOut = CCSequence::create(actionAlpha, actionNoVisible);
+    //CCSequence* actionFadeOut = CCSequence::create(actionAlpha, actionNoVisible);
+    CCSequence* actionFadeOut = CCSequence::create(actionScale, actionNoVisible);
     
-    sprite->runAction(actionScale);
+    //sprite->runAction(actionScale);
     sprite->runAction(actionFadeOut);
 }
 

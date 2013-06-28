@@ -93,7 +93,6 @@ HelloWorld::HelloWorld()
     //field->getSprite()->setVisible(false);
     addChild(field->getSprite());
     
-    
     // ワールド（キャラクター行動可能範囲）の用意
     World *world = World::getInstance();
     world->deleteWall();
@@ -160,7 +159,7 @@ HelloWorld::HelloWorld()
     for(int i =0; i < PLAYER_NUM; i++) {
         monkeys[i] = new Player(this, ccp(s.width/2 -150 + 150 * i, s.height/2 + -100), 1.5f, 0.6f, 1.0f);
     }
-
+    
     // 障害物の配置
     setObstacle();
     
@@ -177,6 +176,7 @@ HelloWorld::HelloWorld()
     CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu);
+    reorderChild(pMenu, 100);
     
     isObjectTouched = false;
     
@@ -207,7 +207,55 @@ HelloWorld::HelloWorld()
     
     addChild(black);
     addChild(stageLabel);
+    reorderChild(black, 100);
+    reorderChild(stageLabel, 100);
     
+    // 表示の順番を決定
+    // 背景
+    reorderChild(field->getSprite(), 1);
+    
+    // 矢印
+    reorderChild(arrow, 2);
+    
+    // カーソル
+    reorderChild(cursor->getSprite(), 3);
+
+    // 障害物
+    for(int i = 0; i < OBSTACLE_NUM; i++) {
+        if(obstacles[i] == NULL) continue;
+        reorderChild((PhysicsSprite *)obstacles[i]->getBody()->GetUserData(), 4);
+    }
+
+    // 敵
+    for(int i = 0; i < ENEMY_NUM; i++) {
+        reorderChild((PhysicsSprite *)enemys[i]->getBody()->GetUserData(), 5);
+    }
+    
+    // プレイヤー
+    for(int i = 0; i < PLAYER_NUM; i++) {
+        reorderChild((PhysicsSprite *)monkeys[i]->getBody()->GetUserData(), 6);
+    }
+    
+    // 当たったときのエフェクト
+    for(int i = 0; i < HIT_EF_NUM; i++) {
+        reorderChild(hitEfs[i]->getSprite(), 7);
+    }
+    
+    // 水
+    for(int i = 0; i < WATER_NUM; i++) {
+        reorderChild(waters[i]->getSprite(), 8);
+    }
+    
+    // コイン
+    for(int i = 0; i < COIN_NUM; i++) {
+        reorderChild(coins[i]->getSprite(), 9);
+    }
+    
+    // 幽霊
+    for(int i = 0; i < ENEMY_NUM; i++) {
+        reorderChild(ghosts[i]->getSprite(), 10);
+    }
+
     scheduleUpdate();
 }
 
@@ -240,6 +288,7 @@ void HelloWorld::offWait()
     
     
     addChild(readyLabel);
+    reorderChild(readyLabel, 100);
 }
 
 void HelloWorld::offReady()
@@ -252,6 +301,7 @@ void HelloWorld::offReady()
     CCFadeOut* actionFadeOut = CCFadeOut::create(0.5f);
     goLabel->runAction(actionFadeOut);
     addChild(goLabel);
+    reorderChild(goLabel, 100);
     
     isGameReady = false;
 }
@@ -777,7 +827,7 @@ void HelloWorld::update(float dt)
                 if(waters[j]->getVisible()) continue;
                 waters[j]->setVisible(true, enemys[i]->getBody()->GetPosition().y * PTM_RATIO);
                 waters[j]->setPosition(enemys[i]->getBody()->GetPosition().x * PTM_RATIO,
-                                      enemys[i]->getBody()->GetPosition().y * PTM_RATIO);
+                                       enemys[i]->getBody()->GetPosition().y * PTM_RATIO);
                 waters[j]->tarIndex = pIndex;
                 countWater++;
                 if(countWater >= 5) break;
@@ -1201,6 +1251,14 @@ void HelloWorld::moveMap(CCPoint touchGap) {
                                    ghosts[i]->getPosition().y);
         }
     
+        // 当たったときのエフェクトスライド
+        for(int i = 0; i < HIT_EF_NUM; i++) {
+            if(hitEfs[i] == NULL) continue;
+            hitEfs[i]->setPosition(hitEfs[i]->getPosition().x + touchGap.x,
+                                   hitEfs[i]->getPosition().y);
+        }
+        
+        
         // 障害物スライド
         for(int i = 0; i < OBSTACLE_NUM; i++) {
             if(obstacles[i] == NULL) continue;
@@ -1260,8 +1318,14 @@ void HelloWorld::moveMap(CCPoint touchGap) {
             ghosts[i]->setPosition(ghosts[i]->getPosition().x,
                                    ghosts[i]->getPosition().y + touchGap.y);
         }
-    
-
+        
+        // 当たったときのエフェクトスライド
+        for(int i = 0; i < HIT_EF_NUM; i++) {
+            if(hitEfs[i] == NULL) continue;
+            hitEfs[i]->setPosition(hitEfs[i]->getPosition().x,
+                                   hitEfs[i]->getPosition().y + touchGap.y);
+        }
+        
         // 障害物スライド
         for(int i = 0; i < OBSTACLE_NUM; i++) {
             if(obstacles[i] == NULL) continue;

@@ -26,7 +26,7 @@ public:
         isFalled = false;
         isInvincible = false;
         offense = OFFENSE;
-        maxHp = 15;
+        maxHp = 10;
         hp=maxHp;
         _preDirection = UP;
         _postDirection = UP;
@@ -59,6 +59,7 @@ public:
         barSprite->setAnchorPoint(ccp(0.0, 0.5));
         barSprite->setScaleX(1);
         hpSprite->addChild(barSprite);
+        hpSprite->setScale(10.0/8.0);
         
         isFalled = false;
         
