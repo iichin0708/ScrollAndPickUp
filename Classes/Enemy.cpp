@@ -68,12 +68,13 @@ void Enemy::setImage(int direction) {
     PhysicsSprite *pSprite = (PhysicsSprite *)_body->GetUserData();
     CCSpriteBatchNode *image;
     const char *imageName;
-        
+    
+    _preDirection = _postDirection;
+    _postDirection = direction;
     //与えられた方向によって画像を変更
     /****** imageファイルが揃ってないのでファイル名は暫定で同じものを使う ******/
     switch (direction) {
         case UP:
-            _direction = UP;
             switch (_kind) {
                 case KIND_ONION:
                     imageName = "onion001.png";
@@ -87,7 +88,6 @@ void Enemy::setImage(int direction) {
             }
             break;
         case DOWN:
-            _direction = DOWN;
             switch (_kind) {
                 case KIND_ONION:
                     imageName = "onion002.png";
@@ -101,7 +101,6 @@ void Enemy::setImage(int direction) {
             }
             break;
         case LEFT:
-            _direction = LEFT;
             switch (_kind) {
                 case KIND_ONION:
                     imageName = "onion003.png";
@@ -115,7 +114,6 @@ void Enemy::setImage(int direction) {
             }
             break;
         case RIGHT:
-            _direction = RIGHT;
             switch (_kind) {
                 case KIND_ONION:
                     imageName = "onion004.png";

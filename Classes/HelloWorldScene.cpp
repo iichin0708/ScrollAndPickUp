@@ -35,6 +35,8 @@ int HelloWorld::realDispHeight = 0;
 
 HelloWorld::HelloWorld()
 {
+    //ランダム初期化
+    srand((unsigned int)time(NULL));
     /*
     float x=0, y=0, z=0;
     CCCamera* pCamera = this->getCamera();
@@ -729,13 +731,16 @@ void HelloWorld::update(float dt)
     // プレイヤーの毎フレーム実行する処理
     for(int i = 0; i < PLAYER_NUM; i++) {
         if(monkeys[i] == NULL) continue;
-                
+        
+        
         //そのターンのプレイヤーにポインタの表示.
         if(i == Player::getPlayerTurnId() && isPlayerTurn){
             //カーソルの表示
             cursor->setPosition(monkeys[i]->getBody()->GetPosition().x * PTM_RATIO,
                                 monkeys[i]->getBody()->GetPosition().y * PTM_RATIO);
         }
+         
+        
         
         // 画面端に行くと消える（落ちる）
         if (monkeys[i]->getBody()->GetPosition().x * PTM_RATIO > field->getPosition().x + field->width / 2||
@@ -816,6 +821,7 @@ void HelloWorld::update(float dt)
                                                   enemys[i]->getBody()->GetPosition().y), 0);
          */
         //CCSprite sprite = enemys[i]->getBody()->GetUserData();
+        
         
         //そのターンの敵プレイヤーにポインタの表示.
         if(i == Enemy::getEnemyTurnId() && !isPlayerTurn){
@@ -988,6 +994,8 @@ void HelloWorld::moveEnemy(int enemyId) {
     
     float angle = enemys[enemyId]->getAngle(enemyShotAngle);
     int direction = enemys[enemyId]->getDirectionFromAngle(angle);
+
+    //これから向く方向に画像をあわせる
     enemys[enemyId]->setImage(direction);
     
     //発射

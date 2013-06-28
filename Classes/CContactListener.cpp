@@ -251,17 +251,44 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
         
         //衝突された方の画像を差し替える
         if(aNum != Player::prePlayerTurnId) {
-            b2Vec2 contactVec = aBody->GetLinearVelocity();
-            float angle = hw->monkeys[aNum]->getAngle(contactVec);
+            float angle = hw->monkeys[aNum]->getAngle(aBody->GetLinearVelocity());
             int direction = hw->monkeys[aNum]->getDirectionFromAngle(angle);
-            CCLog("direction = %d", direction);
             hw->monkeys[aNum]->setImage(direction);
+        
+            //衝突された時の方向によって速度を変化
+            hw->monkeys[aNum]->setContactedDirection();
+            hw->monkeys[aNum]->setReviceVelocity(hw->monkeys[aNum]->_contactedDirection);
         } else if(bNum != Player::prePlayerTurnId) {
-            b2Vec2 contactVec = bBody->GetLinearVelocity();
-            float angle = hw->monkeys[bNum]->getAngle(contactVec);
+            float angle = hw->monkeys[bNum]->getAngle(bBody->GetLinearVelocity());
             int direction = hw->monkeys[bNum]->getDirectionFromAngle(angle);
-            CCLog("direction = %d", direction);
             hw->monkeys[bNum]->setImage(direction);
+            
+            //衝突された時の方向によって速度を変化
+            hw->monkeys[bNum]->setContactedDirection();
+            hw->monkeys[bNum]->setReviceVelocity(hw->monkeys[bNum]->_contactedDirection);
+        }
+    }
+    
+    //敵プレイヤーと敵プレイヤーの接触の場合
+    if (aType == TYPE_ENEMY && bType == TYPE_ENEMY) {
+        
+        //衝突された方の画像を差し替える
+        if(aNum != Enemy::enemyTurnId) {
+            //衝突によって敵画像の差し替えを行う
+            float angle = hw->enemys[aNum]->getAngle(aBody->GetLinearVelocity());
+            hw->enemys[aNum]->setImage(hw->enemys[aNum]->getDirectionFromAngle(angle));
+            
+            //衝突された時の方向によって速度を変化
+            hw->enemys[aNum]->setContactedDirection();
+            hw->enemys[aNum]->setReviceVelocity(hw->enemys[aNum]->_contactedDirection);
+        } else if(bNum != Enemy::enemyTurnId) {
+            //衝突によって敵画像の差し替えを行う
+            float angle = hw->enemys[bNum]->getAngle(bBody->GetLinearVelocity());
+            hw->enemys[bNum]->setImage(hw->enemys[bNum]->getDirectionFromAngle(angle));
+            
+            //衝突された時の方向によって速度を変化
+            hw->enemys[bNum]->setContactedDirection();
+            hw->enemys[bNum]->setReviceVelocity(hw->enemys[bNum]->_contactedDirection);
         }
     }
     
@@ -289,6 +316,10 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
                 //衝突によって敵画像の差し替えを行う
                 float angle = hw->enemys[bNum]->getAngle(bBody->GetLinearVelocity());
                 hw->enemys[bNum]->setImage(hw->enemys[bNum]->getDirectionFromAngle(angle));
+                
+                //衝突された時の方向によって速度を変化
+                hw->enemys[bNum]->setContactedDirection();
+                hw->enemys[bNum]->setReviceVelocity(hw->enemys[bNum]->_contactedDirection);
             }
         }
         //敵プレイヤーのターン
@@ -316,6 +347,10 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
             //衝突によってプレイヤー画像の差し替えを行う
             float angle = hw->monkeys[aNum]->getAngle(aBody->GetLinearVelocity());
             hw->monkeys[aNum]->setImage(hw->monkeys[aNum]->getDirectionFromAngle(angle));
+            
+            //衝突された時の方向によって速度を変化
+            hw->monkeys[aNum]->setContactedDirection();
+            hw->monkeys[aNum]->setReviceVelocity(hw->monkeys[aNum]->_contactedDirection);
             //}
         }
     } else if(aType == TYPE_ENEMY && bType == TYPE_PLAYER) {
@@ -341,6 +376,10 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
                 //衝突によって敵画像の差し替えを行う
                 float angle = hw->enemys[aNum]->getAngle(aBody->GetLinearVelocity());
                 hw->enemys[aNum]->setImage(hw->enemys[aNum]->getDirectionFromAngle(angle));
+                
+                //衝突された時の方向によって速度を変化
+                hw->enemys[aNum]->setContactedDirection();
+                hw->enemys[aNum]->setReviceVelocity(hw->enemys[aNum]->_contactedDirection);
             }
         }
         //敵プレイヤーのターン
@@ -369,6 +408,10 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
                 //衝突によってプレイヤー画像の差し替えを行う
                 float angle = hw->monkeys[bNum]->getAngle(bBody->GetLinearVelocity());
                 hw->monkeys[bNum]->setImage(hw->monkeys[bNum]->getDirectionFromAngle(angle));
+                
+                //衝突された時の方向によって速度を変化
+                hw->monkeys[bNum]->setContactedDirection();
+                hw->monkeys[bNum]->setReviceVelocity(hw->monkeys[bNum]->_contactedDirection);
             }
         }
     }
@@ -399,6 +442,8 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
     }
     
 }
+
+
 
 //どのオブジェクトに衝突したかによって、プレイヤーの速度の減衰率を調整
 void CContactListener::setPlayerBoundRatio(b2Body *playerBody, int npType, b2Body *npBody, int npNum) {
@@ -432,4 +477,6 @@ void CContactListener::setPlayerBoundRatio(b2Body *playerBody, int npType, b2Bod
     
 }
 
-
+void setEnemyBoundRatio(b2Body *enemyBody, int contactedType, b2Body *contactedBody, int contactedNum) {
+    
+}

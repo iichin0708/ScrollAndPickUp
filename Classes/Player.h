@@ -28,7 +28,8 @@ public:
         offense = OFFENSE;
         maxHp = 10;
         hp=maxHp;
-        _direction = UP;
+        _preDirection = UP;
+        _postDirection = UP;
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create("player001.png", 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
         
