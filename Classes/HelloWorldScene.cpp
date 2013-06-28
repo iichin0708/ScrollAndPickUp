@@ -624,6 +624,7 @@ void HelloWorld::update(float dt)
             moveMapWithObject(enemys[Enemy::enemyTurnId]->getBody());
         } else { //敵プレイヤーが自分で水に落ちた時
             this->scheduleOnce(schedule_selector(HelloWorld::enemyChange), 0.5f);
+            isMoving = false;
         }
     }
     
@@ -871,7 +872,7 @@ void HelloWorld::enemyChange() {
 
 void HelloWorld::moveEnemy(int enemyId) {
     int targetId = getNearestPlayerId(enemyId);
-    CCLog("targetId = %d", targetId);
+    //CCLog("targetId = %d", targetId);
     //CCLog("enemyId => %d", enemyId);
     CCPoint playerPoint = monkeys[targetId]->getRigidPosition();
     CCPoint enemyPoint = enemys[enemyId]->getRigidPosition();
@@ -898,7 +899,6 @@ void HelloWorld::moveEnemy(int enemyId) {
     isShotEnemy = true;
     isMoving = true;
         
-    //isPlayerTurn = true;
 }
 
 
@@ -925,7 +925,6 @@ int HelloWorld::getNearestPlayerId(int enemyId) {
             shortDistance = distance;
         }
     }
-    CCLog("tragetId");
     return targetPlayerId;
 }
 

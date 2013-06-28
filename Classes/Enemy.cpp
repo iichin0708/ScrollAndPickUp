@@ -129,7 +129,7 @@ void Enemy::setImage(int direction) {
             }
             break;
     }
-
+    
     image = CCSpriteBatchNode::create(imageName, 100);
     //画像の差し替え
     cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
