@@ -97,6 +97,12 @@ public:
     // ぶつけたプレイヤーの攻撃力
     int contactPlayerOffence;
     
+    // ぶつかったプレイヤー
+    int contactPlayerindex;
+    
+    // ぶつけられた敵キャラの攻撃力
+    int contactEnemyOffence;
+    
     //移動中かどうか
     bool isMoving;
     

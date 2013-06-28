@@ -25,7 +25,8 @@ public:
     Player(cocos2d::CCNode* parent, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody() {
         isFalled = false;
         offense = OFFENSE;
-        
+        maxHp = 4;
+        hp=maxHp;
         _direction = UP;
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create("player001.png", 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
@@ -45,7 +46,21 @@ public:
         
         //画面に表示する.
         sprite->setPhysicsBody(_body);
-        //sprite->setScale(2);
+
+        // 体力画像のセット
+        hpSprite = cocos2d::CCSprite::create("hp_frame.png", cocos2d::CCRectMake(0, 0, 98, 11) );
+        hpSprite->setPosition(ccp(sprite->getContentSize().width / 2,
+                                  -hpSprite->getContentSize().height / 2));
+        barSprite = cocos2d::CCSprite::create("blue_bar.png", cocos2d::CCRectMake(0, 0, 81, 7) );
+        barSprite->setPosition(ccp(hpSprite->getContentSize().width / 2 - barSprite->getContentSize().width / 2,
+                                   hpSprite->getContentSize().height / 2));
+        barSprite->setAnchorPoint(ccp(0.0, 0.5));
+        barSprite->setScaleX(1);
+        hpSprite->addChild(barSprite);
+        
+        isFalled = false;
+        
+        sprite->addChild(hpSprite);
     }
     
     // 画像のサイズ
@@ -59,6 +74,14 @@ public:
     
     // 水に落ちているかどうかのフラグ
     bool isFalled;
+    
+    // 体力表示用のスプライト
+    cocos2d::CCSprite* hpSprite;
+    cocos2d::CCSprite* barSprite;
+    
+    // 体力
+    int hp;
+    int maxHp;
     
     // 攻撃力
     int offense;

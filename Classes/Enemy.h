@@ -37,6 +37,7 @@ public:
                 density = 2.5f;
                 maxHp = 1;
                 speed = 0.5f;
+                offense = 1;
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 0.8f;
                 //自身の吹っ飛び率
@@ -54,6 +55,7 @@ public:
                 density = 3.0f;
                 maxHp = 2;
                 speed = 0.4f;
+                offense = 1;
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 1.0f;
                 decreaseRatio =10;
@@ -70,7 +72,7 @@ public:
                 density = 3.5f;
                 maxHp = 4;
                 speed = 0.3f;
-
+                offense = 2;
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 1.5f;
                 decreaseRatio = 14;
@@ -123,6 +125,9 @@ public:
     // 体力
     int hp;
     int maxHp;
+    
+    // 攻撃力
+    int offense;
     
     //スピード
     float speed;
