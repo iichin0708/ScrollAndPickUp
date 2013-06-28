@@ -547,37 +547,58 @@ void HelloWorld::update(float dt)
        ! enemys[contactEnemyindex]->isInvincible
        ) // 敵が無敵でない
     {
-        // ぶつかられた敵はぶつかったプレイヤーの攻撃力分のダメージを受ける
-        enemys[contactEnemyindex]->damaged(contactPlayerOffence);
-        
-        // 敵キャラが倒れたときの処理
-        if(enemys[contactEnemyindex]->hp <= 0) {
-            int countCoin = 0;
+        if(isPlayerTurn) {
+            // ぶつかられた敵はぶつかったプレイヤーの攻撃力分のダメージを受ける
+            enemys[contactEnemyindex]->damaged(contactPlayerOffence);
             
-            // コインを出す
-            for(int k = 0; k < COIN_NUM; k++) {
-                if(coins[k]->getVisible()) continue;
-                coins[k]->setVisible(true, enemys[contactEnemyindex]->getBody()->GetPosition().y * PTM_RATIO);
-                coins[k]->setPosition(enemys[contactEnemyindex]->getBody()->GetPosition().x * PTM_RATIO,
-                                      enemys[contactEnemyindex]->getBody()->GetPosition().y * PTM_RATIO);
-                coins[k]->tarIndex = pIndex;
-                countCoin++;
-                if(countCoin >= 5) break;
+            // 敵キャラが倒れたときの処理
+            if(enemys[contactEnemyindex]->hp <= 0) {
+                int countCoin = 0;
+                
+                // コインを出す
+                for(int k = 0; k < COIN_NUM; k++) {
+                    if(coins[k]->getVisible()) continue;
+                    coins[k]->setVisible(true, enemys[contactEnemyindex]->getBody()->GetPosition().y * PTM_RATIO);
+                    coins[k]->setPosition(enemys[contactEnemyindex]->getBody()->GetPosition().x * PTM_RATIO,
+                                          enemys[contactEnemyindex]->getBody()->GetPosition().y * PTM_RATIO);
+                    coins[k]->tarIndex = pIndex;
+                    countCoin++;
+                    if(countCoin >= 5) break;
+                }
+                
+                // 幽霊を出す
+                for(int i = 0; i < ENEMY_NUM; i++) {
+                    if(ghosts[i]->getVisible()) continue;
+                    ghosts[i]->setVisible(true);
+                    ghosts[i]->setPosition(enemys[contactEnemyindex]->getBody()->GetPosition().x * PTM_RATIO,
+                                           enemys[contactEnemyindex]->getBody()->GetPosition().y * PTM_RATIO);
+                    break;
+                }
+                
+                removeChild((PhysicsSprite*)enemys[contactEnemyindex]->getBody()->GetUserData());
+                destroyObject((RigidBody *&)enemys[contactEnemyindex]);
             }
+        } else {
             
-            // 幽霊を出す
-            for(int i = 0; i < ENEMY_NUM; i++) {
-                if(ghosts[i]->getVisible()) continue;
-                ghosts[i]->setVisible(true);
-                ghosts[i]->setPosition(enemys[contactEnemyindex]->getBody()->GetPosition().x * PTM_RATIO,
-                                       enemys[contactEnemyindex]->getBody()->GetPosition().y * PTM_RATIO);
-                break;
+            // ぶつかられたプレイヤーはぶつかった敵の攻撃力分のダメージを受ける
+            monkeys[contactPlayerindex]->damaged(contactEnemyOffence);
+            
+            // プレイヤーが倒れたときの処理
+            if(monkeys[contactPlayerindex]->hp <= 0) {
+                
+                // 幽霊を出す
+                for(int i = 0; i < ENEMY_NUM; i++) {
+                    if(ghosts[i]->getVisible()) continue;
+                    ghosts[i]->setVisible(true);
+                    ghosts[i]->setPosition(monkeys[contactPlayerindex]->getBody()->GetPosition().x * PTM_RATIO,
+                                           monkeys[contactPlayerindex]->getBody()->GetPosition().y * PTM_RATIO);
+                    break;
+                }
+                
+                removeChild((PhysicsSprite*)monkeys[contactPlayerindex]->getBody()->GetUserData());
+                destroyObject((RigidBody *&)monkeys[contactPlayerindex]);
             }
-            
-            removeChild((PhysicsSprite*)enemys[contactEnemyindex]->getBody()->GetUserData());
-            destroyObject((RigidBody *&)enemys[contactEnemyindex]);
         }
-        
         isContacted = false;
     }
     

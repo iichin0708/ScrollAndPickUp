@@ -45,3 +45,31 @@ void Player::setImage(int direction) {
     pSprite->setTexture(m_pSpriteTexture);
 }
 
+// 攻撃を受ける
+void Player::damaged(int offence) {
+    hp -= offence;
+    
+    if(hp > 0) {
+        isInvincible = true;
+        
+        barSprite->setScaleX((float)hp/maxHp);
+        
+        // 回転アクション（回転せず、0.7秒の間を持たせる＝無敵時間）
+        cocos2d::CCActionInterval* action1 = cocos2d::CCRotateBy::create(0.7f, 0);
+        // 無敵解除
+        cocos2d::CCCallFunc* action2 = cocos2d::CCCallFunc::create(this, callfunc_selector(Player::setNoInvincible));
+        // 順番に実行
+        cocos2d::CCSequence* action = CCSequence::create(action1, action2);
+        
+        PhysicsSprite* sprite = (PhysicsSprite*)this->getBody()->GetUserData();
+        sprite->runAction(action);
+    } else {
+        hpSprite->setVisible(false);
+    }
+}
+
+// 無敵状態を解除する
+void Player::setNoInvincible()
+{
+    isInvincible = false;
+}

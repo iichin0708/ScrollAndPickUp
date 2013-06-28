@@ -294,9 +294,29 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
         //敵プレイヤーのターン
         else
         {
+            //if( ! hw->monkeys[aNum]->isInvincible ) {
+            hw->isContacted = true;
+            isContactedToEnemy = true;
+            contactPlayerNum = aNum;
+            hw->contactPlayerOffence = hw->monkeys[aNum]->offense;
+            hw->contactEnemyindex = bNum;
+            hw->contactEnemyOffence = hw->enemys[bNum]->offense;
+            hw->contactPlayerindex = aNum;
+            hw->pIndex = aNum;
+            
+            //setPlayerBoundRatio(bBody, aType, aBody, aNum);
+            
+            for(int i = 0; i < HIT_EF_NUM; i++) {
+                if(hw->hitEfs[i]->getVisible()) continue;
+                hw->hitEfs[i]->setPosition(contactPoint.x, contactPoint.y);
+                hw->hitEfs[i]->setVisible(true);
+                break;
+            }
+
             //衝突によってプレイヤー画像の差し替えを行う
             float angle = hw->monkeys[aNum]->getAngle(aBody->GetLinearVelocity());
             hw->monkeys[aNum]->setImage(hw->monkeys[aNum]->getDirectionFromAngle(angle));
+            //}
         }
     } else if(aType == TYPE_ENEMY && bType == TYPE_PLAYER) {
         //プレイヤーのターン
@@ -326,9 +346,30 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
         //敵プレイヤーのターン
         else
         {
-            //衝突によってプレイヤー画像の差し替えを行う
-            float angle = hw->monkeys[bNum]->getAngle(bBody->GetLinearVelocity());
-            hw->monkeys[bNum]->setImage(hw->monkeys[bNum]->getDirectionFromAngle(angle));
+            if( ! hw->monkeys[bNum]->isInvincible ) {
+                hw->isContacted = true;
+                isContactedToEnemy = true;
+                contactPlayerNum = bNum;
+                hw->contactPlayerOffence = hw->monkeys[bNum]->offense;
+                hw->contactEnemyindex = aNum;
+                hw->contactEnemyOffence = hw->enemys[aNum]->offense;
+                hw->contactPlayerindex = bNum;
+                hw->pIndex = bNum;
+                
+                //setPlayerBoundRatio(bBody, aType, aBody, aNum);
+                
+                for(int i = 0; i < HIT_EF_NUM; i++) {
+                    if(hw->hitEfs[i]->getVisible()) continue;
+                    hw->hitEfs[i]->setPosition(contactPoint.x, contactPoint.y);
+                    hw->hitEfs[i]->setVisible(true);
+                    break;
+                }
+                
+
+                //衝突によってプレイヤー画像の差し替えを行う
+                float angle = hw->monkeys[bNum]->getAngle(bBody->GetLinearVelocity());
+                hw->monkeys[bNum]->setImage(hw->monkeys[bNum]->getDirectionFromAngle(angle));
+            }
         }
     }
     

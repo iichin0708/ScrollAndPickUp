@@ -169,6 +169,9 @@
 		BF1712461292920000B8313A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB212928DE900B8313A /* libxml2.dylib */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
+		D3069BFB177D2E0200142D65 /* hp_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = D3069BF9177D2E0200142D65 /* hp_frame.png */; };
+		D3069BFC177D2E0200142D65 /* red_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = D3069BFA177D2E0200142D65 /* red_bar.png */; };
+		D3069BFE177D2E0C00142D65 /* blue_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = D3069BFD177D2E0C00142D65 /* blue_bar.png */; };
 		D30D14211775FBAC00293343 /* arrow_m.png in Resources */ = {isa = PBXBuildFile; fileRef = D30D141D1775FBAB00293343 /* arrow_m.png */; };
 		D30D14221775FBAC00293343 /* field_old.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D30D141E1775FBAB00293343 /* field_old.jpg */; };
 		D30D14231775FBAC00293343 /* ghost.png in Resources */ = {isa = PBXBuildFile; fileRef = D30D141F1775FBAC00293343 /* ghost.png */; };
@@ -589,6 +592,9 @@
 		BF170DB212928DE900B8313A /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D3069BF9177D2E0200142D65 /* hp_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hp_frame.png; sourceTree = "<group>"; };
+		D3069BFA177D2E0200142D65 /* red_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red_bar.png; sourceTree = "<group>"; };
+		D3069BFD177D2E0C00142D65 /* blue_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_bar.png; sourceTree = "<group>"; };
 		D30D141D1775FBAB00293343 /* arrow_m.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_m.png; sourceTree = "<group>"; };
 		D30D141E1775FBAB00293343 /* field_old.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = field_old.jpg; sourceTree = "<group>"; };
 		D30D141F1775FBAC00293343 /* ghost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ghost.png; sourceTree = "<group>"; };
@@ -1325,6 +1331,9 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D3069BFD177D2E0C00142D65 /* blue_bar.png */,
+				D3069BF9177D2E0200142D65 /* hp_frame.png */,
+				D3069BFA177D2E0200142D65 /* red_bar.png */,
 				D34ED132177D20B10061F529 /* onion001.png */,
 				D34ED134177D20B20061F529 /* onion002.png */,
 				D34ED131177D20B10061F529 /* onion003.png */,
@@ -1337,8 +1346,6 @@
 				D34ED11E177C73940061F529 /* player002.png */,
 				D34ED11F177C73940061F529 /* player003.png */,
 				D34ED120177C73940061F529 /* player004.png */,
-				D35FE39E177B1CF600BC590B /* hp_frame.png */,
-				D35FE39F177B1CF600BC590B /* red_bar.png */,
 				D3C68AB117799CD700DA1BE9 /* water.png */,
 				D3C68A8D1779771600DA1BE9 /* iwa01.png */,
 				D3C68A8E1779771600DA1BE9 /* iwa02.png */,
@@ -1514,8 +1521,6 @@
 				D3C68AA21779771600DA1BE9 /* wood08.png in Resources */,
 				D3C68AA817798B5200DA1BE9 /* wood03.png in Resources */,
 				D3C68AB217799CD700DA1BE9 /* water.png in Resources */,
-				D35FE3A0177B1CF600BC590B /* hp_frame.png in Resources */,
-				D35FE3A1177B1CF600BC590B /* red_bar.png in Resources */,
 				D34ED121177C73940061F529 /* player001.png in Resources */,
 				D34ED122177C73940061F529 /* player002.png in Resources */,
 				D34ED123177C73940061F529 /* player003.png in Resources */,
@@ -1524,6 +1529,9 @@
 				D34ED12A177C74320061F529 /* go.png in Resources */,
 				D34ED12B177C74320061F529 /* ready.png in Resources */,
 				D34ED12C177C74320061F529 /* stage.png in Resources */,
+				D3069BFB177D2E0200142D65 /* hp_frame.png in Resources */,
+				D3069BFC177D2E0200142D65 /* red_bar.png in Resources */,
+				D3069BFE177D2E0C00142D65 /* blue_bar.png in Resources */,
 				D34ED135177D20B20061F529 /* onion003.png in Resources */,
 				D34ED136177D20B20061F529 /* onion001.png in Resources */,
 				D34ED137177D20B20061F529 /* onion004.png in Resources */,

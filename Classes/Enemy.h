@@ -37,6 +37,7 @@ public:
                 density = 2.5f;
                 maxHp = 1;
                 speed = 1.0f;
+                offense = 1;
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 0.8f;
                 //自身の吹っ飛び率
@@ -54,6 +55,7 @@ public:
                 density = 3.0f;
                 maxHp = 2;
                 speed = 1.0f;
+                offense = 1;
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 1.0f;
                 decreaseRatio =10;
@@ -70,7 +72,7 @@ public:
                 density = 3.5f;
                 maxHp = 4;
                 speed = 1.0f;
-
+                offense = 2;
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 1.5f;
                 decreaseRatio = 14;
@@ -99,7 +101,7 @@ public:
         hpSprite = cocos2d::CCSprite::create("hp_frame.png", cocos2d::CCRectMake(0, 0, 98, 11) );
         hpSprite->setPosition(ccp(sprite->getContentSize().width / 2,
                                   -hpSprite->getContentSize().height / 2));
-        barSprite = cocos2d::CCSprite::create("red_bar.png", cocos2d::CCRectMake(0, 0, 80, 7) );
+        barSprite = cocos2d::CCSprite::create("red_bar.png", cocos2d::CCRectMake(0, 0, 81, 7) );
         barSprite->setPosition(ccp(hpSprite->getContentSize().width / 2 - barSprite->getContentSize().width / 2,
                                    hpSprite->getContentSize().height / 2));
         barSprite->setAnchorPoint(ccp(0.0, 0.5));
@@ -123,6 +125,9 @@ public:
     // 体力
     int hp;
     int maxHp;
+    
+    // 攻撃力
+    int offense;
     
     //スピード
     float speed;

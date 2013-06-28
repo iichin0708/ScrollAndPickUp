@@ -21,7 +21,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Ghost.cpp \
                    ../../Classes/Cursor.cpp \
                    ../../Classes/HitEffect.cpp \
-                   ../../Classes/Water.cpp
+                   ../../Classes/Water.cpp \
+                   ../../Classes/Obstacle.cpp
                    
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
