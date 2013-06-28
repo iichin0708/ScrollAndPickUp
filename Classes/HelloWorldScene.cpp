@@ -532,15 +532,7 @@ void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
     // 風エフェクトがついているオブジェクトの指定
     windTargetType = TYPE_PLAYER;
     windTargetIndex = Player::getPlayerTurnId();
-    
-    Player::prePlayerTurnId = Player::playerTurnId;
-    Player::playerTurnId++;
-    
-    // 次ターンのプレイヤーがいなければ順番を飛ばす
-    while(monkeys[Player::getPlayerTurnId()] == NULL ||
-          monkeys[Player::getPlayerTurnId()]->isFalled) {
-        Player::playerTurnId++;
-    }
+
 }
 
 void HelloWorld::update(float dt)
@@ -933,6 +925,15 @@ void HelloWorld::playerChange() {
     //プレイヤーターン終了
     isPlayerTurn = false;
     
+    Player::prePlayerTurnId = Player::playerTurnId;
+    Player::playerTurnId++;
+    
+    // 次ターンのプレイヤーがいなければ順番を飛ばす
+    while(monkeys[Player::getPlayerTurnId()] == NULL ||
+          monkeys[Player::getPlayerTurnId()]->isFalled) {
+        Player::playerTurnId++;
+    }
+    
     //次のプレイヤーにポインタを動かすためのフラグ
     isShowedNextPlayer = false;
 
@@ -1243,7 +1244,7 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
         }
     }
     
-    cursor->setVisible(false);
+    //cursor->setVisible(false);
     arrow->setVisible(false);
 }
 
