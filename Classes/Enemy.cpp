@@ -5,6 +5,7 @@ USING_NS_CC;
 
 //初期化
 int Enemy::enemyTurnId = 0;
+int Enemy::preEnemyTurnId = 0;
 
 // 攻撃を受ける
 void Enemy::damaged(int offence) {
@@ -75,13 +76,13 @@ void Enemy::setImage(int direction) {
             _direction = UP;
             switch (_kind) {
                 case KIND_ONION:
-                    imageName = "player001.png";
+                    imageName = "onion001.png";
                     break;
                 case KIND_GOBLIN:
-                    imageName = "player001.png";
+                    imageName = "onion001.png";
                     break;
                 case KIND_DRAGON:
-                    imageName = "player001.png";
+                    imageName = "onion001.png";
                     break;
             }
             break;
@@ -89,13 +90,13 @@ void Enemy::setImage(int direction) {
             _direction = DOWN;
             switch (_kind) {
                 case KIND_ONION:
-                    imageName = "004.png";
+                    imageName = "onion002.png";
                     break;
                 case KIND_GOBLIN:
-                    imageName = "003.png";
+                    imageName = "onion002.png";
                     break;
                 case KIND_DRAGON:
-                    imageName = "002.png";
+                    imageName = "onion002.png";
                     break;
             }
             break;
@@ -103,13 +104,13 @@ void Enemy::setImage(int direction) {
             _direction = LEFT;
             switch (_kind) {
                 case KIND_ONION:
-                    imageName = "player003.png";
+                    imageName = "onion003.png";
                     break;
                 case KIND_GOBLIN:
-                    imageName = "player003.png";
+                    imageName = "onion003.png";
                     break;
                 case KIND_DRAGON:
-                    imageName = "player003.png";
+                    imageName = "onion003.png";
                     break;
             }
             break;
@@ -117,13 +118,13 @@ void Enemy::setImage(int direction) {
             _direction = RIGHT;
             switch (_kind) {
                 case KIND_ONION:
-                    imageName = "player004.png";
+                    imageName = "onion004.png";
                     break;
                 case KIND_GOBLIN:
-                    imageName = "player004.png";
+                    imageName = "onion004.png";
                     break;
                 case KIND_DRAGON:
-                    imageName = "player004.png";
+                    imageName = "onion004.png";
                     break;
             }
             break;
