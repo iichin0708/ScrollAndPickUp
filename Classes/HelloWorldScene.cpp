@@ -770,7 +770,7 @@ void HelloWorld::update(float dt)
                 if(waters[j]->getVisible()) continue;
                 waters[j]->setVisible(true, enemys[i]->getBody()->GetPosition().y * PTM_RATIO);
                 waters[j]->setPosition(enemys[i]->getBody()->GetPosition().x * PTM_RATIO,
-                                      enemys[i]->getBody()->GetPosition().y * PTM_RATIO);
+                                       enemys[i]->getBody()->GetPosition().y * PTM_RATIO);
                 waters[j]->tarIndex = pIndex;
                 countWater++;
                 if(countWater >= 5) break;
