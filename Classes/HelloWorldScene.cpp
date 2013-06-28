@@ -372,9 +372,10 @@ void HelloWorld::setObstacle() {
 
     //作成するShape(当たり判定の形)は丸とする.
     //(parent, 画像名, 画像サイズ, 当たり判定サイズ, 初期位置, Shapeの形, 質量, 摩擦, 反発係数)となっている. boxの場合は当たり判定に縦と横のサイズを渡すが、cricleの場合は半径を渡す.
+    
     obstacles[8] = new Obstacle(this, "saku01.png", CCSizeMake(55, 392), CCSizeMake(55 / 2, 392 / 2), CCPointMake(40, 320), BOX_SHAPE, 0.0f, 0.0f, 0.0f);
     obstacles[9] = new Obstacle(this, "saku02.png", CCSizeMake(49, 279), CCSizeMake(49 / 2, 279 / 2), CCPointMake(40, 1200), BOX_SHAPE, 0.0f, 0.0f, 0.0f);
-    
+    /*
     obstacles[0] = new Obstacle(this, "wood01.png", CCSizeMake(228, 285), CCSizeMake(228 / 2, 228 / 2), CCPointMake(550, 300), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
     obstacles[1] = new Obstacle(this, "wood02.png", CCSizeMake(183, 248), CCSizeMake(183 / 2, 183 / 2), CCPointMake(100, 1600), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
     obstacles[2] = new Obstacle(this, "wood03.png", CCSizeMake(157, 170), CCSizeMake(157 / 2, 157 / 2), CCPointMake(400, 1050), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
@@ -386,6 +387,7 @@ void HelloWorld::setObstacle() {
     obstacles[7] = new Obstacle(this, "wood08.png", CCSizeMake(81, 40), CCSizeMake(40 / 2, 40 / 2), CCPointMake(550, 1500), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
     obstacles[10] = new Obstacle(this, "iwa01.png", CCSizeMake(192, 131), CCSizeMake(131 / 2, 131 / 2), CCPointMake(400, 550), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
     obstacles[11] = new Obstacle(this, "iwa02.png", CCSizeMake(268, 168), CCSizeMake(168 / 2, 0), CCPointMake(500, 1620), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
+     */
 }
 //idを持つ剛体を終点から始点のベクトルにボディを飛ばす
 void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
@@ -455,6 +457,7 @@ void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
     object->SetLinearVelocity(angleAndSpeed);
     isMoving = true;
     
+    Player::prePlayerTurnId = Player::playerTurnId;
     Player::playerTurnId++;
     
     // 次ターンのプレイヤーがいなければ順番を飛ばす
@@ -829,6 +832,7 @@ void HelloWorld::enemyChange() {
         enemys[Enemy::getEnemyTurnId()]->setDecreaseSpeedRatio(enemys[Enemy::getEnemyTurnId()]->decreaseRatio);
     }
     
+    Enemy::preEnemyTurnId = Enemy::enemyTurnId;
     Enemy::enemyTurnId++;
     
     //次の敵プレイヤーのポインタを探す(死んでいた場合は次のプレイヤーを探す)
@@ -846,6 +850,7 @@ void HelloWorld::enemyChange() {
 
 void HelloWorld::moveEnemy(int enemyId) {
     int targetId = getNearestPlayerId(enemyId);
+    CCLog("targetId = %d", targetId);
     //CCLog("enemyId => %d", enemyId);
     CCPoint playerPoint = monkeys[targetId]->getRigidPosition();
     CCPoint enemyPoint = enemys[enemyId]->getRigidPosition();
@@ -863,7 +868,8 @@ void HelloWorld::moveEnemy(int enemyId) {
     enemyShotAngle.x *= enemys[enemyId]->speed;
     enemyShotAngle.y *= enemys[enemyId]->speed;
     
-    int direction = enemys[enemyId]->getDirection(enemyShotAngle);
+    float angle = enemys[enemyId]->getAngle(enemyShotAngle);
+    int direction = enemys[enemyId]->getDirectionFromAngle(angle);
     enemys[enemyId]->setImage(direction);
     
     //発射
@@ -877,7 +883,7 @@ void HelloWorld::moveEnemy(int enemyId) {
 
 //敵プレイヤーから最も近いプレイヤーIdを返す
 int HelloWorld::getNearestPlayerId(int enemyId) {
-    float longDistance = 0.0f;
+    float shortDistance = 0.0f;
     int targetPlayerId = 0;
     for(int i = 0; i < PLAYER_NUM; i++) {
         if(monkeys[i] == NULL) continue;
@@ -885,8 +891,9 @@ int HelloWorld::getNearestPlayerId(int enemyId) {
         CCPoint enemyPoint = enemys[enemyId]->getRigidPosition();
         CCPoint playerPoint = monkeys[i]->getRigidPosition();
         float distance = ccpDistance(enemyPoint, playerPoint);
-        if(longDistance < distance) {
+        if(distance < shortDistance) {
             targetPlayerId = i;
+            shortDistance = distance;
         }
     }
     return targetPlayerId;
@@ -955,8 +962,7 @@ void HelloWorld::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEve
             showArrow(touchLocation, objectPoint, radius);
             
             b2Vec2 vec = b2Vec2(objectPoint.x - touchLocation.x, objectPoint.y - touchLocation.y);
-            int direction = monkeys[touchObjectNum]->getDirection(vec);
-            float angle = monkeys[touchObjectNum]->getAngle(vec);
+            int direction = monkeys[touchObjectNum]->getDirectionFromVec(vec);
             monkeys[touchObjectNum]->setImage(direction);
         } else {
             // 画面をタッチして動かす処理

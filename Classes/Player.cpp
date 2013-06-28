@@ -4,6 +4,7 @@
 USING_NS_CC;
 
 //初期化
+int Player::prePlayerTurnId = 0;
 int Player::playerTurnId = 0;
 
 

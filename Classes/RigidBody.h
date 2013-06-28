@@ -43,8 +43,11 @@ public:
     //オブジェクトのベクトルから角度を取得
     float getAngle(b2Vec2 vec);
     
+    //角度から向いている方角を取得
+    int getDirectionFromAngle(float angle);
+    
     //ベクトルから向いている方角を取得
-    int getDirection(b2Vec2 vec);
+    int getDirectionFromVec(b2Vec2 vec);
 
     void setDecreaseSpeedRatio(float ratio);
     

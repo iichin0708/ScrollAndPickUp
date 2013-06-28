@@ -146,8 +146,22 @@ float RigidBody::getAngle(b2Vec2 vec) {
     return arcDegree;
 }
 
+int RigidBody::getDirectionFromAngle(float angle) {
+    if (0 < angle && angle < 60) {
+        return RIGHT;
+    } else if(60 <= angle && angle <= 120) {
+        return UP;
+    } else if(120 < angle && angle < 240) {
+        return LEFT;
+    } else if(240 <= angle && angle <= 300) {
+        return DOWN;
+    } else if(240 < angle && angle <360) {
+        return RIGHT;
+    }
+}
+
 //ベクトルから向いている方角を取得
-int RigidBody::getDirection(b2Vec2 vec) {
+int RigidBody::getDirectionFromVec(b2Vec2 vec) {
     /** x,y方向のベクトルのうち、大きい方のベクトルを自分の向きとする **/
     //左方向
     if(vec.x < 0) {

@@ -21,6 +21,7 @@ protected:
 public:
     //敵のターンID
     static int enemyTurnId;
+    static int preEnemyTurnId;
     
     // コンストラクタ
     Enemy(cocos2d::CCNode* parent, int kind, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody()
@@ -29,7 +30,8 @@ public:
         isInvincible = false;
         switch (kind) {
             case KIND_ONION:
-                imageName = "004.png";
+//                imageName = "004.png";
+                imageName = "onion002.png";
                 width = 80;
                 height = 80;
                 density = 2.5f;
@@ -43,9 +45,12 @@ public:
                 break;
                 
             case KIND_GOBLIN:
-                imageName = "003.png";
-                width = 115;
-                height = 121;
+                //imageName = "003.png";
+                imageName = "onion002.png";
+//                width = 115;
+//                height = 121;
+                width = 80;
+                height = 80;
                 density = 3.0f;
                 maxHp = 2;
                 speed = 0.4f;
@@ -56,9 +61,12 @@ public:
                 break;
                 
             case KIND_DRAGON:
-                imageName = "002.png";
-                width = 150;
-                height = 150;
+                //imageName = "002.png";
+                imageName = "onion002.png";
+//                width = 150;
+//                height = 150;
+                width = 80;
+                height = 80;
                 density = 3.5f;
                 maxHp = 4;
                 speed = 0.3f;

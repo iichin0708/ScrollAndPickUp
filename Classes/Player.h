@@ -18,6 +18,8 @@ protected:
     
 public:
     
+    static int prePlayerTurnId;
+    
     static int playerTurnId;
     
     Player(cocos2d::CCNode* parent, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody() {
