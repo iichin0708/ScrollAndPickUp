@@ -597,7 +597,6 @@ void HelloWorld::update(float dt)
         }
     }
     
-    CCLog("countPlayer = %f", countPlayer);
     // ゲームオーバーチェック
     if(countPlayer < 1 && ! isGameover && ! isGameclear) {
         isGameover = true;
@@ -760,7 +759,7 @@ void HelloWorld::update(float dt)
     }
     
     //次のプレイヤーにマップを一度だけ移動しポインタをあわせる
-    if(!isShowedNextPlayer && isPlayerTurn) {
+    if(!isShowedNextPlayer && isPlayerTurn & !isGameover){
         // カーソルの色
         cursor->setVisible(true);
         cursor->getSprite()->setColor(ccc3(255, 255, 255));
@@ -782,7 +781,7 @@ void HelloWorld::update(float dt)
     
     
     //次の敵プレイヤーにマップを一度だけ移動しポインタをあわせる
-    if(!isShowedNextEnemy && !isPlayerTurn) {
+    if(!isShowedNextEnemy && !isPlayerTurn && !isGameclear) {
         // カーソルの色
         cursor->setVisible(true);
         cursor->getSprite()->setColor(ccc3(0, 0, 0));
@@ -912,6 +911,7 @@ void HelloWorld::playerChange() {
         clearLabel->setPosition(ccp(origin.x + visibleSize.width / 2,
                                     origin.y + visibleSize.height / 2));
         this->addChild(clearLabel);
+        reorderChild(clearLabel, 100);
     }
     
     
@@ -991,6 +991,17 @@ void HelloWorld::enemyChange() {
         }
         
         loopCount++;
+    }
+    
+    //次の敵プレイヤーのポインタを探す(死んでいた場合は次の敵プレイヤーを探す) プレイヤーが敵を殺した場合も考えて
+    int loop = 0;
+    for(int i = Player::playerTurnId; loop < PLAYER_NUM; i++) {
+        if(monkeys[Player::getPlayerTurnId()] == NULL) {
+            Player::playerTurnId++;
+        } else {
+            break;
+        }
+        loop++;
     }
 }
 
@@ -1366,7 +1377,7 @@ void HelloWorld::moveMap(CCPoint touchGap) {
     
 
     // y方向にフィールドが動かせるかどうか
-    if(field->getPosition().y + touchGap.y <= field->getSprite()->getContentSize().height / 2 + field->getSprite()->getContentSize().height / 4 &&
+    if(field->getPosition().y + touchGap.y <= field->getSprite()->getContentSize().height / 2 + field->getSprite()->getContentSize().height / 2 &&
            field->getPosition().y + field->getSprite()->getContentSize().height / 2 + touchGap.y + 100>= s.width) {
     
     //if(field->getPosition().y - field->height / 2 > 0 && field->getPosition().y + field->height / 2 < field->height) {
