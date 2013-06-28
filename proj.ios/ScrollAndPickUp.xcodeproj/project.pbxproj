@@ -197,7 +197,6 @@
 		D3190872176FF4D900D07510 /* button_close_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = D319086E176FF4D900D07510 /* button_close_pressed.png */; };
 		D3190873176FF4D900D07510 /* button_close.png in Resources */ = {isa = PBXBuildFile; fileRef = D319086F176FF4D900D07510 /* button_close.png */; };
 		D34ED121177C73940061F529 /* player001.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED11D177C73940061F529 /* player001.png */; };
-		D34ED122177C73940061F529 /* player002.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED11E177C73940061F529 /* player002.png */; };
 		D34ED123177C73940061F529 /* player003.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED11F177C73940061F529 /* player003.png */; };
 		D34ED124177C73940061F529 /* player004.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED120177C73940061F529 /* player004.png */; };
 		D34ED129177C74320061F529 /* brack.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED125177C74310061F529 /* brack.png */; };
@@ -208,8 +207,7 @@
 		D34ED136177D20B20061F529 /* onion001.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED132177D20B10061F529 /* onion001.png */; };
 		D34ED137177D20B20061F529 /* onion004.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED133177D20B10061F529 /* onion004.png */; };
 		D34ED138177D20B20061F529 /* onion002.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED134177D20B20061F529 /* onion002.png */; };
-		D35FE3A0177B1CF600BC590B /* hp_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = D35FE39E177B1CF600BC590B /* hp_frame.png */; };
-		D35FE3A1177B1CF600BC590B /* red_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = D35FE39F177B1CF600BC590B /* red_bar.png */; };
+		D34ED13B177D5BCF0061F529 /* player002.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED13A177D5BCF0061F529 /* player002.png */; };
 		D3C68A851779624000DA1BE9 /* field.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A841779624000DA1BE9 /* field.jpg */; };
 		D3C68A891779651A00DA1BE9 /* Obstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3C68A871779651A00DA1BE9 /* Obstacle.cpp */; };
 		D3C68A981779771600DA1BE9 /* iwa01.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C68A8D1779771600DA1BE9 /* iwa01.png */; };
@@ -622,7 +620,6 @@
 		D319086E176FF4D900D07510 /* button_close_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_close_pressed.png; sourceTree = "<group>"; };
 		D319086F176FF4D900D07510 /* button_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_close.png; sourceTree = "<group>"; };
 		D34ED11D177C73940061F529 /* player001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player001.png; sourceTree = "<group>"; };
-		D34ED11E177C73940061F529 /* player002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player002.png; sourceTree = "<group>"; };
 		D34ED11F177C73940061F529 /* player003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player003.png; sourceTree = "<group>"; };
 		D34ED120177C73940061F529 /* player004.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player004.png; sourceTree = "<group>"; };
 		D34ED125177C74310061F529 /* brack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brack.png; sourceTree = "<group>"; };
@@ -633,8 +630,7 @@
 		D34ED132177D20B10061F529 /* onion001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onion001.png; sourceTree = "<group>"; };
 		D34ED133177D20B10061F529 /* onion004.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onion004.png; sourceTree = "<group>"; };
 		D34ED134177D20B20061F529 /* onion002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onion002.png; sourceTree = "<group>"; };
-		D35FE39E177B1CF600BC590B /* hp_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hp_frame.png; sourceTree = "<group>"; };
-		D35FE39F177B1CF600BC590B /* red_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red_bar.png; sourceTree = "<group>"; };
+		D34ED13A177D5BCF0061F529 /* player002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player002.png; sourceTree = "<group>"; };
 		D3C68A841779624000DA1BE9 /* field.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = field.jpg; sourceTree = "<group>"; };
 		D3C68A871779651A00DA1BE9 /* Obstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Obstacle.cpp; path = ../Classes/Obstacle.cpp; sourceTree = "<group>"; };
 		D3C68A881779651A00DA1BE9 /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Obstacle.h; path = ../Classes/Obstacle.h; sourceTree = "<group>"; };
@@ -1331,6 +1327,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D34ED13A177D5BCF0061F529 /* player002.png */,
 				D3069BFD177D2E0C00142D65 /* blue_bar.png */,
 				D3069BF9177D2E0200142D65 /* hp_frame.png */,
 				D3069BFA177D2E0200142D65 /* red_bar.png */,
@@ -1343,7 +1340,6 @@
 				D34ED127177C74310061F529 /* ready.png */,
 				D34ED128177C74320061F529 /* stage.png */,
 				D34ED11D177C73940061F529 /* player001.png */,
-				D34ED11E177C73940061F529 /* player002.png */,
 				D34ED11F177C73940061F529 /* player003.png */,
 				D34ED120177C73940061F529 /* player004.png */,
 				D3C68AB117799CD700DA1BE9 /* water.png */,
@@ -1522,7 +1518,6 @@
 				D3C68AA817798B5200DA1BE9 /* wood03.png in Resources */,
 				D3C68AB217799CD700DA1BE9 /* water.png in Resources */,
 				D34ED121177C73940061F529 /* player001.png in Resources */,
-				D34ED122177C73940061F529 /* player002.png in Resources */,
 				D34ED123177C73940061F529 /* player003.png in Resources */,
 				D34ED124177C73940061F529 /* player004.png in Resources */,
 				D34ED129177C74320061F529 /* brack.png in Resources */,
@@ -1536,6 +1531,7 @@
 				D34ED136177D20B20061F529 /* onion001.png in Resources */,
 				D34ED137177D20B20061F529 /* onion004.png in Resources */,
 				D34ED138177D20B20061F529 /* onion002.png in Resources */,
+				D34ED13B177D5BCF0061F529 /* player002.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
