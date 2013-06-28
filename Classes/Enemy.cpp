@@ -62,10 +62,76 @@ int Enemy::getEnemyTurnId() {
     return Enemy::enemyTurnId;
 }
 
-/*
-//Enemyの位置を返す
-CCPoint Enemy::getEnemyPosition() {
-    CCPoint enemyPoint = CCPointMake(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO);
-    return enemyPoint;
+//受け取った方向によって敵キャラクターの画像を差し替える
+void Enemy::setImage(int direction) {
+    PhysicsSprite *pSprite = (PhysicsSprite *)_body->GetUserData();
+    CCSpriteBatchNode *image;
+    const char *imageName;
+        
+    //与えられた方向によって画像を変更
+    /****** imageファイルが揃ってないのでファイル名は暫定で同じものを使う ******/
+    switch (direction) {
+        case UP:
+            _direction = UP;
+            switch (_kind) {
+                case KIND_ONION:
+                    imageName = "player001.png";
+                    break;
+                case KIND_GOBLIN:
+                    imageName = "player001.png";
+                    break;
+                case KIND_DRAGON:
+                    imageName = "player001.png";
+                    break;
+            }
+            break;
+        case DOWN:
+            _direction = DOWN;
+            switch (_kind) {
+                case KIND_ONION:
+                    imageName = "004.png";
+                    break;
+                case KIND_GOBLIN:
+                    imageName = "003.png";
+                    break;
+                case KIND_DRAGON:
+                    imageName = "002.png";
+                    break;
+            }
+            break;
+        case LEFT:
+            _direction = LEFT;
+            switch (_kind) {
+                case KIND_ONION:
+                    imageName = "player003.png";
+                    break;
+                case KIND_GOBLIN:
+                    imageName = "player003.png";
+                    break;
+                case KIND_DRAGON:
+                    imageName = "player003.png";
+                    break;
+            }
+            break;
+        case RIGHT:
+            _direction = RIGHT;
+            switch (_kind) {
+                case KIND_ONION:
+                    imageName = "player004.png";
+                    break;
+                case KIND_GOBLIN:
+                    imageName = "player004.png";
+                    break;
+                case KIND_DRAGON:
+                    imageName = "player004.png";
+                    break;
+            }
+            break;
+    }
+
+    image = CCSpriteBatchNode::create(imageName, 100);
+    //画像の差し替え
+    cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
+    pSprite->setTexture(m_pSpriteTexture);
 }
-*/
+

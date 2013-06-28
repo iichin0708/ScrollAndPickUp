@@ -864,15 +864,7 @@ void HelloWorld::moveEnemy(int enemyId) {
     enemyShotAngle.y *= enemys[enemyId]->speed;
     
     int direction = enemys[enemyId]->getDirection(enemyShotAngle);
-    if(direction == LEFT) {
-        CCLog("LEFT");
-    } else if(direction == RIGHT) {
-        CCLog("RIGHT");
-    } else if(direction == UP) {
-        CCLog("UP");
-    } else if(direction == DOWN) {
-        CCLog("DOWN");
-    }
+    enemys[enemyId]->setImage(direction);
     
     //発射
     enemys[enemyId]->getBody()->SetLinearVelocity(enemyShotAngle);

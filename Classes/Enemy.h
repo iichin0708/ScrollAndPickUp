@@ -29,16 +29,17 @@ public:
         isInvincible = false;
         switch (kind) {
             case KIND_ONION:
-                imageName = "004.png";//"004.png";
+                imageName = "004.png";
                 width = 80;
                 height = 80;
                 density = 2.5f;
                 maxHp = 1;
                 speed = 0.5f;
                 //プレイヤーをどの程度跳ね返すか
-//                restitution = 0.8f;
+                //restitution = 0.8f;
                 //自身の吹っ飛び率
                 decreaseRatio = 10;
+                _direction = DOWN;
                 break;
                 
             case KIND_GOBLIN:
@@ -49,8 +50,9 @@ public:
                 maxHp = 2;
                 speed = 0.4f;
                 //プレイヤーをどの程度跳ね返すか
-//                restitution = 1.0f;
+                //restitution = 1.0f;
                 decreaseRatio =10;
+                _direction = DOWN;
                 break;
                 
             case KIND_DRAGON:
@@ -62,8 +64,9 @@ public:
                 speed = 0.3f;
 
                 //プレイヤーをどの程度跳ね返すか
-//                restitution = 1.5f;
+                //restitution = 1.5f;
                 decreaseRatio = 14;
+                _direction = DOWN;
                 break;
         }
         hp = maxHp;
@@ -141,10 +144,8 @@ public:
     //現在のターンのEnemyIDを取得
     static int getEnemyTurnId();
     
-    /*
-    //受け取ったIDの敵キャラの位置を返す
-    cocos2d::CCPoint getEnemyPosition();
-     */
+    void setImage(int direction);
+    
 };
 
 #endif /* defined(__ScrollAndPickUp__Enemy__) */

@@ -22,15 +22,19 @@ void Player::setImage(int direction) {
     //与えられた方向によって画像を変更
     switch (direction) {
         case UP:
+            _direction = UP;
             image = CCSpriteBatchNode::create("player001.png", 100);
             break;
         case DOWN:
+            _direction = DOWN;
             image = CCSpriteBatchNode::create("player002.png", 100);
             break;
         case LEFT:
+            _direction = LEFT;
             image = CCSpriteBatchNode::create("player003.png", 100);
             break;
         case RIGHT:
+            _direction = RIGHT;
             image = CCSpriteBatchNode::create("player004.png", 100);
             break;
     }
@@ -40,10 +44,3 @@ void Player::setImage(int direction) {
     pSprite->setTexture(m_pSpriteTexture);
 }
 
-/*
-//受け取ったIDのPlayerの位置を返す
-CCPoint Player::getPlayerPosition() {
-    CCPoint playerPoint = CCPointMake(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO);
-    return playerPoint;
-}
-*/

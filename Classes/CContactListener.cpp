@@ -250,7 +250,6 @@ void CContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *imp
     if(aType == TYPE_PLAYER && bType == TYPE_ENEMY) {
         //プレイヤーのターンの処理
         if(hw->isPlayerTurn) {
-            CCLog("aaa");
             if( ! hw->enemys[bNum]->isInvincible ) {
                 hw->isContacted = true;
                 isContactedToEnemy = true;
