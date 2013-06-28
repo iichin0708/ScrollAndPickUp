@@ -722,7 +722,7 @@ void HelloWorld::update(float dt)
             cursor->setVisible(true);
         }
         
-        if(!isShotEnemy && !isPlayerTurn && isShowedNextEnemy) {
+        if(!isShotEnemy && !isPlayerTurn && isShowedNextEnemy && !isGameover) {
             moveEnemy(Enemy::getEnemyTurnId());
         }
         
@@ -883,19 +883,28 @@ void HelloWorld::moveEnemy(int enemyId) {
 
 //敵プレイヤーから最も近いプレイヤーIdを返す
 int HelloWorld::getNearestPlayerId(int enemyId) {
-    float shortDistance = 0.0f;
+    float shortDistance = 10000.0f;
     int targetPlayerId = 0;
     for(int i = 0; i < PLAYER_NUM; i++) {
-        if(monkeys[i] == NULL) continue;
-        
+        if(monkeys[i] == NULL || isGameover) continue;
+
         CCPoint enemyPoint = enemys[enemyId]->getRigidPosition();
         CCPoint playerPoint = monkeys[i]->getRigidPosition();
-        float distance = ccpDistance(enemyPoint, playerPoint);
+        
+        float diffX = enemyPoint.x - playerPoint.x;
+        float diffY = enemyPoint.y - playerPoint.y;
+        float distance = sqrt(diffX * diffX + diffY + diffY);
+        
+//        CCLog("distance = %f", distance);
+        
+//        CCLog("enemyPoint.x = %f, enemyPoint.y = %f, playerPoint.x = %f, playerPoint.y = %f", enemyPoint.x, enemyPoint.y, playerPoint.x, playerPoint.y);
+//        CCLog("distance = %d", distance);
         if(distance < shortDistance) {
             targetPlayerId = i;
             shortDistance = distance;
         }
     }
+    CCLog("tragetId");
     return targetPlayerId;
 }
 

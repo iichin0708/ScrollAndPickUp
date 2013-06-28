@@ -36,7 +36,7 @@ public:
                 height = 80;
                 density = 2.5f;
                 maxHp = 1;
-                speed = 0.5f;
+                speed = 1.0f;
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 0.8f;
                 //自身の吹っ飛び率
@@ -53,7 +53,7 @@ public:
                 height = 80;
                 density = 3.0f;
                 maxHp = 2;
-                speed = 0.4f;
+                speed = 1.0f;
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 1.0f;
                 decreaseRatio =10;
@@ -69,7 +69,7 @@ public:
                 height = 80;
                 density = 3.5f;
                 maxHp = 4;
-                speed = 0.3f;
+                speed = 1.0f;
 
                 //プレイヤーをどの程度跳ね返すか
                 //restitution = 1.5f;
