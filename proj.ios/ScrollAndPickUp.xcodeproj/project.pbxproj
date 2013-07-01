@@ -207,6 +207,7 @@
 		D34ED137177D20B20061F529 /* onion004.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED133177D20B10061F529 /* onion004.png */; };
 		D34ED138177D20B20061F529 /* onion002.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED134177D20B20061F529 /* onion002.png */; };
 		D34ED13B177D5BCF0061F529 /* player002.png in Resources */ = {isa = PBXBuildFile; fileRef = D34ED13A177D5BCF0061F529 /* player002.png */; };
+		D397C1FC1780305B00E3B46D /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D397C1FA1780305B00E3B46D /* Config.cpp */; };
 		D3984C4A177D64700013AB2D /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = D3984C47177D64700013AB2D /* circle.png */; };
 		D3984C4C177D65B80013AB2D /* shockwave.png in Resources */ = {isa = PBXBuildFile; fileRef = D3984C4B177D65B80013AB2D /* shockwave.png */; };
 		D3984C50177D9A000013AB2D /* effect_wind.png in Resources */ = {isa = PBXBuildFile; fileRef = D3984C4F177D9A000013AB2D /* effect_wind.png */; };
@@ -632,6 +633,8 @@
 		D34ED133177D20B10061F529 /* onion004.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onion004.png; sourceTree = "<group>"; };
 		D34ED134177D20B20061F529 /* onion002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onion002.png; sourceTree = "<group>"; };
 		D34ED13A177D5BCF0061F529 /* player002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player002.png; sourceTree = "<group>"; };
+		D397C1FA1780305B00E3B46D /* Config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Config.cpp; path = ../Classes/Config.cpp; sourceTree = "<group>"; };
+		D397C1FB1780305B00E3B46D /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Config.h; path = ../Classes/Config.h; sourceTree = "<group>"; };
 		D3984C47177D64700013AB2D /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
 		D3984C4B177D65B80013AB2D /* shockwave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shockwave.png; sourceTree = "<group>"; };
 		D3984C4F177D9A000013AB2D /* effect_wind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = effect_wind.png; sourceTree = "<group>"; };
@@ -1234,6 +1237,8 @@
 				D30D14361776EF3C00293343 /* HitEffect.h */,
 				D3C68A871779651A00DA1BE9 /* Obstacle.cpp */,
 				D3C68A881779651A00DA1BE9 /* Obstacle.h */,
+				D397C1FA1780305B00E3B46D /* Config.cpp */,
+				D397C1FB1780305B00E3B46D /* Config.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -1713,6 +1718,7 @@
 				D30D142E1776E7EA00293343 /* Cursor.cpp in Sources */,
 				D30D14371776EF3C00293343 /* HitEffect.cpp in Sources */,
 				D3C68A891779651A00DA1BE9 /* Obstacle.cpp in Sources */,
+				D397C1FC1780305B00E3B46D /* Config.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

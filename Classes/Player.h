@@ -6,7 +6,7 @@
 #include "PhysicsSprite.h"
 #include "RigidBody.h"
 
-#define PLAYER_NUM 3
+
 #define OFFENSE 1;
 
 class Player : public RigidBody
@@ -22,7 +22,7 @@ public:
     
     static int playerTurnId;
     
-    Player(cocos2d::CCNode* parent, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody() {
+    Player(cocos2d::CCNode* parent, cocos2d::CCPoint location, float density, float friction, float restitution, int index) : RigidBody() {
         isFalled = false;
         isInvincible = false;
         offense = OFFENSE;
@@ -33,7 +33,7 @@ public:
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create("player001.png", 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
         
-        PhysicsSprite *sprite = new PhysicsSprite(TAG_PLAYER);
+        PhysicsSprite *sprite = new PhysicsSprite(TAG_PLAYER, index);
         width = 110;
         height = 110;
         sprite->initWithTexture(m_pSpriteTexture, cocos2d::CCRectMake(0,0,width,height));
@@ -71,6 +71,7 @@ public:
 
     //現在のターンのユーザIDを取得
     static int getPlayerTurnId();
+    
 
     // 方角によって画像を変える.
     void setImage(int direction);

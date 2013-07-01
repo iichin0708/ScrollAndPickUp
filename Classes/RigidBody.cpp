@@ -25,7 +25,7 @@ void RigidBody::createCircleBody(CCPoint location, PhysicsSprite *pSprite, float
     //ボディを定義する
     b2BodyDef bodyDef;
     //bodyDef.type = b2_dynamicBody;
-    switch(pSprite->tag) {
+    switch(pSprite->_tag) {
         case TAG_PLAYER:
         case TAG_ENEMY:
             bodyDef.type = b2_dynamicBody;
@@ -78,7 +78,7 @@ void RigidBody::createBoxBody(CCPoint location, PhysicsSprite *pSprite, CCSize c
     //ボディを定義する
     b2BodyDef bodyDef;
     //bodyDef.type = b2_dynamicBody;
-    switch(pSprite->tag) {
+    switch(pSprite->_tag) {
         case TAG_PLAYER:
         case TAG_ENEMY:
             bodyDef.type = b2_dynamicBody;

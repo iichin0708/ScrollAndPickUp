@@ -13,18 +13,6 @@
 #include "Box2D/Box2D.h"
 #include "PhysicsSprite.h"
 
-#define CIRCLE_SHAPE 0
-#define BOX_SHAPE 1
-
-#define UP 2
-#define DOWN 3
-#define RIGHT 4
-#define LEFT 5
-
-#define FRONT 6
-#define BACK 7
-#define SIDE 8
-
 class RigidBody : public cocos2d::CCLayer {
 public:
     RigidBody(){};

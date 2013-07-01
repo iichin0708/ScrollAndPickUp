@@ -6,12 +6,6 @@
 #include "PhysicsSprite.h"
 #include "RigidBody.h"
 
-#define KIND_ONION 0
-#define KIND_GOBLIN 1
-#define KIND_DRAGON 2
-
-#define ENEMY_NUM 15
-
 class Enemy : public RigidBody
 {
 private:
@@ -24,7 +18,7 @@ public:
     static int preEnemyTurnId;
     
     // コンストラクタ
-    Enemy(cocos2d::CCNode* parent, int kind, cocos2d::CCPoint location, float density, float friction, float restitution) : RigidBody()
+    Enemy(cocos2d::CCNode* parent, int kind, cocos2d::CCPoint location, float density, float friction, float restitution, int index) : RigidBody()
     {
         
         const char* imageName;
@@ -86,7 +80,7 @@ public:
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create(imageName, 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
         
-        PhysicsSprite *sprite = new PhysicsSprite(TAG_PLAYER);
+        PhysicsSprite *sprite = new PhysicsSprite(TAG_ENEMY, index);
         sprite->initWithTexture(m_pSpriteTexture, cocos2d::CCRectMake(0, 0, width, height));
         sprite->autorelease();
         //sprite->setTag(sprite_id++);
