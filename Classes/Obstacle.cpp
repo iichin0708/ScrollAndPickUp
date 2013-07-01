@@ -8,12 +8,16 @@
 
 #include "Obstacle.h"
 
-cocos2d::CCSize Obstacle::getImgSize() {
-    return cocos2d::CCSizeMake(width, height);
+using namespace cocos2d;
+
+CCDictionary* Obstacle::imgDict = CCDictionary::create();
+
+CCSize Obstacle::getImgSize() {
+    return CCSizeMake(width, height);
 }
 
-cocos2d::CCPoint Obstacle::getObstaclePosition() {
-    cocos2d::CCPoint obstaclePoint = cocos2d::CCPointMake(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO);
+CCPoint Obstacle::getObstaclePosition() {
+    CCPoint obstaclePoint = CCPointMake(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO);
     return obstaclePoint;
 }
 
@@ -67,4 +71,42 @@ void Obstacle::setKind(const char *imgName) {
 
 int Obstacle::getKind() {
     return _kind;
+}
+
+//画像の定義
+void Obstacle::initImgDictionary() {
+    setImgDictionary("wood01.png", 228, 285);
+    setImgDictionary("wood02.png", 183, 248);
+    setImgDictionary("wood03.png", 157, 170);
+    setImgDictionary("wood04.png", 190, 135);
+    setImgDictionary("wood05.png", 174, 145);
+    setImgDictionary("wood06.png", 95, 120);
+    setImgDictionary("wood07.png", 278, 246);
+    setImgDictionary("wood08.png", 97, 40);
+    setImgDictionary("saku01.png", 55, 392);
+    setImgDictionary("saku02.png", 49, 279);
+    setImgDictionary("iwa01.png", 192, 131);
+    setImgDictionary("iwa02.png", 268, 168);
+}
+
+//辞書に登録
+void Obstacle::setImgDictionary(const char *imgName, int width, int height) {
+    CCArray *imgSizeArray = CCArray::create();
+    imgSizeArray->addObject(CCInteger::create(width));
+    imgSizeArray->addObject(CCInteger::create(height));
+    
+    imgDict->setObject(imgSizeArray, imgName);
+}
+
+//指定した画像名の画像サイズを取得
+CCSize Obstacle::getImgSize(const char *imgName) {
+    CCArray *img = (CCArray *)imgDict->objectForKey(imgName);
+    if(img == NULL) {
+        CCLog("Error:%sの画像は登録されていません。", imgName);
+        return CCSizeMake(0, 0);
+    }
+    
+    CCInteger *width = (CCInteger *)img->objectAtIndex(0);
+    CCInteger *height = (CCInteger *)img->objectAtIndex(1);
+    return CCSizeMake(width->getValue(), height->getValue());
 }

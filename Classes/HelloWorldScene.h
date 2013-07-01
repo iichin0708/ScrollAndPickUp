@@ -23,12 +23,6 @@
 #include "Obstacle.h"
 #include "Water.h"
 
-
-#define COIN_NUM 50
-#define HIT_EF_NUM 10
-#define OBSTACLE_NUM 12
-#define WATER_NUM 30
-
 class HelloWorld : public cocos2d::CCLayer {
 public:
     ~HelloWorld();
@@ -64,9 +58,7 @@ public:
     static int realDispHeight;
     
     void initPhysics();
-    // adds a new sprite at a given coordinate
-    void createNewBody(RigidBody *&body, cocos2d::CCPoint p);
-    
+  
     void flickBody(cocos2d::CCPoint start, cocos2d::CCPoint end, b2Body* object);
     
     void destroyObject(RigidBody *&object);
@@ -80,8 +72,6 @@ public:
     
     //マップ移動メソッド
     void moveMap(cocos2d::CCPoint);
-    
-    void moveMapSlow(cocos2d::CCPoint);
     
     // ゲーム終了イベント
     void menuCloseCallback(CCObject*);
