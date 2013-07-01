@@ -13,12 +13,6 @@
 #include "Box2D/Box2D.h"
 #include "HelloWorldScene.h"
 
-#define TYPE_NULL 0
-#define TYPE_PLAYER 1
-#define TYPE_ENEMY 2
-#define TYPE_OBSTACLE 3
-
-
 class CContactListener : public b2ContactListener {
 private:
     
@@ -38,6 +32,11 @@ private:
     void setPlayerBoundRatio(b2Body *playerBody, int npType, b2Body *npBody, int npNum);
     
     void setEnemyBoundRatio(b2Body *enemyBody, int contactedType, b2Body *contactedBody, int contactedNum);
+
+    //衝突後に画像と速度を変更
+    void changeImageAndVelocity(int tag, int index, b2Vec2 vec);
+    
+    
 };
 
 #endif /* defined(__box2d__CContactListener__) */

@@ -12,20 +12,19 @@
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
 #include "World.h"
+#include "Config.h"
 
-#define PTM_RATIO 32
-#define TAG_PLAYER 1
-#define TAG_ENEMY 2
-#define TAG_OBSTACLE 3
+
 
 class PhysicsSprite : public cocos2d::CCSprite
 {
 public:
-    PhysicsSprite(int _tag);
+    PhysicsSprite(int tag, int index);
     void setPhysicsBody(b2Body * body);
     virtual bool isDirty(void);
     virtual cocos2d::CCAffineTransform nodeToParentTransform(void);
-    int tag;
+    int _tag;
+    int _index;
 private:
     b2Body* m_pBody;    // strong ref
 };

@@ -48,8 +48,6 @@ HelloWorld::HelloWorld()
     pCamera->setEyeXYZ(x, y, 500);
     pCamera->getCenterXYZ(&x, &y, &z);
     CCLOG("z = %f", z);
-     iichinのsourceTreeの編集が反映さるのか
-     変更してる
     */
 
     isMoving = false;
@@ -69,6 +67,7 @@ HelloWorld::HelloWorld()
     
     // 自分自身を静的メンバーから参照できるように設定
     HelloWorld:Instance = this;
+    
     
     sprite_id = 2;
     
@@ -112,7 +111,8 @@ HelloWorld::HelloWorld()
                               ccp(x, y),
                               1.5f,
                               0.5f,
-                              0.6f);
+                              0.6f,
+                              i);
     }
     
     // 水の用意
@@ -157,7 +157,7 @@ HelloWorld::HelloWorld()
     
     // プレイヤーの用意
     for(int i =0; i < PLAYER_NUM; i++) {
-        monkeys[i] = new Player(this, ccp(s.width/2 -150 + 150 * i, s.height/2 + -100), 1.5f, 0.6f, 1.0f);
+        monkeys[i] = new Player(this, ccp(s.width/2 -150 + 150 * i, s.height/2 + -100), 1.5f, 0.6f, 1.0f, i);
     }
     
     // 移動中エフェクト
@@ -176,14 +176,13 @@ HelloWorld::HelloWorld()
                             "button_close_pressed.png",
                             this,
                             menu_selector(HelloWorld::menuCloseCallback));
-    
     pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width / 2,
                                 origin.y + pCloseItem->getContentSize().height / 2));
-    
     CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu);
     reorderChild(pMenu, 100);
+    
     
     isObjectTouched = false;
     
@@ -358,96 +357,28 @@ void HelloWorld::draw()
 
 void HelloWorld::setObstacle() {
     
-    CCDictionary *imgDict = CCDictionary::create();
-
     for (int i = 0; i < OBSTACLE_NUM; i++) {
         obstacles[i] = NULL;
     }
     
-    /*
-    //障害物
-    CCArray *imgSize = CCArray::createWithCapacity(2);
-    imgSize->addObject(CCFloat::create(228));
-    imgSize->addObject(CCFloat::create(285));
-    imgDict->setObject(imgSize, "wood01.png");
-
-    
-    imgSize = new CCArray(2);
-    imgSize[0] = 183;
-    imgSize[1] = 248;
-    imgDict->setObject(imgSize, "wood02.png");
-    
-    imgSize = new CCArray(2);
-    imgSize[0] = 157;
-    imgSize[1] = 170;
-    imgDict->setObject(imgSize, "wood03.png");
-    
-    imgSize = new CCArray(2);
-    imgSize[0] = 190;
-    imgSize[1] = 135;
-    imgDict->setObject(imgSize, "wood04.png");
-    
-    imgSize = new CCArray(2);
-    imgSize[0] = 174;
-    imgSize[1] = 145;
-    imgDict->setObject(imgSize, "wood05.png");
-    
-    imgSize = new CCArray(2);
-    imgSize[0] = 95;
-    imgSize[1] = 120;
-    imgDict->setObject(imgSize, "wood06.png");
-    
-    imgSize = new CCArray(2);
-    imgSize[0] = 278;
-    imgSize[1] = 246;
-    imgDict->setObject(imgSize, "wood07.png");
-    
-    imgSize = new CCArray(2);
-    imgSize[0] = 97;
-    imgSize[1] = 40;
-    imgDict->setObject(imgSize, "wood08.png");
-    
-    imgSize = new CCArray(2);
-    imgSize[0] = 55;
-    imgSize[1] = 392;
-    imgDict->setObject(imgSize, "saku01.png");
-
-    imgSize = new CCArray(2);
-    imgSize[0] = 49;
-    imgSize[1] = 279;
-    imgDict->setObject(imgSize, "saku02.png");
-
-    imgSize = new CCArray(2);
-    imgSize[0] = 192;
-    imgSize[1] = 131;
-    imgDict->setObject(imgSize, "iwa01.png");
-    
-    imgSize = new CCArray(2);
-    imgSize[0] = 268;
-    imgSize[1] = 168;
-    imgDict->setObject(imgSize, "iwa02.png");
-    */
-    
-
     //作成するShape(当たり判定の形)は丸とする.
-    //(parent, 画像名, 画像サイズ, 当たり判定サイズ, 初期位置, Shapeの形, 質量, 摩擦, 反発係数)となっている. boxの場合は当たり判定に縦と横のサイズを渡すが、cricleの場合は半径を渡す.
-    
-    obstacles[8] = new Obstacle(this, "saku01.png", CCSizeMake(55, 392), CCSizeMake(55 / 2, 392 / 2), CCPointMake(40, 320), BOX_SHAPE, 0.0f, 0.0f, 0.0f);
-    obstacles[9] = new Obstacle(this, "saku02.png", CCSizeMake(49, 279), CCSizeMake(49 / 2, 279 / 2), CCPointMake(40, 1200), BOX_SHAPE, 0.0f, 0.0f, 0.0f);
+    //(parent, 画像名, 当たり判定サイズ, 初期位置, Shapeの形, 質量, 摩擦, 反発係数)となっている. boxの場合は当たり判定に縦と横のサイズを渡すが、cricleの場合は半径を渡す.
+    obstacles[8] = new Obstacle(this, "saku01.png", CCSizeMake(55 / 2, 392 / 2), CCPointMake(40, 320), BOX_SHAPE, 0.0f, 0.0f, 0.0f, 8);
+    obstacles[9] = new Obstacle(this, "saku02.png", CCSizeMake(49 / 2, 279 / 2), CCPointMake(40, 1200), BOX_SHAPE, 0.0f, 0.0f, 0.0f, 9);
     /*
-    obstacles[0] = new Obstacle(this, "wood01.png", CCSizeMake(228, 285), CCSizeMake(228 / 2, 228 / 2), CCPointMake(550, 300), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-    obstacles[1] = new Obstacle(this, "wood02.png", CCSizeMake(183, 248), CCSizeMake(183 / 2, 183 / 2), CCPointMake(100, 1600), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-    obstacles[2] = new Obstacle(this, "wood03.png", CCSizeMake(157, 170), CCSizeMake(157 / 2, 157 / 2), CCPointMake(400, 1050), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-    obstacles[3] = new Obstacle(this, "wood04.png", CCSizeMake(190, 135), CCSizeMake(135 / 2, 135 / 2), CCPointMake(180, 200), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-    obstacles[4] = new Obstacle(this, "wood05.png", CCSizeMake(174, 145), CCSizeMake(145 / 2, 145 / 2), CCPointMake(180, 1980), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-    obstacles[5] = new Obstacle(this, "wood06.png", CCSizeMake(95, 83), CCSizeMake(95 / 2, 95 / 2), CCPointMake(550, 1800), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-//    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(246, 278), CCPointMake(120, 750), 1.0f, 0.6f, 0.6f);
-    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(278, 168), CCSizeMake(168 / 2, 168 / 2), CCPointMake(120, 780), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-    obstacles[7] = new Obstacle(this, "wood08.png", CCSizeMake(81, 40), CCSizeMake(40 / 2, 40 / 2), CCPointMake(550, 1500), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-    obstacles[10] = new Obstacle(this, "iwa01.png", CCSizeMake(192, 131), CCSizeMake(131 / 2, 131 / 2), CCPointMake(400, 550), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-    obstacles[11] = new Obstacle(this, "iwa02.png", CCSizeMake(268, 168), CCSizeMake(168 / 2, 0), CCPointMake(500, 1620), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f);
-     */
+    obstacles[0] = new Obstacle(this, "wood01.png", CCSizeMake(228 / 2, 228 / 2), CCPointMake(550, 300), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f, 0);
+    obstacles[1] = new Obstacle(this, "wood02.png", CCSizeMake(183 / 2, 183 / 2), CCPointMake(100, 1600), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f, 1);
+    obstacles[2] = new Obstacle(this, "wood03.png", CCSizeMake(157 / 2, 157 / 2), CCPointMake(400, 1050), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f, 2);
+    obstacles[3] = new Obstacle(this, "wood04.png", CCSizeMake(135 / 2, 135 / 2), CCPointMake(180, 200), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f, 3);
+    obstacles[4] = new Obstacle(this, "wood05.png", CCSizeMake(145 / 2, 145 / 2), CCPointMake(180, 1980), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f, 4);
+    obstacles[5] = new Obstacle(this, "wood06.png", CCSizeMake(95 / 2, 95 / 2), CCPointMake(550, 1800), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f, 5);
+    obstacles[6] = new Obstacle(this, "wood07.png", CCSizeMake(168 / 2, 168 / 2), CCPointMake(120, 780), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f, 6);
+    obstacles[7] = new Obstacle(this, "wood08.png", CCSizeMake(40 / 2, 40 / 2), CCPointMake(550, 1500), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f, 7);
+    obstacles[10] = new Obstacle(this, "iwa01.png", CCSizeMake(131 / 2, 131 / 2), CCPointMake(400, 550), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f, 10);
+    obstacles[11] = new Obstacle(this, "iwa02.png", CCSizeMake(168 / 2, 0), CCPointMake(500, 1620), CIRCLE_SHAPE, 0.0f, 0.0f, 0.0f, 11);
+    */
 }
+
 //idを持つ剛体を終点から始点のベクトルにボディを飛ばす
 void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
 {
@@ -530,7 +461,7 @@ void HelloWorld::flickBody(CCPoint start, CCPoint end, b2Body* object)
     CCFadeOut* actionFadeOut = CCFadeOut::create(0.3f);
     windEffect->runAction(actionFadeOut);
     // 風エフェクトがついているオブジェクトの指定
-    windTargetType = TYPE_PLAYER;
+    windTargetType = TAG_PLAYER;
     windTargetIndex = Player::getPlayerTurnId();
 
 }
@@ -612,6 +543,7 @@ void HelloWorld::update(float dt)
         reorderChild(overLabel, 100);
     }
     
+    /*******　ここはContactListenerで出来るような気がする ********/
     if(isContacted && // 衝突した
        enemys[contactEnemyindex] != NULL && // 指定の敵配列が空でない
        ! enemys[contactEnemyindex]->isInvincible
@@ -671,6 +603,7 @@ void HelloWorld::update(float dt)
         }
         isContacted = false;
     }
+    /*******　ここはContactListenerで出来るような気がする ********/
     
     //動いている物体と同時にマップを動かす
     //プレイヤーの時
@@ -865,13 +798,13 @@ void HelloWorld::update(float dt)
     }
     
     // 風のエフェクトが毎フレーム実行する処理
-    if(windTargetType == TYPE_PLAYER) {
+    if(windTargetType == TAG_PLAYER) {
         if(monkeys[windTargetIndex] != NULL) {
         windEffect->setPosition(monkeys[windTargetIndex]->getRigidPosition());
         } else {
             windEffect->setVisible(false);
         }
-    } else if(windTargetType == TYPE_ENEMY) {
+    } else if(windTargetType == TAG_ENEMY) {
         if(enemys[windTargetIndex] != NULL) {
             windEffect->setPosition(enemys[windTargetIndex]->getRigidPosition());
         } else {
@@ -1049,7 +982,7 @@ void HelloWorld::moveEnemy(int enemyId) {
     CCFadeOut* actionFadeOut = CCFadeOut::create(0.3f);
     windEffect->runAction(actionFadeOut);
     // 風エフェクトがついているオブジェクトの指定
-    windTargetType = TYPE_ENEMY;
+    windTargetType = TAG_ENEMY;
     windTargetIndex = enemyId;
 
 }

@@ -12,9 +12,10 @@ using namespace cocos2d;
 
 // タグの種類でどの子クラスのオブジェクトかを管理する
 // ヘッダーに設定しているTAGを使う
-PhysicsSprite::PhysicsSprite(int _tag): m_pBody(NULL)
+PhysicsSprite::PhysicsSprite(int tag, int index): m_pBody(NULL)
 {
-    tag = _tag;
+    _tag = tag;
+    _index = index;
 }
 
 void PhysicsSprite::setPhysicsBody(b2Body * body)

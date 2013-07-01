@@ -17,11 +17,18 @@
 class Obstacle : public RigidBody {
 public:
     // コンストラクタ
-    Obstacle(cocos2d::CCNode* parent, const char *imgName, cocos2d::CCSize imgSize, cocos2d::CCSize collisionSize, cocos2d::CCPoint location, int shapeTag, float density, float friction, float restitution) : RigidBody() {
+    Obstacle(cocos2d::CCNode* parent, const char *imgName, cocos2d::CCSize collisionSize, cocos2d::CCPoint location, int shapeTag, float density, float friction, float restitution, int index) : RigidBody() {
+        //一度だけ初期化
+        if(imgDict->count() == 0) {
+            initImgDictionary();
+        }
+        
+        cocos2d::CCSize imgSize = getImgSize(imgName);
+        
         cocos2d::CCSpriteBatchNode *image = cocos2d::CCSpriteBatchNode::create(imgName, 100);
         cocos2d::CCTexture2D* m_pSpriteTexture = image->getTexture();
         
-        PhysicsSprite *sprite = new PhysicsSprite(TAG_OBSTACLE);
+        PhysicsSprite *sprite = new PhysicsSprite(TAG_OBSTACLE, index);
         
         width = imgSize.width;
         height = imgSize.height;
@@ -50,16 +57,24 @@ public:
     // 障害物の種類
     int _kind;
     
+    static cocos2d::CCDictionary *imgDict;
+    
     cocos2d::CCSize getImgSize();
     
     cocos2d::CCPoint getObstaclePosition();
 
     int getKind();
     
+    cocos2d::CCSize getImgSize(const char *imgName);
+    
     //プレイヤーのバウンド率を取得する
     int getPlayerBoundRatio();
 private:
     void setKind(const char *imgName);
+    
+    void initImgDictionary();
+    
+    void setImgDictionary(const char *imgName, int width, int height);
 };
 
 #endif /* defined(__ScrollAndPickUp__Obstacle__) */
