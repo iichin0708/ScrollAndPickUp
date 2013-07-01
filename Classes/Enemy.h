@@ -10,7 +10,7 @@
 #define KIND_GOBLIN 1
 #define KIND_DRAGON 2
 
-#define ENEMY_NUM 1
+#define ENEMY_NUM 15
 
 class Enemy : public RigidBody
 {
